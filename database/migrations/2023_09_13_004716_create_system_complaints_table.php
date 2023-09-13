@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('system_complaints', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('title',128)->nullable()->comment('标题');
             $table->text('content')->nullable()->comment('内容');
             $table->tinyInteger('type')->default(0)->nullable()->comment('类型');

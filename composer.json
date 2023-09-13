@@ -2,18 +2,24 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ext-pdo": "*",
+        "alibabacloud/sdk": "^1.8",
+        "emadadly/laravel-uuid": "1.*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "overtrue/laravel-wechat": "^7.2",
         "phpoffice/phpspreadsheet": "^1.28",
-        "tymon/jwt-auth": "^2.0",
-        "emadadly/laravel-uuid": "1.*"
+        "tencentcloud/tencentcloud-sdk-php": "^3.0",
+        "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

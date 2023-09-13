@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('action_logs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('action_name',256)->comment('行为名称');
             $table->text('action_description')->comment('行为描述');
             $table->string('ip',256)->nullable()->comment('IP地址');

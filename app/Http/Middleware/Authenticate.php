@@ -2,20 +2,23 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
 {
+
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
+     * @param $request
+     * @param Closure $next
+     * @param ...$guards
+     * @return \Illuminate\Http\JsonResponse|mixed
      */
-    protected function redirectTo($request)
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+        if (!$this->auth->guard('api')->check()) {
+            return response()->json(['code' => 403, 'message' => '请先登录']);
         }
+        return $next($request);
     }
 }

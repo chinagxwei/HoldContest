@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('admins', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->unique()->primary();
             $table->integer('role_id')->index()->nullable()->comment('角色ID');
             $table->string('nickname',128)->nullable()->comment('昵称');
             $table->string('mobile',24)->nullable()->comment('手机号码');
