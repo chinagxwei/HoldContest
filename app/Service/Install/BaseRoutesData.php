@@ -2,10 +2,6 @@
 
 namespace App\Service\Install;
 
-use App\Models\Admin\AdminMenus;
-use App\Models\Admin\AdminRoles;
-use Illuminate\Support\Facades\DB;
-
 class BaseRoutesData
 {
 

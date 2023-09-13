@@ -23,7 +23,7 @@ return new class extends Migration
             $table->smallInteger('user_type')
                 ->unsigned()
                 ->default(5)
-                ->comment('用户类型 1一般用户 2经销商员工 3经销商 100平台管理员');
+                ->comment('用户类型 1一般用户 100平台管理员');
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');

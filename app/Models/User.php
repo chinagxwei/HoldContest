@@ -3,11 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Admin\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @property int id
@@ -20,7 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon created_at
  * @property Carbon updated_at
  */
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -61,4 +64,88 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getJWTIdentifier()
+    {
+        // TODO: Implement getJWTIdentifier() method.
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        // TODO: Implement getJWTCustomClaims() method.
+        return [];
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function admin(){
+        return $this->hasOne(Admin::class,'created_by','id');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMember()
+    {
+        return self::USER_TYPE_MEMBER === $this->user_type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isManager()
+    {
+        return self::USER_TYPE_PLATFORM_MANAGER === $this->user_type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuperManager()
+    {
+        return self::USER_TYPE_PLATFORM_SUPER_MANAGER === $this->user_type;
+    }
+
+    /**
+     * @param $param
+     * @param $role_type
+     * @return bool
+     */
+    public function register($param, $role_type)
+    {
+        $param['email'] = "{$param['username']}@ddplatform.com";
+        $param['password'] = bcrypt($param['password']);
+        $param['user_type'] = $role_type;
+        return $this->fill($param)->save();
+    }
+
+    /**
+     * @param $param
+     * @return bool
+     */
+    public function registerManager($param)
+    {
+        return $this->register($param, self::USER_TYPE_PLATFORM_MANAGER);
+    }
+
+    /**
+     * @param $param
+     * @return bool
+     */
+    public function registerMember($param)
+    {
+        return $this->register($param, self::USER_TYPE_MEMBER);
+    }
+
+    /**
+     * @param $id
+     * @param $with
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null|static
+     */
+    static function findOneByID($id, $with = [])
+    {
+        return self::query()->where('id', $id)->with($with)->first();
+    }
 }

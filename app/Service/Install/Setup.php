@@ -3,6 +3,8 @@
 namespace App\Service\Install;
 
 use App\Models\Admin\AdminMenus;
+use App\Models\Admin\AdminNavigation;
+use App\Models\Admin\AdminRole;
 use App\Models\Admin\AdminRoles;
 
 class Setup
@@ -41,15 +43,15 @@ class Setup
     private static function menuData($created_by)
     {
         $time = time();
-        $systemMenus = AdminMenus::generateParent("系统管理", "line-chart", $created_by, 7, './system', './system');
+        $systemMenus = AdminNavigation::generateParent("系统管理", "line-chart", $created_by, 7, './system', './system');
         $systemData = BaseRoutesData::getSystemData($systemMenus->id, $created_by, $time);
-        AdminMenus::query()->insert($systemData);
+        AdminNavigation::query()->insert($systemData);
     }
 
     private static function roleData($created_by)
     {
-        if ($role = AdminRoles::generate("管理员", $created_by)) {
-            $ids = AdminMenus::getParentAll()->map(function ($v) {
+        if ($role = AdminRole::generate("管理员", $created_by)) {
+            $ids = AdminNavigation::getParentAll()->map(function ($v) {
                 return $v->id;
             });
 

@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         //
+        App\Service\Install\Setup::add();
     }
 
     /**
