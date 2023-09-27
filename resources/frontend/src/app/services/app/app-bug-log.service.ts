@@ -24,7 +24,7 @@ export class AppBugLogService {
     return this.http.httpPost<AppBugLog>(APP_BUG_LOG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(APP_BUG_LOG_DELETE, {id})
   }
 }

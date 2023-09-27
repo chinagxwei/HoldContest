@@ -28,7 +28,7 @@ export class MemberService {
     return this.http.httpPost<Member>(MEMBER_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(MEMBER_DELETE, {id})
   }
 }

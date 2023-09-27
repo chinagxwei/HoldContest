@@ -23,7 +23,7 @@ export class WechatMiniProgramAccountService {
     return this.http.httpPost<WechatMiniProgramAccount>(WECHAT_MINI_PROGRAM_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(WECHAT_MINI_PROGRAM_DELETE, {id})
   }
 }

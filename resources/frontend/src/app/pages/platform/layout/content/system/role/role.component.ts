@@ -116,7 +116,6 @@ export class RoleComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
         this.roleService.delete(data.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });

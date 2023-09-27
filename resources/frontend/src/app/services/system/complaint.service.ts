@@ -28,7 +28,7 @@ export class ComplaintService {
     return this.http.httpPost<SystemComplaint>(COMPLAINT_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(COMPLAINT_DELETE, {id})
   }
 }

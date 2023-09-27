@@ -29,7 +29,7 @@ export class AppPublishLogService {
     return this.http.httpPost<AppPublishLog>(APP_PUBLISH_LOG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(APP_PUBLISH_LOG_DELETE, {id})
   }
 }

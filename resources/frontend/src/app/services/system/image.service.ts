@@ -29,7 +29,7 @@ export class ImageService {
     return this.http.httpPost<SystemImage>(IMAGE_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(IMAGE_DELETE, {id})
   }
 }

@@ -29,7 +29,7 @@ export class MemberPrizeLogService {
     return this.http.httpPost<MemberPrizeLog>(MEMBER_PRIZE_LOG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(MEMBER_PRIZE_LOG_DELETE, {id})
   }
 }

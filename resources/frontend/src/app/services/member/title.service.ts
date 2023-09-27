@@ -24,7 +24,7 @@ export class TitleService {
     return this.http.httpPost<Title>(TITLE_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(TITLE_DELETE, {id})
   }
 }

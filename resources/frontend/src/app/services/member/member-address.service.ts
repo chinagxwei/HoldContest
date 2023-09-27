@@ -29,7 +29,7 @@ export class MemberAddressService {
     return this.http.httpPost<MemberAddress>(MEMBER_ADDRESS_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(MEMBER_ADDRESS_DELETE, {id})
   }
 }

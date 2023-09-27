@@ -30,7 +30,7 @@ export class ComplaintComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private complaintService: ComplaintService) {
+    private componentService: ComplaintService) {
   }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class ComplaintComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.complaintService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -81,8 +81,7 @@ export class ComplaintComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.complaintService.delete($event.id).subscribe(res => {
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -111,7 +110,7 @@ export class ComplaintComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.complaintService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);

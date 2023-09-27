@@ -86,7 +86,6 @@ export class NavigationComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
         this.navigationService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });

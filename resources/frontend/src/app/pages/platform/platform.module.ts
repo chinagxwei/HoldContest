@@ -51,12 +51,9 @@ import { WalletLogComponent } from './layout/content/wallet/wallet-log/wallet-lo
 import { MembersComponent } from './layout/content/member/members/members.component';
 import { MemberAddressComponent } from './layout/content/member/member-address/member-address.component';
 import { MemberBanLogComponent } from './layout/content/member/member-ban-log/member-ban-log.component';
-import { MemberGameAccountComponent } from './layout/content/member/member-game-account/member-game-account.component';
 import { MemberMessageComponent } from './layout/content/member/member-message/member-message.component';
 import { TitleComponent } from './layout/content/member/title/title.component';
-import { MemberQuestComponent } from './layout/content/member/member-quest/member-quest.component';
 import { MemberPrizeLogComponent } from './layout/content/member/member-prize-log/member-prize-log.component';
-import { MemberVipComponent } from './layout/content/member/member-vip/member-vip.component';
 import { WechatMiniProgramAccountComponent } from './layout/content/wechat/wechat-mini-program-account/wechat-mini-program-account.component';
 import { WechatOfficeAccountComponent } from './layout/content/wechat/wechat-office-account/wechat-office-account.component';
 
@@ -98,12 +95,9 @@ import { WechatOfficeAccountComponent } from './layout/content/wechat/wechat-off
         MembersComponent,
         MemberAddressComponent,
         MemberBanLogComponent,
-        MemberGameAccountComponent,
         MemberMessageComponent,
         TitleComponent,
-        MemberQuestComponent,
         MemberPrizeLogComponent,
-        MemberVipComponent,
         WechatMiniProgramAccountComponent,
         WechatOfficeAccountComponent,
     ],

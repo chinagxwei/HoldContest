@@ -24,7 +24,7 @@ export class OrderService {
     return this.http.httpPost<Order>(ORDER_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(ORDER_DELETE, {id})
   }
 }

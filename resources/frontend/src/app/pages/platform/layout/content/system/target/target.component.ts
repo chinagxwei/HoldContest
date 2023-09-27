@@ -30,7 +30,7 @@ export class TargetComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private targetService: TargetService
+    private componentService: TargetService
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class TargetComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.targetService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -80,8 +80,8 @@ export class TargetComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.agreementService.delete($event.id).subscribe(res => {
+
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -110,7 +110,7 @@ export class TargetComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.targetService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);

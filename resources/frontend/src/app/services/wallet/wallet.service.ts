@@ -24,7 +24,7 @@ export class WalletService {
     return this.http.httpPost<Wallet>(WALLET_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(WALLET_DELETE, {id})
   }
 }

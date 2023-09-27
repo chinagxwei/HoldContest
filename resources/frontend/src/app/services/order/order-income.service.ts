@@ -24,7 +24,7 @@ export class OrderIncomeService {
     return this.http.httpPost<OrderIncome>(ORDER_INCOME_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(ORDER_INCOME_DELETE, {id})
   }
 }

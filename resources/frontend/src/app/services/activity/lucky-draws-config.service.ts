@@ -29,7 +29,7 @@ export class LuckyDrawsConfigService {
     return this.http.httpPost<LuckyDrawsConfig>(LUCKY_DRAWS_CONFIG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(LUCKY_DRAWS_CONFIG_DELETE, {id})
   }
 }

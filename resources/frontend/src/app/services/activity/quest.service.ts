@@ -26,7 +26,7 @@ export class QuestService {
     return this.http.httpPost<Quest>(QUEST_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(QUEST_DELETE, {id})
   }
 }

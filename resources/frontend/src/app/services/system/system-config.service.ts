@@ -24,7 +24,7 @@ export class SystemConfigService {
     return this.http.httpPost(CONFIG_SAVE, postData)
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(CONFIG_DELETE, {id})
   }
 }

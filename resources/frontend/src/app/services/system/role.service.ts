@@ -34,7 +34,7 @@ export class RoleService {
     return this.http.httpPost(ROLE_SAVE, role)
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(ROLE_DELETE, {id})
   }
 

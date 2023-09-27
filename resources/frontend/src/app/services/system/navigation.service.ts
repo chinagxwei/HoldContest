@@ -26,7 +26,7 @@ export class NavigationService {
     return this.http.httpPost(NAVIGATION_SAVE, navigation);
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(NAVIGATION_DELETE, {id});
   }
 

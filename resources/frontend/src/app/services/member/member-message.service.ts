@@ -29,7 +29,7 @@ export class MemberMessageService {
     return this.http.httpPost<MemberMessage>(MEMBER_MESSAGE_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(MEMBER_MESSAGE_DELETE, {id})
   }
 }

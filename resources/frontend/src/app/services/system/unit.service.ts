@@ -29,7 +29,7 @@ export class UnitService {
     return this.http.httpPost<Unit>(UNIT_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(UNIT_DELETE, {id})
   }
 }

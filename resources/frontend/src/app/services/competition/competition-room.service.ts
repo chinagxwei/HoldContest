@@ -29,7 +29,7 @@ export class CompetitionRoomService {
     return this.http.httpPost<CompetitionRoom>(COMPETITION_GAME_ROOM_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(COMPETITION_GAME_ROOM_DELETE, {id})
   }
 }

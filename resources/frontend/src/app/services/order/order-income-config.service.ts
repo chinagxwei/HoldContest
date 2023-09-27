@@ -29,7 +29,7 @@ export class OrderIncomeConfigService {
     return this.http.httpPost<OrderIncomeConfig>(ORDER_INCOME_CONFIG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(ORDER_INCOME_CONFIG_DELETE, {id})
   }
 }

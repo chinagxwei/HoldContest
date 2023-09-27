@@ -29,7 +29,7 @@ export class ProductRechargeService {
     return this.http.httpPost<ProductRecharge>(PRODUCT_RECHARGE_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(PRODUCT_RECHARGE_DELETE, {id})
   }
 }

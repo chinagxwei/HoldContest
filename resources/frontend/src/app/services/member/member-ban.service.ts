@@ -24,7 +24,7 @@ export class MemberBanService {
     return this.http.httpPost<MemberBan>(MEMBER_BAN_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(MEMBER_BAN_DELETE, {id})
   }
 }

@@ -20,7 +20,7 @@ export class ActionLogComponent implements OnInit {
   listOfData: ActionLog[] = [];
 
   constructor(
-    private managerService: ManagerService,
+    private componentService: ManagerService,
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class ActionLogComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.managerService.actionLog(page)
+    this.componentService.actionLog(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;

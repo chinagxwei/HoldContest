@@ -22,7 +22,7 @@ export class ProductRecharge {
   created_at?: number;
 }
 
-export class ProductVip {
+export class ProductVIP {
   id?: number;
   title: string = "";
   day: number = 0;

@@ -22,7 +22,7 @@ export class AppBugLogComponent implements OnInit {
 
   loading = true;
 
-  listOfData: SystemImage[] = [];
+  listOfData: AppBugLog[] = [];
 
   // @ts-ignore
   validateForm: FormGroup;
@@ -33,7 +33,7 @@ export class AppBugLogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private appBugLogService: AppBugLogService
+    private componentService: AppBugLogService
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +48,7 @@ export class AppBugLogComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.imageService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -61,18 +61,18 @@ export class AppBugLogComponent implements OnInit {
 
   initForm() {
     this.validateForm = this.formBuilder.group({
-      title: [null, [Validators.required]],
-      description: [null],
-      url: [null, [Validators.required]],
+      device: [null, [Validators.required]],
+      app_version: [null],
+      app_version_code: [null, [Validators.required]],
     });
   }
 
   update(data: AppBugLog) {
     this.validateForm = this.formBuilder.group({
       id: [data.id, [Validators.required]],
-      title: [data.title, [Validators.required]],
-      description: [data.description],
-      url: [data.url, [Validators.required]],
+      device: [data.device, [Validators.required]],
+      app_version: [data.app_version, [Validators.required]],
+      app_version_code: [data.app_version_code, [Validators.required]],
     });
     this.showModal()
   }
@@ -85,8 +85,8 @@ export class AppBugLogComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.agreementService.delete($event.id).subscribe(res => {
+
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -115,7 +115,7 @@ export class AppBugLogComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.imageService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);
