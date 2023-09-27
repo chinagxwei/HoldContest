@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Models\Build\ActionLogBuild;
-use App\Models\Trait\CreatedBySet;
+use App\Models\Trait\CreatedRelation;
+use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  */
 class ActionLog extends Model
 {
-    use HasFactory, SoftDeletes, ActionLogBuild, CreatedBySet;
+    use HasFactory, SoftDeletes, ActionLogBuild, CreatedRelation, SearchData;
 
     protected $table = 'action_logs';
 
@@ -66,13 +67,15 @@ class ActionLog extends Model
      * @param $user_id
      * @param $action_name
      * @param $action_description
+     * @param $ip
      * @return bool
      */
-    public function generate($user_id, $action_name, $action_description)
+    public function generate($user_id, $action_name, $action_description, $ip)
     {
         return $this->setCreatedBy($user_id)
             ->setActionName($action_name)
             ->setActionDescription($action_description)
+            ->setIP($ip)
             ->save();
     }
 }

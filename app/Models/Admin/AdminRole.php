@@ -3,7 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Build\AdminBuild\AdminRolesBuild;
-use App\Models\Trait\CreatedBySet;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +22,7 @@ use Illuminate\Support\Collection;
  */
 class AdminRole extends Model
 {
-    use HasFactory, SoftDeletes, AdminRolesBuild, CreatedBySet, SearchData;
+    use HasFactory, SoftDeletes, AdminRolesBuild, CreatedRelation, SearchData;
 
     protected $table = 'admin_roles';
 
@@ -59,7 +59,7 @@ class AdminRole extends Model
             'admin_role_menus',
             'role_id',
             'menu_id'
-        )->with(['children']);
+        )->with(['children'])->orderBy('navigation_sort');
     }
 
     function searchBuild($param = [], $with = [])

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Admin\Admin;
+use App\Models\Member\Member;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +23,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int user_type
  * @property Carbon created_at
  * @property Carbon updated_at
+ * @property Admin admin
+ * @property Member member
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -29,11 +32,16 @@ class User extends Authenticatable implements JWTSubject
 
     const USER_TYPE_MEMBER = 1;
 
-    const USER_TYPE_FRANCHISEE = 2;
-
     const USER_TYPE_PLATFORM_MANAGER = 100;
 
     const USER_TYPE_PLATFORM_SUPER_MANAGER = 999;
+
+    /**
+     * 模型日期列的存储格式
+     *
+     * @var string
+     */
+    protected $dateFormat = 'U';
 
     /**
      * The attributes that are mass assignable.
@@ -41,9 +49,10 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'user_type'
     ];
 
     /**
@@ -106,6 +115,15 @@ class User extends Authenticatable implements JWTSubject
     public function isSuperManager()
     {
         return self::USER_TYPE_PLATFORM_SUPER_MANAGER === $this->user_type;
+    }
+
+    /**
+     * @param $password
+     * @return bool
+     */
+    public function resetPassword($password){
+        $this->password = bcrypt($password);
+        return $this->save();
     }
 
     /**

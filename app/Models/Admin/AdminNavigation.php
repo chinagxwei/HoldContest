@@ -3,7 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Build\AdminBuild\AdminNavigationBuild;
-use App\Models\Trait\CreatedBySet;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +27,7 @@ use Illuminate\Support\Collection;
  */
 class AdminNavigation extends Model
 {
-    use SoftDeletes, CreatedBySet, AdminNavigationBuild, SearchData;
+    use SoftDeletes, CreatedRelation, AdminNavigationBuild, SearchData;
 
     protected $table = 'admin_navigations';
 

@@ -3,7 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Build\AdminBuild\AdminMessageBuild;
-use App\Models\Trait\CreatedBySet;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  */
 class AdminMessage extends Model
 {
-    use HasFactory, SoftDeletes, CreatedBySet, AdminMessageBuild, SearchData;
+    use HasFactory, SoftDeletes, CreatedRelation, AdminMessageBuild, SearchData;
 
     protected $table = 'admin_messages';
 

@@ -3,7 +3,7 @@
 namespace App\Models\System;
 
 use App\Models\Build\SystemBuild\SystemConfigBuild;
-use App\Models\Trait\CreatedBySet;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Carbon\Carbon;
 use Emadadly\LaravelUuid\Uuids;
@@ -20,9 +20,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SystemConfig extends Model
 {
-    use HasFactory, SoftDeletes, Uuids, CreatedBySet, SystemConfigBuild, SearchData;
+    use HasFactory, SoftDeletes, Uuids, CreatedRelation, SystemConfigBuild, SearchData;
 
-    protected $table = 'system_config';
+    protected $table = 'system_configs';
     /**
      * 指定是否模型应该被戳记时间。
      *

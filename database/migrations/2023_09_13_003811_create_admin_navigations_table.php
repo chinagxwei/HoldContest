@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('admin_navigations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->integer('parent_id')->index()->unsigned()->nullable()->comment('父导航ID');
             $table->string('navigation_name', 64)->comment('导航名称');
             $table->string('navigation_link', 64)->nullable()->comment('导航链接');

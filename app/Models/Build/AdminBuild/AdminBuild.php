@@ -19,16 +19,6 @@ trait AdminBuild{
         return $this;
     }
 
-    /**
-     * @param $user_id
-     * @return $this
-     */
-    public function setCreatedBy($user_id)
-    {
-        $this->created_by = $user_id;
-        return $this;
-    }
-
     public static function generate($user_id)
     {
         $model = new static();

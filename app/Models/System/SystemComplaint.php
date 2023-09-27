@@ -2,7 +2,8 @@
 
 namespace App\Models\System;
 
-use App\Models\Trait\CreatedBySet;
+use App\Models\Build\SystemBuild\SystemComplaintBuild;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Emadadly\LaravelUuid\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,9 +22,9 @@ use Illuminate\Support\Carbon;
  */
 class SystemComplaint extends Model
 {
-    use HasFactory, SoftDeletes, Uuids, CreatedBySet, SystemComplaintBuild, SearchData;
+    use HasFactory, SoftDeletes, Uuids, CreatedRelation, SearchData, SystemComplaintBuild;
 
-    protected $table = 'system_complaint';
+    protected $table = 'system_complaints';
     /**
      * 指定是否模型应该被戳记时间。
      *

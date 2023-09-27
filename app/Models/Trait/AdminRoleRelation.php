@@ -2,11 +2,11 @@
 
 namespace App\Models\Trait;
 
-use App\Models\Admin\AdminRoles;
+use App\Models\Admin\AdminRole;
 
 /**
  * @property int role_id
- * @property AdminRoles adminRole
+ * @property AdminRole adminRole
  */
 trait AdminRoleRelation
 {
@@ -20,6 +20,6 @@ trait AdminRoleRelation
      */
     public function adminRole()
     {
-        return $this->hasOne(AdminRoles::class, 'id', 'role_id');
+        return $this->hasOne(AdminRole::class, 'id', 'role_id');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use App\Models\Build\AdminBuild\AdminBuild;
 use App\Models\Trait\AdminRoleRelation;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use App\Models\User;
 use Emadadly\LaravelUuid\Uuids;
@@ -27,12 +28,12 @@ use Illuminate\Support\Collection;
  */
 class Admin extends Model
 {
-    use HasFactory, SoftDeletes, Uuids, AdminBuild, AdminRoleRelation, SearchData;
+    use HasFactory, SoftDeletes, Uuids, AdminBuild, AdminRoleRelation, SearchData, CreatedRelation;
 
     protected $table = 'admins';
 
     protected $fillable = [
-        'role_id', 'nickname','mobile', 'remark', 'created_by'
+        'role_id', 'nickname', 'mobile', 'remark', 'created_by'
     ];
 
     protected $hidden = [
@@ -54,21 +55,13 @@ class Admin extends Model
     protected $dateFormat = 'U';
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function user()
-    {
-        return $this->hasOne(User::class, 'id', 'created_by');
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function readMessageLogs()
     {
         return $this->belongsToMany(
             AdminMessage::class,
-            'admin_read_message_logs',
+            'admin_message_logs',
             'message_id',
             'admin_id'
         );

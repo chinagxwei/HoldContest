@@ -3,7 +3,7 @@
 namespace App\Models\System;
 
 use App\Models\Build\SystemBuild\SystemAgreementBuild;
-use App\Models\Trait\CreatedBySet;
+use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Emadadly\LaravelUuid\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,9 +21,9 @@ use Illuminate\Support\Carbon;
  */
 class SystemAgreement extends Model
 {
-    use HasFactory, SoftDeletes, Uuids, CreatedBySet, SystemAgreementBuild, SearchData;
+    use HasFactory, SoftDeletes, Uuids, CreatedRelation, SystemAgreementBuild, SearchData;
 
-    protected $table = 'system_agreement';
+    protected $table = 'system_agreements';
     /**
      * 指定是否模型应该被戳记时间。
      *

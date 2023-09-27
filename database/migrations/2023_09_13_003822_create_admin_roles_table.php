@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('admin_roles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('role_name', 128)->comment('角色名称');
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();
