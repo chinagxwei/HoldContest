@@ -34,12 +34,6 @@ Route::group([
     Route::any('member-ban/view', [MemberBanController::class, 'view']);
     Route::any('member-ban/delete', [MemberBanController::class, 'delete']);
 
-    // 会员游戏账户管理
-    Route::any('member-game-account/index', [MemberGameAccountController::class, 'index']);
-    Route::any('member-game-account/save', [MemberGameAccountController::class, 'save']);
-    Route::any('member-game-account/view', [MemberGameAccountController::class, 'view']);
-    Route::any('member-game-account/delete', [MemberGameAccountController::class, 'delete']);
-
     // 会员消息管理
     Route::any('member-message/index', [MemberMessageController::class, 'index']);
     Route::any('member-message/save', [MemberMessageController::class, 'save']);
@@ -51,18 +45,6 @@ Route::group([
     Route::any('member-prize-log/save', [MemberPrizeLogController::class, 'save']);
     Route::any('member-prize-log/view', [MemberPrizeLogController::class, 'view']);
     Route::any('member-prize-log/delete', [MemberPrizeLogController::class, 'delete']);
-
-    // 会员任务记录管理
-    Route::any('member-quest/index', [MemberQuestController::class, 'index']);
-    Route::any('member-quest/save', [MemberQuestController::class, 'save']);
-    Route::any('member-quest/view', [MemberQuestController::class, 'view']);
-    Route::any('member-quest/delete', [MemberQuestController::class, 'delete']);
-
-    // 会员VIP记录管理
-    Route::any('member-vip/index', [MemberVIPController::class, 'index']);
-    Route::any('member-vip/save', [MemberVIPController::class, 'save']);
-    Route::any('member-vip/view', [MemberVIPController::class, 'view']);
-    Route::any('member-vip/delete', [MemberVIPController::class, 'delete']);
 
     // 称号管理
     Route::any('title/index', [TitleController::class, 'index']);

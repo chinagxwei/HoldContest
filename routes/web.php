@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('/admin')->group(function () {
+    Route::any('/{action?}', function () {
+        return view('admin');
+    });
+//    Route::any('/welcome', function () {
+//        return view('admin');
+//    });
+});
