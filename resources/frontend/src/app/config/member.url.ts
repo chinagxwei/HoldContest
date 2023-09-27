@@ -60,25 +60,6 @@ export const MEMBER_BAN_VIEW = `${HOST}/api/${API_VERSION}/member-ban/view`;
  */
 export const MEMBER_BAN_DELETE = `${HOST}/api/${API_VERSION}/member-ban/delete`;
 
-/**
- * 会员游戏账户列表
- */
-export const MEMBER_GAME_ACCOUNT_LIST = `${HOST}/api/${API_VERSION}/member-game-account/index`;
-
-/**
- * 保存会员游戏账户
- */
-export const MEMBER_GAME_ACCOUNT_SAVE = `${HOST}/api/${API_VERSION}/member-game-account/save`;
-
-/**
- * 会员游戏账户详情
- */
-export const MEMBER_GAME_ACCOUNT_VIEW = `${HOST}/api/${API_VERSION}/member-game-account/view`;
-
-/**
- * 删除会员游戏账户
- */
-export const MEMBER_GAME_ACCOUNT_DELETE = `${HOST}/api/${API_VERSION}/member-game-account/delete`;
 
 /**
  * 会员消息列表
@@ -119,46 +100,6 @@ export const MEMBER_PRIZE_LOG_VIEW = `${HOST}/api/${API_VERSION}/member-prize-lo
  * 删除 会员奖励
  */
 export const MEMBER_PRIZE_LOG_DELETE = `${HOST}/api/${API_VERSION}/member-prize-log/delete`;
-
-/**
- * 会员任务列表
- */
-export const MEMBER_QUEST_LIST = `${HOST}/api/${API_VERSION}/member-quest/index`;
-
-/**
- * 保存会员任务
- */
-export const MEMBER_QUEST_SAVE = `${HOST}/api/${API_VERSION}/member-quest/save`;
-
-/**
- * 会员任务详情
- */
-export const MEMBER_QUEST_VIEW = `${HOST}/api/${API_VERSION}/member-quest/view`;
-
-/**
- * 删除会员任务
- */
-export const MEMBER_QUEST_DELETE = `${HOST}/api/${API_VERSION}/member-quest/delete`;
-
-/**
- * 会员VIP列表
- */
-export const MEMBER_VIP_LIST = `${HOST}/api/${API_VERSION}/member-vip/index`;
-
-/**
- * 保存会员VIP
- */
-export const MEMBER_VIP_SAVE = `${HOST}/api/${API_VERSION}/member-vip/save`;
-
-/**
- * 会员VIP详情
- */
-export const MEMBER_VIP_VIEW = `${HOST}/api/${API_VERSION}/member-vip/view`;
-
-/**
- * 删除会员VIP
- */
-export const MEMBER_VIP_DELETE = `${HOST}/api/${API_VERSION}/member-vip/delete`;
 
 /**
  * 称号列表
