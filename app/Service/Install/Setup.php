@@ -4,10 +4,17 @@ namespace App\Service\Install;
 
 use App\Models\Admin\AdminNavigation;
 use App\Models\Admin\AdminRole;
+use App\Models\Competition\CompetitionGame;
+use App\Models\Competition\CompetitionRule;
+use App\Models\Goods\Goods;
+use App\Models\Goods\ProductRecharge;
+use App\Models\Goods\ProductVIP;
 use App\Models\Order\OrderIncomeConfig;
-use App\Models\Product\ProductRecharge;
-use App\Models\Product\ProductVIP;
+use App\Models\System\SystemAgreement;
 use App\Models\System\Unit;
+use App\Models\Wallet\WalletWithdrawalAmountConfig;
+use App\Service\Competition\CompetitionEventService;
+use Illuminate\Support\Collection;
 
 class Setup
 {
@@ -46,10 +53,12 @@ class Setup
 
     private static function menuData($created_by)
     {
+        AdminNavigation::generateParent("站点首页", "line-menu", $created_by, 0, './', '');
+
         $systemMenus = AdminNavigation::generateParent("系统管理", "line-menu", $created_by, 7, './system', './system');
         $systemData = BaseRoutesData::getSystemData($systemMenus->id, $created_by);
         AdminNavigation::query()->insert($systemData);
-        $walletMenus = AdminNavigation::generateParent("钱包管理", "line-menu", $created_by, 6, './goods', './goods');
+        $walletMenus = AdminNavigation::generateParent("虚拟账户管理", "line-menu", $created_by, 6, './goods', './goods');
         $walletData = BaseRoutesData::getWalletData($walletMenus->id, $created_by);
         AdminNavigation::query()->insert($walletData);
         $goodsMenus = AdminNavigation::generateParent("商品管理", "line-menu", $created_by, 5, './goods', './goods');
@@ -95,5 +104,22 @@ class Setup
         ProductRecharge::query()->insert($rechargeData);
         $incomeData = BaseIncomeConfigData::getData($created_by, $time);
         OrderIncomeConfig::query()->insert($incomeData);
+        $agreementData = BaseAgreementData::getData($created_by, $time);
+        SystemAgreement::query()->insert($agreementData);
+        $gameData = BaseGameData::getData($created_by, $time);
+        CompetitionGame::query()->insert($gameData);
+        $competitionRuleData = BaseCompetitionRuleData::getData($created_by, $time);
+        CompetitionRule::query()->insert($competitionRuleData);
+        $withdrawalAmountConfigData = BaseWithdrawalAmountConfigData::getData($created_by, $time);
+        WalletWithdrawalAmountConfig::query()->insert($withdrawalAmountConfigData);
+        $goodData = BaseGoodsData::getData($created_by, $time);
+        Goods::query()->insert($goodData);
+
+        self::relationInsertBaseData();
+    }
+
+    private static function relationInsertBaseData()
+    {
+        BaseCompetitionRuleData::relationInsertBaseData();
     }
 }

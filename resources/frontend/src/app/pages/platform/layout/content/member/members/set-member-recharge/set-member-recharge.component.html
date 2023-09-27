@@ -1,0 +1,26 @@
+<nz-modal [(nzVisible)]="visible" nzTitle="充值" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="amount">金额</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入金额!">
+          <nz-input-number style="width: 100%;" formControlName="amount" [nzMin]="0" [nzMax]="100000" [nzStep]="1"
+                           id="amount"
+                           placeholder="金额"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <app-unit-form-item [formGroup]="validateForm"></app-unit-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark">备注</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+            <textarea style="width: 100%;" formControlName="remark" nz-input rows="6" id="remark"
+                      placeholder="备注"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleSave()">保存</button>
+  </div>
+</nz-modal>

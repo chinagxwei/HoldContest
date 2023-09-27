@@ -2,9 +2,8 @@
 
 namespace App\Models\Order;
 
-use App\Models\Trait\CreatedBySet;
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
-use App\Models\Trait\FranchiseeRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
 use App\Models\Trait\SignData;
@@ -24,11 +23,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Order formOrder
  * @property Order toOrder
  */
-class OrderIncome extends Model
+class OrderIncome extends BaseDataModel
 {
     use HasFactory, SoftDeletes, MemberRelation, CreatedRelation, SearchData, SignData;
 
-    protected $table = 'order_income';
+    protected $table = 'order_incomes';
     /**
      * 指定是否模型应该被戳记时间。
      *
@@ -73,8 +72,8 @@ class OrderIncome extends Model
         // TODO: Implement searchBuild() method.
         $this->fill($param);
         $build = $this;
-        if (!empty($this->franchisee_id)) {
-            $build = $build->where('franchisee_id', $this->franchisee_id);
+        if (!empty($this->member_id)) {
+            $build = $build->where('member_id', $this->member_id);
         }
         if (!empty($this->from_order_sn)) {
             $build = $build->where('from_order_sn', 'like', "%{$this->from_order_sn}%");

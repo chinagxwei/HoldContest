@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {Unit} from "../../../../../../entity/system";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {UnitService} from "../../../../../../services/system/unit.service";
@@ -21,7 +21,6 @@ export class UnitComponent implements OnInit {
 
   listOfData: Unit[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -30,8 +29,9 @@ export class UnitComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private unitService: UnitService
+    private componentService: UnitService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class UnitComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.unitService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -85,8 +85,7 @@ export class UnitComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.agreementService.delete($event.id).subscribe(res => {
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -115,7 +114,7 @@ export class UnitComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.unitService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);

@@ -32,6 +32,8 @@ class Admin extends Model
 
     protected $table = 'admins';
 
+    protected $keyType = 'string';
+
     protected $fillable = [
         'role_id', 'nickname', 'mobile', 'remark', 'created_by'
     ];

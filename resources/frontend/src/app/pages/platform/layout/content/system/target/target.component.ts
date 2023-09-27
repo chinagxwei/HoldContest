@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {TargetService} from "../../../../../../services/system/target.service";
@@ -21,7 +21,6 @@ export class TargetComponent implements OnInit {
 
   listOfData: Target[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -30,8 +29,10 @@ export class TargetComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private targetService: TargetService
-  ) { }
+    private componentService: TargetService
+  ) {
+    this.validateForm = this.formBuilder.group({});
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -45,7 +46,7 @@ export class TargetComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.targetService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -80,8 +81,8 @@ export class TargetComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.agreementService.delete($event.id).subscribe(res => {
+
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -110,7 +111,7 @@ export class TargetComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.targetService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);

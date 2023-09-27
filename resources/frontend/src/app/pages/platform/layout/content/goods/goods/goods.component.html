@@ -1,1 +1,163 @@
-<p>goods works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加商品</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>索引</th>
+      <th>商品标题</th>
+      <th>商品类型</th>
+      <th>商品库存</th>
+      <th>上架周期</th>
+      <th>状态</th>
+      <th>允许关联</th>
+      <th>排序</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData; let i = index">
+      <td>{{ (currentData.current_page - 1) * currentData.per_page + i + 1}}</td>
+      <td>{{ data.title}}</td>
+      <td>
+        <div [ngSwitch]="data.goods_type">
+          <nz-tag *ngSwitchCase="1" nzColor="default">普通商品</nz-tag>
+          <nz-tag *ngSwitchCase="2" nzColor="warning">关联商品</nz-tag>
+          <nz-tag *ngSwitchCase="3" nzColor="processing">商品组</nz-tag>
+          <nz-tag *ngSwitchDefault nzColor="error">error</nz-tag>
+        </div>
+      </td>
+      <td>{{ data.stock}}</td>
+      <td>
+        <span *ngIf="!data.started_at && !data.ended_at">无限制</span>
+        <span *ngIf="data.started_at > 0 || data.ended_at > 0">{{ data.started_at| date:'yyyy-MM-dd HH:mm'}} | {{ data.ended_at| date:'yyyy-MM-dd HH:mm'}}</span>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.status === 1" nzColor="success">上架</nz-tag>
+        <nz-tag *ngIf="data.status === 0" nzColor="error">下架</nz-tag>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.bind === 1" nzColor="success">是</nz-tag>
+        <nz-tag *ngIf="data.bind === 0" nzColor="error">否</nz-tag>
+      </td>
+      <td>{{ data.sort}}</td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <span *ngIf="data.goods_type === 3">
+          <a>配置子商品</a>
+          <nz-divider nzType="vertical"></nz-divider>
+        </span>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [nzWidth]="600" [(nzVisible)]="isVisible" nzTitle="编辑商品" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">商品标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入商品标题!">
+          <input nz-input formControlName="title" id="title" placeholder="商品标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="description">商品描述</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入商品描述!">
+          <input nz-input formControlName="description" id="description" placeholder="商品描述"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="goods_type">商品类型</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-radio-group (ngModelChange)="onChangeGoodsType($event)" formControlName="goods_type" id="goods_type">
+            <label nz-radio nzValue="1">普通商品</label>
+            <label nz-radio nzValue="2">关联商品</label>
+            <label nz-radio nzValue="3">商品组</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="validateForm.value['goods_type']==='2'">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relation_category">关联商品类型</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-radio-group formControlName="relation_category" id="relation_category">
+            <label nz-radio nzValue="1">VIP</label>
+            <label nz-radio nzValue="2">充值卡</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label *ngIf="validateForm.value['goods_type']==='2'" [nzSm]="6" [nzXs]="24">已关联产品</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          {{validateForm.value['relation_name']}}
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="validateForm.value['goods_type']==='2'">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relation_id">关联产品</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入关联产品!">
+          <nz-select
+            formControlName="relation_id"
+            id="relation_id"
+            nzPlaceHolder="选择产品"
+            nzAllowClear
+            nzShowSearch
+            nzServerSearch
+            (nzOnSearch)="onSearch($event)"
+          >
+            <ng-container *ngFor="let o of searchDataList">
+              <nz-option *ngIf="!isSearchLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isSearchLoading" nzDisabled nzCustomContent>
+              <span nz-icon nzType="loading" class="loading-icon"></span>
+              Loading Data...
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="stock">商品库存</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入商品库存!">
+          <nz-input-number style="width: 100%;" formControlName="stock" id="stock" [nzMin]="1"
+                           [nzMax]="999999" [nzStep]="1"
+                           placeholder="商品库存"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cycle">周期</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入周期!">
+          <nz-range-picker style="width: 100%" formControlName="cycle" id="cycle" placeholder="周期"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">状态</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="status" id="status" nzCheckedChildren="启用"
+                     nzUnCheckedChildren="停用"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="bind">允许绑定</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="bind" id="bind" nzCheckedChildren="启用" nzUnCheckedChildren="停用"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>
+
+

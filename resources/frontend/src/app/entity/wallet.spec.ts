@@ -1,4 +1,12 @@
-import {Wallet, WalletConsume, WalletLog, WalletRecharge, WalletWithdrawAccount, WalletWithdrawal} from './wallet';
+import {
+  Wallet,
+  WalletConsume,
+  WalletLog,
+  WalletRecharge,
+  WalletWithdrawAccount,
+  WalletWithdrawal,
+  WalletWithdrawalAmountConfig
+} from './wallet';
 
 describe('Wallet', () => {
   it('should create an instance', () => {
@@ -27,6 +35,11 @@ describe('WalletRecharge', () => {
 describe('WalletWithdrawAccount', () => {
   it('should create an instance', () => {
     expect(new WalletWithdrawAccount()).toBeTruthy();
+  });
+});
+describe('WalletWithdrawalAmountConfig', () => {
+  it('should create an instance', () => {
+    expect(new WalletWithdrawalAmountConfig()).toBeTruthy();
   });
 });
 

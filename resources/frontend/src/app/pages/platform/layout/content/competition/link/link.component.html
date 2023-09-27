@@ -1,0 +1,84 @@
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>快速添加房间</span>
+  </button>
+  <nz-divider nzType="vertical"></nz-divider>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>房间编号</th>
+      <th>房间名称</th>
+      <th>链接</th>
+      <!--      <th>链接哈希码</th>-->
+      <!--      <th>创建时间</th>-->
+      <!--      <th>操作</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.competition_rule?.title}}</td>
+      <td>{{ data.game_room_code}}</td>
+      <td>{{ data.game_room_name}}</td>
+      <td>{{ data.link}}</td>
+      <!--      <td>{{ data.link_hash}}</td>-->
+      <!--      <td>{{ data.created_at }}</td>-->
+      <!--      <td>-->
+      <!--        <a (click)="onDelete(data)">删除</a>-->
+      <!--      </td>-->
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [nzWidth]="1280" [(nzVisible)]="isVisible" nzTitle="添加链接" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="competition_rule_id">比赛规则</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-select
+            formControlName="competition_rule_id"
+            id="competition_rule_id"
+            nzPlaceHolder="选择比赛规则"
+            nzAllowClear
+            nzShowSearch
+            nzServerSearch
+            (nzOnSearch)="onSearch($event)"
+            (ngModelChange)="onSearchSelect($event)"
+          >
+            <ng-container *ngFor="let o of searchDataList">
+              <nz-option *ngIf="!isSearchLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isSearchLoading" nzDisabled nzCustomContent>
+              <span nz-icon nzType="loading" class="loading-icon"></span>
+              Loading Data...
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!!validateForm.value['competition_rule_id']">
+        <nz-form-label [nzSm]="6" [nzXs]="24">最新房号</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <h1 *ngIf="lastRoomCode.length > 0">{{lastRoomCode}}</h1>
+          <span *ngIf="lastRoomCode.length === 0">无房间记录</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="urls">房间链接</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入房间链接!">
+          <textarea formControlName="urls" id="urls" nz-input rows="10" placeholder="房间链接"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleAdd()">保存</button>
+  </div>
+</nz-modal>

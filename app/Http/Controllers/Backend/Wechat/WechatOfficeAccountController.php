@@ -22,7 +22,7 @@ class WechatOfficeAccountController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->get('id')) {
             if ($model = WechatOfficeAccount::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -37,7 +37,7 @@ class WechatOfficeAccountController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->get('id')) {
             if ($model = WechatOfficeAccount::findOneByID($id)) {
                 $this->deleteEvent($model->nickname);
                 $model->delete();

@@ -1,1 +1,90 @@
-<p>member-address works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加会员地址</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>会员</th>
+      <th>默认地址</th>
+      <th>联系人</th>
+      <th>联系电话</th>
+      <th>省份</th>
+      <th>城市</th>
+      <th>县份</th>
+      <th>街道</th>
+      <th>详细地址</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.member_id}}</td>
+      <td>
+        <nz-tag *ngIf="data.default" nzColor="error">默认</nz-tag>
+        <nz-tag *ngIf="!data.default" nzColor="success">非默认</nz-tag>
+      </td>
+      <td>{{ data.contact}}</td>
+      <td>{{ data.mobile}}</td>
+      <td>{{ data.province_name}}</td>
+      <td>{{ data.city_name}}</td>
+      <td>{{ data.county_name}}</td>
+      <td>{{ data.street_name}}</td>
+      <td>{{ data.detail_info}}</td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑会员地址" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="member_id">会员ID</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入会员ID!">
+          <input nz-input formControlName="member_id" id="member_id" placeholder="会员ID"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="contact">联系人</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入联系人!">
+          <input nz-input formControlName="contact" id="contact" placeholder="联系人"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="mobile">联系电话</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入联系电话!">
+          <input nz-input formControlName="mobile" id="mobile" placeholder="联系电话"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="detail_info">详细地址</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入详细地址!">
+          <input nz-input formControlName="detail_info" id="detail_info" placeholder="详细地址"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="default">默认地址</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择默认地址!">
+          <nz-switch formControlName="default" id="default" nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

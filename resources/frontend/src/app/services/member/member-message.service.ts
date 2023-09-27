@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpReprint} from "../../util/http.reprint";
 import {Paginate} from "../../entity/server-response";
 import {MemberMessage} from "../../entity/member";
@@ -17,8 +17,8 @@ export class MemberMessageService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<MemberMessage>>(`${MEMBER_MESSAGE_LIST}?page=${page}`)
+  public items(page: number = 1, query?: MemberMessage) {
+    return this.http.httpPost<Paginate<MemberMessage>>(`${MEMBER_MESSAGE_LIST}?page=${page}`, query)
   }
 
   public save(postData: MemberMessage) {
@@ -29,7 +29,7 @@ export class MemberMessageService {
     return this.http.httpPost<MemberMessage>(MEMBER_MESSAGE_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(MEMBER_MESSAGE_DELETE, {id})
   }
 }

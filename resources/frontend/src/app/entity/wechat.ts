@@ -9,6 +9,9 @@ export class WechatOfficeAccount {
   province: string = "";
   country: string = "";
   headimgurl: string = "";
+  subscribe?: number;
+  subscribe_at: number = 0;
+  unsubscribe_at: number = 0;
   created_at?: number;
 }
 
@@ -23,8 +26,5 @@ export class WechatMiniProgramAccount {
   province: string = "";
   country: string = "";
   headimgurl: string = "";
-  subscribe: number = 0;
-  subscribe_at: number = 0;
-  unsubscribe_at: number = 0;
-  created_at: number = 0;
+  created_at?: number = 0;
 }

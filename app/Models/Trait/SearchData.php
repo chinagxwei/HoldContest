@@ -18,5 +18,15 @@ trait SearchData
         return self::query()->where('id', $id)->with($with)->first();
     }
 
+    /**
+     * @param $sn
+     * @param $with
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null|static
+     */
+    static function findOneBySN($sn, $with = [])
+    {
+        return self::query()->where('sn', $sn)->with($with)->first();
+    }
+
     abstract function searchBuild($param = [], $with = []);
 }

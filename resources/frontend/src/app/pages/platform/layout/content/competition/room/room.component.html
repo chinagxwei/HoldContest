@@ -1,1 +1,104 @@
-<p>room works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>快速创建房间</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <!--      <th>比赛规则</th>-->
+      <th>房间编号</th>
+      <th>房间名称</th>
+      <th>参赛会员</th>
+
+      <th>快速比赛
+        <nz-divider nzType="vertical"></nz-divider>
+        比赛间隔
+      </th>
+      <!--      <th>完成比赛</th>-->
+      <th>准备时间
+        <nz-divider nzType="vertical"></nz-divider>
+        开始时间
+        <nz-divider nzType="vertical"></nz-divider>
+        结束时间
+      </th>
+      <th>比赛状态</th>
+      <!--      <th>创建时间</th>-->
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <!--      <td>{{ data.competition_rule?.title}}</td>-->
+      <td>{{ data.game_room_code}}</td>
+      <td>{{ data.game_room_name}}</td>
+      <td>
+        <span *ngIf="!!data.participants">
+          <nz-tag [nzColor]="'#f50'">已报名人数：{{ data.participants.length}}</nz-tag>
+        </span>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.quick === 1" nzColor="success">是</nz-tag>
+        <nz-tag *ngIf="data.quick === 0" nzColor="error">否</nz-tag>
+        <nz-divider nzType="vertical"></nz-divider>
+        <span>{{ data.interval}}分钟</span>
+      </td>
+      <!--      <td>-->
+      <!--        <nz-tag *ngIf="data.complete === 1" nzColor="success">是</nz-tag>-->
+      <!--        <nz-tag *ngIf="data.complete === 0" nzColor="error">否</nz-tag>-->
+      <!--      </td>-->
+      <!--      <td>{{ data.interval}}分钟</td>-->
+      <td>
+        <span *ngIf="data.ready_at > 0">
+          <nz-tag [nzColor]="'magenta'">{{ data.ready_at | date:'yyyy-MM-dd HH:mm'}}</nz-tag>
+          <nz-divider nzType="vertical"></nz-divider>
+        </span>
+        <span *ngIf="data.started_at > 0">
+          <nz-tag [nzColor]="'purple'">{{ data.started_at | date:'yyyy-MM-dd HH:mm'}}</nz-tag>
+          <nz-divider nzType="vertical"></nz-divider>
+        </span>
+        <span *ngIf="data.ended_at > 0">
+          <nz-tag [nzColor]="'#108ee9'">{{ data.ended_at | date:'yyyy-MM-dd HH:mm'}}</nz-tag>
+        </span>
+      </td>
+      <td>
+        <div [ngSwitch]="data.status">
+          <nz-tag *ngSwitchCase="-1" nzColor="default">比赛取消</nz-tag>
+          <nz-tag *ngSwitchCase="1" nzColor="error">开始报名</nz-tag>
+          <nz-tag *ngSwitchCase="2" nzColor="processing">比赛审核</nz-tag>
+          <nz-tag *ngSwitchCase="3" nzColor="warning">比赛结束</nz-tag>
+        </div>
+      </td>
+      <!--      <td>{{ data.created_at }}</td>-->
+      <td>
+        <!--        <span-->
+        <!--          *ngIf="data.competition_rule && data.participants && (data.participants.length >= data.competition_rule.start_number) && data.status=== 2">-->
+        <!--          <a (click)="onShowJoinMember(data)">比赛结算</a>-->
+        <!--          <nz-divider nzType="vertical"></nz-divider>-->
+        <!--        </span>-->
+        <a (click)="onShowJoinMember(data)">比赛结算</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onJoin(data)">参与比赛</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<app-quick-add-room
+  [(visible)]="isVisible"
+  (onSubmitAfter)="handleRefresh()"></app-quick-add-room>
+<app-settlement-room
+  [(visible)]="isPrizeVisible"
+  [currentRoom]="currentRoom"
+  (onSubmitAfter)="handleRefresh()"></app-settlement-room>
+<app-join-room
+  [currentRoom]="currentRoom"
+  [(visible)]="isJoinVisible"
+  (onSubmitAfter)="handleRefresh()"></app-join-room>

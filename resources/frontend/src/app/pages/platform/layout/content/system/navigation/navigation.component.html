@@ -13,6 +13,7 @@
     <tr>
       <th>排序</th>
       <th>导航名称</th>
+      <th>菜单显示</th>
       <th>导航链接</th>
       <th>导航路由</th>
       <th>操作</th>
@@ -23,6 +24,10 @@
       <td colspan="4" class="custom-placeholder" *cdkDragPlaceholder> </td>
       <td><i nz-icon nzType="drag" nzTheme="outline" cdkDragHandle></i></td>
       <td>{{ data.navigation_name}}</td>
+      <td>
+        <nz-tag *ngIf="data.menu_show === 1" nzColor="success">显示</nz-tag>
+        <nz-tag *ngIf="data.menu_show === 0" nzColor="error">不显示</nz-tag>
+      </td>
       <td>{{ data.navigation_link }}</td>
       <td>{{ data.navigation_router }}</td>
       <td>
@@ -34,7 +39,7 @@
     </tbody>
   </nz-table>
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="添加回复" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑导航" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <form nz-form [formGroup]="validateForm">
       <nz-form-item>

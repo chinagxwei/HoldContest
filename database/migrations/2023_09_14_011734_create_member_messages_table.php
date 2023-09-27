@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title', 128)->comment('标题');
             $table->text('content')->comment('内容');
             $table->tinyInteger('weight')->unsigned()->default(1)->nullable()->comment('消息重要程度 1一般 2重要 3很重要');
+            $table->tinyInteger('status')->unsigned()->default(0)->nullable()->comment('状态 0启用 1停用');
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');

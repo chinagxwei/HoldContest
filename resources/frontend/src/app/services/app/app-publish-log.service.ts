@@ -17,8 +17,8 @@ export class AppPublishLogService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<AppPublishLog>>(`${APP_PUBLISH_LOG_LIST}?page=${page}`)
+  public items(page: number = 1, query?: AppPublishLog) {
+    return this.http.httpPost<Paginate<AppPublishLog>>(`${APP_PUBLISH_LOG_LIST}?page=${page}`, query)
   }
 
   public save(postData: AppPublishLog) {
@@ -29,7 +29,7 @@ export class AppPublishLogService {
     return this.http.httpPost<AppPublishLog>(APP_PUBLISH_LOG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(APP_PUBLISH_LOG_DELETE, {id})
   }
 }

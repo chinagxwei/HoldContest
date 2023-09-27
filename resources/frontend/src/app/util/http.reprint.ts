@@ -16,8 +16,10 @@ export class HttpReprint {
     headers: new HttpHeaders({})
   };
 
-  constructor(private http: HttpClient, private authService: AuthService, private modal: NzModalService) {
-    this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${this.authService?.user?.access_token}`);
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private modal: NzModalService) {
   }
 
 
@@ -37,6 +39,7 @@ export class HttpReprint {
   }
 
   public httpPost<T>(url: string, body?: any): Observable<ServerResponse<T>> {
+    this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${this.authService?.user?.access_token}`);
     return this.http
       .post<ServerResponse<T>>(url, body, this.httpOptions)
       .pipe(
@@ -51,6 +54,7 @@ export class HttpReprint {
   }
 
   public httpGet<T>(url: string): Observable<ServerResponse<T>> {
+    this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${this.authService?.user?.access_token}`);
     return this.http
       .get<ServerResponse<T>>(url, this.httpOptions)
       .pipe(

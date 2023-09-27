@@ -22,7 +22,6 @@ return new class extends Migration
             $table->tinyInteger('status')->unsigned()->default(0)->nullable()->comment('状态 0启用 1停用');
             $table->tinyInteger('auto_start')->unsigned()->default(0)->nullable()->comment('自动开始 0否 1是');
             $table->integer('participate_count')->unsigned()->default(0)->nullable()->comment('参与次数 0不限 大于零为限定次数');
-
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');

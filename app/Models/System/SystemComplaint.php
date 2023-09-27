@@ -25,6 +25,8 @@ class SystemComplaint extends Model
     use HasFactory, SoftDeletes, Uuids, CreatedRelation, SearchData, SystemComplaintBuild;
 
     protected $table = 'system_complaints';
+
+    protected $keyType = 'string';
     /**
      * 指定是否模型应该被戳记时间。
      *

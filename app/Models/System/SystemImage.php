@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\BaseDataModel;
 use App\Models\Build\SystemBuild\SystemImageBuild;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
@@ -19,11 +20,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int created_by
  * @property Carbon created_at
  */
-class SystemImage extends Model
+class SystemImage extends BaseDataModel
 {
     use HasFactory, SoftDeletes, Uuids, CreatedRelation, SearchData, SystemImageBuild;
 
     protected $table = 'system_images';
+
+    protected $keyType = 'string';
     /**
      * 指定是否模型应该被戳记时间。
      *

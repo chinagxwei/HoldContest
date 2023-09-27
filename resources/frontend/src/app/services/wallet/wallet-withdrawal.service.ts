@@ -29,7 +29,7 @@ export class WalletWithdrawalService {
     return this.http.httpPost<WalletWithdrawal>(WALLET_WITHDRAWAL_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(WALLET_WITHDRAWAL_DELETE, {id})
   }
 }

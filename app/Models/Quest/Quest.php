@@ -2,6 +2,7 @@
 
 namespace App\Models\Quest;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int created_by
  * @property Carbon created_at
  */
-class Quest extends Model
+class Quest extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation,SearchData;
 

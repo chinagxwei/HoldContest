@@ -1,1 +1,56 @@
-<p>wallets works!</p>
+<div class="inner-content">
+<!--  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">-->
+<!--    <span>添加钱包</span>-->
+<!--  </button>-->
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>会员ID</th>
+      <th>钱包ID</th>
+      <th>钱包等级</th>
+      <th>钱包余额</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.own?.id}}</td>
+      <td>{{ data.id}}</td>
+      <td>{{ data.level}}</td>
+      <td>
+        <span *ngIf="!data.accounts || data.accounts.length === 0">无</span>
+        <div *ngFor="let account of data.accounts">
+          <nz-tag nzColor="default">
+            {{account.title}}：{{account.balance ? account.balance.total_balance / 100 : 0}}
+          </nz-tag>
+        </div>
+      </td>
+
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑钱包" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

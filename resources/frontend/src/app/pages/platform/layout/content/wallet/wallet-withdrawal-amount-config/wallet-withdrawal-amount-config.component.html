@@ -1,0 +1,73 @@
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加单位</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>标题</th>
+      <th>一般金额</th>
+      <th>VIP金额</th>
+      <th>单位</th>
+      <th>是否显示</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.title}}</td>
+      <td>{{ data.amount/100}}</td>
+      <td>{{ data.vip_amount/100}}</td>
+      <td>{{ data.unit?.label}}</td>
+      <td>
+        <nz-tag *ngIf="data.show === 1" nzColor="success">显示</nz-tag>
+        <nz-tag *ngIf="data.show === 0" nzColor="error">隐藏</nz-tag>
+      </td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑单位" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入标题!">
+          <input nz-input formControlName="title" id="title" placeholder="标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="amount">一般金额</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入一般金额!">
+          <nz-input-number style="width: 100%;" formControlName="amount" [nzMin]="0" [nzMax]="10" [nzStep]="1" id="amount"
+                           placeholder="一般金额"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="vip_amount">VIP金额</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入VIP金额!">
+          <nz-input-number style="width: 100%;" formControlName="vip_amount" [nzMin]="0" [nzMax]="10" [nzStep]="1" id="vip_amount"
+                           placeholder="VIP金额"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <app-unit-form-item [formGroup]="validateForm"></app-unit-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

@@ -2,14 +2,13 @@
 
 namespace App\Models\Member;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\OrderRelation;
 use App\Models\Trait\SearchData;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -18,11 +17,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string order_sn
  * @property int started_at
  * @property int ended_at
+ * @property int channel
  * @property int created_by
  * @property int updated_by
  * @property Carbon created_at
  */
-class MemberVIP extends Pivot
+class MemberVIP extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, OrderRelation, MemberRelation, SearchData;
 
@@ -48,13 +48,38 @@ class MemberVIP extends Pivot
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'order_sn', 'member_id', 'vip_id',
+        'order_sn', 'member_id', 'vip_id', 'channel',
         'started_at', 'ended_at', 'created_by', 'updated_by'
     ];
 
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
+
+    const CHANNEL_MEMBER = 1;
+
+    const CHANNEL_PLATFORM = 2;
+
+    /**
+     * @param $member_id
+     * @param $vip_id
+     * @param $started_at
+     * @param $ended_at
+     * @param $order_sn
+     * @param $channel
+     * @return static|null
+     */
+    public static function generate($member_id, $vip_id, $order_sn, $started_at, $ended_at, $channel = self::CHANNEL_MEMBER)
+    {
+        $model = new static();
+        $model->member_id = $member_id;
+        $model->vip_id = $vip_id;
+        $model->order_sn = $order_sn;
+        $model->started_at = $started_at;
+        $model->ended_at = $ended_at;
+        $model->channel = $channel;
+        return $model->save() ? $model : null;
+    }
 
     function searchBuild($param = [], $with = [])
     {

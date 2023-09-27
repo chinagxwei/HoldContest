@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpReprint} from "../../util/http.reprint";
 import {Paginate} from "../../entity/server-response";
-import {Unit} from "../../entity/system";
-import {UNIT_DELETE, UNIT_ITEMS, UNIT_SAVE, UNIT_VIEW} from "../../config/system.url";
 import {Quest} from "../../entity/activity";
 import {QUEST_DELETE, QUEST_LIST, QUEST_SAVE, QUEST_VIEW} from "../../config/activity.url";
 
@@ -26,7 +24,7 @@ export class QuestService {
     return this.http.httpPost<Quest>(QUEST_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(QUEST_DELETE, {id})
   }
 }

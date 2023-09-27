@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {tap} from "rxjs/operators";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {SystemConfig} from "../../../../../../entity/system";
@@ -21,7 +21,6 @@ export class SystemConfigComponent implements OnInit {
 
   listOfData: SystemConfig[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -30,7 +29,8 @@ export class SystemConfigComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private systemConfigService: SystemConfigService) {
+    private componentService: SystemConfigService) {
+    this.validateForm = this.formBuilder.group({});
   }
 
 
@@ -45,7 +45,7 @@ export class SystemConfigComponent implements OnInit {
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.systemConfigService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -80,8 +80,7 @@ export class SystemConfigComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.systemConfigService.delete($event.id).subscribe(res => {
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -110,7 +109,7 @@ export class SystemConfigComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.systemConfigService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);

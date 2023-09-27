@@ -1,0 +1,22 @@
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>单位</nz-form-label>
+  <nz-form-control [nzSm]="16" [nzXs]="24">
+    <nz-select
+      nzPlaceHolder="选择单位"
+      nzAllowClear
+      nzShowSearch
+      nzServerSearch
+      (nzOnSearch)="onSearch($event)"
+      [(ngModel)]="unit_id"
+      (ngModelChange)="onChange($event)"
+    >
+      <ng-container *ngFor="let o of searchDataList">
+        <nz-option *ngIf="!isSearchLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
+      </ng-container>
+      <nz-option *ngIf="isSearchLoading" nzDisabled nzCustomContent>
+        <span nz-icon nzType="loading" class="loading-icon"></span>
+        Loading Data...
+      </nz-option>
+    </nz-select>
+  </nz-form-control>
+</nz-form-item>

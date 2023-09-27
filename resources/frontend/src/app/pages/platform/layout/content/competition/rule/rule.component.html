@@ -1,0 +1,217 @@
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加比赛规则</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>规则标题</th>
+      <th>游戏名称</th>
+      <th>参与价格</th>
+      <th>参与人数</th>
+      <th>开始人数</th>
+      <th>每日开始时间</th>
+      <th>每日结束时间</th>
+      <th>每日参与次数</th>
+      <th>团队游戏</th>
+      <th>快速游戏</th>
+      <th>状态</th>
+<!--      <th>创建时间</th>-->
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.id}}</td>
+      <td>{{ data.title}}</td>
+      <td>{{ data.competition_game?.game_name}}</td>
+      <td>{{ data.participants_price / 100}}</td>
+      <td>{{ data.participants_number}}</td>
+      <td>{{ data.start_number}}</td>
+      <td>{{ data.default_start_second | date:'HH:mm'}}</td>
+      <td>{{ data.default_end_second | date:'HH:mm'}}</td>
+      <td>
+        <nz-tag *ngIf="data.daily_participation_limit === 0" nzColor="success">不限次数</nz-tag>
+        <nz-tag *ngIf="data.daily_participation_limit > 0" nzColor="error">{{ data.daily_participation_limit}}次</nz-tag>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.team_game === 1" nzColor="success">是</nz-tag>
+        <nz-tag *ngIf="data.team_game === 0" nzColor="error">否</nz-tag>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.quick === 1" nzColor="success">是</nz-tag>
+        <nz-tag *ngIf="data.quick === 0" nzColor="error">否</nz-tag>
+      </td>
+
+      <td>
+        <nz-tag *ngIf="data.status === 1" nzColor="success">启用</nz-tag>
+        <nz-tag *ngIf="data.status === 0" nzColor="error">停用</nz-tag>
+      </td>
+<!--      <td>{{ data.created_at }}</td>-->
+      <td>
+        <a (click)="showPrizeEdit(data)">配置奖励</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [nzWidth]="900" nzMaskClosable="false" [(nzVisible)]="isGameVisible" nzTitle="编辑规则" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="gameValidateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">规则标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入规则标题!">
+          <input nz-input formControlName="title" id="title" placeholder="规则标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <app-game-form-item [formGroup]="gameValidateForm"></app-game-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="participants_price">参与价格</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入参与价格!">
+          <nz-input-number style="width: 100%;" formControlName="participants_price" id="participants_price" [nzMin]="0"
+                           [nzMax]="999999" [nzStep]="1"
+                           placeholder="参与价格"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <app-unit-form-item [formGroup]="gameValidateForm"></app-unit-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="participants_number">参与人数</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入参与人数!">
+          <nz-input-number style="width: 100%;" formControlName="participants_number" id="participants_number" [nzMin]="1"
+                           [nzMax]="255" [nzStep]="1"
+                           placeholder="参与人数"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="start_number">开始人数</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入开始人数!">
+          <nz-input-number style="width: 100%;" formControlName="start_number" id="start_number" [nzMin]="1"
+                           [nzMax]="255" [nzStep]="1"
+                           placeholder="开始人数"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="default_start_second">每日开始时间</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入每日开始时间!">
+          <nz-time-picker style="width: 100%;" formControlName="default_start_second" id="default_start_second" placeholder="每日开始时间"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="default_end_second">每日结束时间</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入每日结束时间!">
+          <nz-time-picker style="width: 100%;" formControlName="default_end_second" id="default_end_second" placeholder="每日结束时间"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="daily_participation_limit">每日参与次数</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入每日参与次数!">
+          <nz-input-number style="width: 100%;" formControlName="daily_participation_limit" id="daily_participation_limit" [nzMin]="0"
+                           [nzMax]="255" [nzStep]="1"
+                           placeholder="每日参与次数"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="rule">比赛规则</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选快速游戏!">
+          <div [ngStyle]="{'border': '1px solid #ccc'}">
+            <wang-toolbar
+              [ngStyle]="{'border-bottom': '1px solid #ccc'}"
+              [mode]="mode"
+              [editor]="editorRef"
+            >
+            </wang-toolbar>
+            <wang-editor
+              [ngStyle]="{'height': '150px','overflow-y': 'hidden'}"
+              formControlName="rule" id="rule"
+              [mode]="mode"
+              [defaultConfig]="editorConfig"
+              [defaultHtml]="valueHtml"
+              (onCreated)="handleCreated($event)"
+              (onFocus)="handleFocus($event)"
+              (onBlur)="handleBlur($event)"
+              (onChange)="handleChange($event)"
+              (customPaste)="customPaste($event)"
+              (onDestroyed)="handleDestroyed($event)"
+            >
+            </wang-editor>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description">描述</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入描述!">
+          <input nz-input formControlName="description" id="description" placeholder="描述"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark">备注</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入备注!">
+          <input nz-input formControlName="remark" id="remark" placeholder="备注"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="team_game">团队游戏</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="team_game" id="team_game" nzCheckedChildren="启用" nzUnCheckedChildren="停用"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="quick">快速游戏</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="quick" id="quick" nzCheckedChildren="启用" nzUnCheckedChildren="停用"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">状态</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="status" id="status" nzCheckedChildren="启用" nzUnCheckedChildren="停用"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>
+
+<nz-modal [nzWidth]="1280" nzMaskClosable="false" [(nzVisible)]="isPrizeVisible" nzTitle="编辑奖励" (nzOnCancel)="handlePrizeCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="prizesValidateForm">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8" *ngFor="let control of listOfControl; let i = index">
+          <nz-form-item>
+            <nz-form-label [nzXs]="6" [nzSm]="6" [nzFor]="control.controlInstance">
+              排名{{control.ranking}}
+            </nz-form-label>
+            <nz-form-control
+              [nzXs]="18"
+              [nzSm]="18"
+            >
+              <nz-select nzShowSearch nzPlaceHolder="选择奖励" [attr.id]="control.id" [formControlName]="control.controlInstance">
+                <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.title" [nzValue]="option.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handlePrizeCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleSavePrize()">保存</button>
+  </div>
+</nz-modal>
+

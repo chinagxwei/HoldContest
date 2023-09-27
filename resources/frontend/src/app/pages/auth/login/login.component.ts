@@ -13,7 +13,6 @@ import {tap} from "rxjs/operators";
 })
 export class LoginComponent implements OnInit {
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isLoading = false;
@@ -23,7 +22,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private nzMessageService: NzMessageService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.validateForm = this.formBuilder.group({});
+  }
 
   ngOnInit(): void {
     this.initForm();

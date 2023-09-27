@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\Goods\GoodsController;
-use App\Http\Controllers\Backend\Product\ProductRechargeController;
-use App\Http\Controllers\Backend\Product\ProductVIPController;
+use App\Http\Controllers\Backend\Goods\ProductRechargeController;
+use App\Http\Controllers\Backend\Goods\ProductVIPController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -16,6 +16,7 @@ Route::group([
     Route::any('goods/save', [GoodsController::class, 'save']);
     Route::any('goods/view', [GoodsController::class, 'view']);
     Route::any('goods/delete', [GoodsController::class, 'delete']);
+    Route::any('goods/searchBind', [GoodsController::class, 'searchBind']);
 
     // 充值产品
     Route::any('product-recharge/index', [ProductRechargeController::class, 'index']);

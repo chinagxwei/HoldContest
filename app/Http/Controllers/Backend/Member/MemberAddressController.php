@@ -22,12 +22,11 @@ class MemberAddressController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->input('id');
 
             try {
                 $this->validate($request, [
                     'member_id' => 'required',
-                    'default' => 'required',
                     'contact' => 'required',
                     'mobile' => 'required',
                     'detail_info' => 'required',
@@ -62,7 +61,7 @@ class MemberAddressController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = MemberAddress::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -77,7 +76,7 @@ class MemberAddressController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = MemberAddress::findOneByID($id)) {
                 $text = [
                     $model->id,

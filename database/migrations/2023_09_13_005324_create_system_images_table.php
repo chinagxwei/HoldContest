@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('system_images', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->uuid('id')->unique()->primary();
             $table->string('title',128)->nullable()->comment('标题');
             $table->string('description')->comment('描述');
             $table->string('url',128)->nullable()->comment('url地址');
@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('updated_at')->unsigned()->nullable();
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');
             $table->integer('updated_by')->index()->unsigned()->nullable()->comment('用户ID');
+            $table->integer('deleted_at')->unsigned()->nullable();
             $table->comment('系统图片表');
         });
     }

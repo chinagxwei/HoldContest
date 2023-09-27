@@ -24,7 +24,7 @@ export class WechatOfficeAccountService {
     return this.http.httpPost<WechatOfficeAccount>(WECHAT_OFFICE_ACCOUNT_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(WECHAT_OFFICE_ACCOUNT_DELETE, {id})
   }
 }

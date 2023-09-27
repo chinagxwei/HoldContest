@@ -2,7 +2,7 @@
 
 namespace App\Models\Member;
 
-use App\Models\Trait\CreatedBySet;
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +14,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string title
  * @property string content
  * @property int weight
+ * @property int status
  * @property int created_by
  * @property int updated_by
  * @property int created_at
  */
-class MemberMessage extends Model
+class MemberMessage extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, SearchData;
 
@@ -38,7 +39,7 @@ class MemberMessage extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'title', 'content', 'weight','created_by', 'updated_by'
+        'title', 'content', 'weight', 'status', 'created_by', 'updated_by'
     ];
 
     protected $hidden = [
@@ -61,6 +62,10 @@ class MemberMessage extends Model
 
         if (!empty($this->weight)) {
             $build = $build->where('weight', $this->weight);
+        }
+
+        if (isset($this->status)) {
+            $build = $build->where('status', $this->status);
         }
 
         return $build->with($with)->orderBy('id', 'desc');

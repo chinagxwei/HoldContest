@@ -4,12 +4,14 @@
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-submenu [nzTitle]="item.navigation_name" nzIcon="menu" *ngFor="let item of menuItems; index as i">
         <ul>
-          <li nz-menu-item *ngFor="let item2 of item.children; index as j">
-            <a routerLink="{{item2.navigation_link}}" routerLinkActive="active">
-              <i nz-icon nzType="{{item2.icon}}" nzTheme="outline"></i>
-              <span class="nav-item">{{item2.navigation_name}}</span>
-            </a>
-          </li>
+            <ng-template ngFor let-item2 [ngForOf]="item.children">
+              <li style="padding-left: 36px!important;" nz-menu-item *ngIf="item2.menu_show === 1">
+                <a routerLink="{{item2.navigation_link}}" routerLinkActive="active">
+                  <i nz-icon nzType="{{item2.icon}}" nzTheme="outline"></i>
+                  <span class="nav-item">{{item2.navigation_name}}</span>
+                </a>
+              </li>
+            </ng-template>
         </ul>
       </li>
     </ul>
@@ -30,4 +32,43 @@
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
+  <nz-modal nzMaskClosable="false" [(nzVisible)]="isVisible" nzTitle="修改密码" (nzOnCancel)="handleCancel()">
+    <div *nzModalContent>
+      <form nz-form [formGroup]="validateForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="oldPassword">旧密码</nz-form-label>
+          <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入旧密码!">
+            <input nz-input formControlName="oldPassword" id="oldPassword" placeholder="旧密码"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="newPassword">新密码</nz-form-label>
+          <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入新密码!">
+            <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="newPassword" id="newPassword" placeholder="新密码"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="validateNewPassword">验证新密码</nz-form-label>
+          <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入验证新密码!">
+            <nz-input-group [nzSuffix]="suffixTemplate">
+              <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="validateNewPassword" id="validateNewPassword" placeholder="验证新密码"/>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+      <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+    </div>
+    <ng-template #suffixTemplate>
+      <span
+        nz-icon
+        [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+        (mousedown)="passwordVisible = true"
+        (mouseup)="passwordVisible = false"
+      ></span>
+    </ng-template>
+  </nz-modal>
 </nz-layout>
+

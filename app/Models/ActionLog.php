@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon created_at
  * @property User user
  */
-class ActionLog extends Model
+class ActionLog extends BaseDataModel
 {
     use HasFactory, SoftDeletes, ActionLogBuild, CreatedRelation, SearchData;
 

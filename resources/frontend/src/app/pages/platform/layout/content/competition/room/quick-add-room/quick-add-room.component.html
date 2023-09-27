@@ -1,0 +1,77 @@
+<nz-modal [nzWidth]="1280" [(nzVisible)]="visible" nzTitle="快速创建房间" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="competition_rule_id">比赛规则</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-select
+            formControlName="competition_rule_id"
+            id="competition_rule_id"
+            nzPlaceHolder="选择比赛规则"
+            nzAllowClear
+            nzShowSearch
+            nzServerSearch
+            (nzOnSearch)="onSearch($event)"
+            (ngModelChange)="onSearchSelect($event)"
+          >
+            <ng-container *ngFor="let o of searchDataList">
+              <nz-option *ngIf="!isSearchLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isSearchLoading" nzDisabled nzCustomContent>
+              <span nz-icon nzType="loading" class="loading-icon"></span>
+              Loading Data...
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!!validateForm.value['competition_rule_id']">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="start_second">开始时间</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入开始时间!">
+          <nz-time-picker style="width: 100%;" formControlName="start_second" id="start_second"
+                          placeholder="开始时间"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!!validateForm.value['competition_rule_id']">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="end_second">结束时间</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入结束时间!">
+          <nz-time-picker style="width: 100%;" formControlName="end_second" id="end_second"
+                          placeholder="结束时间"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!!validateForm.value['competition_rule_id']">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="interval">比赛间隔</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入比赛间隔!">
+          <nz-radio-group formControlName="interval" id="interval">
+            <label nz-radio nzValue="2">2分钟</label>
+            <label nz-radio nzValue="5">5分钟</label>
+            <label nz-radio nzValue="10">10分钟</label>
+            <label nz-radio nzValue="15">15分钟</label>
+            <label nz-radio nzValue="30">30分钟</label>
+            <label nz-radio nzValue="60">60分钟</label>
+            <!--            <label nz-radio nzValue="-1" style="display: flex">-->
+            <!--              自定义时间间隔-->
+            <!--              <input type="text" nz-input *ngIf="validateForm.value.interval === '-1'" />-->
+            <!--            </label>-->
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!!validateForm.value['competition_rule_id']">
+        <nz-form-label [nzSm]="6" [nzXs]="24">房间库存</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          {{currentAvailableNumber}}
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!!validateForm.value['competition_rule_id']">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="total">生成场次</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入场次!">
+          <nz-input-number style="width: 100%;" formControlName="total" [nzMin]="0" [nzMax]="10" [nzStep]="1" id="total"
+                           placeholder="生成场次"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleAdd()">保存</button>
+  </div>
+</nz-modal>

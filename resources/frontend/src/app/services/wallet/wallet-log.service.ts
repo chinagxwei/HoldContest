@@ -24,7 +24,7 @@ export class WalletLogService {
     return this.http.httpPost<WalletLog>(WALLET_LOG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(WALLET_LOG_DELETE, {id})
   }
 }

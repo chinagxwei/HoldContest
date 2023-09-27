@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpReprint} from "../../util/http.reprint";
 import {Paginate} from "../../entity/server-response";
-import {OrderIncomeConfig} from "../../entity/order";
+import {Order, OrderIncomeConfig} from "../../entity/order";
 import {
   ORDER_INCOME_CONFIG_DELETE,
   ORDER_INCOME_CONFIG_LIST,
@@ -17,8 +17,8 @@ export class OrderIncomeConfigService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<OrderIncomeConfig>>(`${ORDER_INCOME_CONFIG_LIST}?page=${page}`)
+  public items(page: number = 1, query?: OrderIncomeConfig) {
+    return this.http.httpPost<Paginate<OrderIncomeConfig>>(`${ORDER_INCOME_CONFIG_LIST}?page=${page}`, query)
   }
 
   public save(postData: OrderIncomeConfig) {
@@ -29,7 +29,7 @@ export class OrderIncomeConfigService {
     return this.http.httpPost<OrderIncomeConfig>(ORDER_INCOME_CONFIG_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(ORDER_INCOME_CONFIG_DELETE, {id})
   }
 }

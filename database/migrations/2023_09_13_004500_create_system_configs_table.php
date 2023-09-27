@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('system_configs', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->uuid('id')->unique()->primary();
             $table->string('key',64)->unique()->nullable();
             $table->string('value',64)->nullable();
             $table->integer('created_at')->unsigned()->nullable();

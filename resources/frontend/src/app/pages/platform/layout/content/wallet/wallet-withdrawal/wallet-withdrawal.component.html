@@ -1,1 +1,83 @@
-<p>wallet-withdrawal works!</p>
+<div class="inner-content">
+  <!--  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">-->
+  <!--    <span>添加提款单据</span>-->
+  <!--  </button>-->
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>会员</th>
+      <!--      <th>钱包</th>-->
+      <th>提款账户</th>
+      <th>订单编号</th>
+      <th>金额</th>
+      <th>状态</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.order?.member_id}}</td>
+      <td>
+        <nz-tag>
+          <span *ngIf="data.withdraw_account.account_type===1">支付宝</span>
+          <span *ngIf="data.withdraw_account.account_type===2">银行卡（{{ data.withdraw_account.bank_name}}）</span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>{{ data.withdraw_account.account}}</span>
+        </nz-tag>
+      <td>{{ data.order_sn}}</td>
+      <td>{{ data.amount / 100}}</td>
+      <td>
+        <div [ngSwitch]="data.status">
+          <nz-tag *ngSwitchCase="0">审核失败</nz-tag>
+          <nz-tag *ngSwitchCase="2" nzColor="error">待审核</nz-tag>
+          <nz-tag *ngSwitchCase="1" nzColor="success">审核成功</nz-tag>
+        </div>
+
+      </td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <span *ngIf="data.status === 2">
+             <a (click)="update(data)">审核</a>
+              <nz-divider nzType="vertical"></nz-divider>
+        </span>
+
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="审核提款单" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">备注</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-radio-group formControlName="status" id="status" nzButtonStyle="solid">
+            <label nz-radio-button nzValue="1">审核成功</label>
+            <label nz-radio-button nzValue="2">待审核</label>
+            <label nz-radio-button nzValue="0">审核失败</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark">备注</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+            <textarea style="width: 100%;" formControlName="remark" nz-input rows="6" id="remark"
+                      placeholder="备注"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

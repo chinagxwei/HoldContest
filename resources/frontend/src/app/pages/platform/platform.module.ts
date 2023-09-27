@@ -16,7 +16,7 @@ import {PlatformRoutingModule} from "./platform-routing.module";
 import {NzTableModule} from "ng-zorro-antd/table";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzFormModule} from "ng-zorro-antd/form";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzTransferModule} from "ng-zorro-antd/transfer";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {DragDropModule} from "@angular/cdk/drag-drop";
@@ -51,14 +51,32 @@ import { WalletLogComponent } from './layout/content/wallet/wallet-log/wallet-lo
 import { MembersComponent } from './layout/content/member/members/members.component';
 import { MemberAddressComponent } from './layout/content/member/member-address/member-address.component';
 import { MemberBanLogComponent } from './layout/content/member/member-ban-log/member-ban-log.component';
-import { MemberGameAccountComponent } from './layout/content/member/member-game-account/member-game-account.component';
 import { MemberMessageComponent } from './layout/content/member/member-message/member-message.component';
 import { TitleComponent } from './layout/content/member/title/title.component';
-import { MemberQuestComponent } from './layout/content/member/member-quest/member-quest.component';
-import { MemberPrizeLogComponent } from './layout/content/member/member-prize-log/member-prize-log.component';
-import { MemberVipComponent } from './layout/content/member/member-vip/member-vip.component';
 import { WechatMiniProgramAccountComponent } from './layout/content/wechat/wechat-mini-program-account/wechat-mini-program-account.component';
 import { WechatOfficeAccountComponent } from './layout/content/wechat/wechat-office-account/wechat-office-account.component';
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NzSwitchModule} from "ng-zorro-antd/switch";
+import {NzRadioModule} from "ng-zorro-antd/radio";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzTagModule} from "ng-zorro-antd/tag";
+import {EditorForAngularModule} from "wangeditor-for-angular";
+import { RuleComponent } from './layout/content/competition/rule/rule.component';
+import { WalletWithdrawalAmountConfigComponent } from './layout/content/wallet/wallet-withdrawal-amount-config/wallet-withdrawal-amount-config.component';
+import { LinkComponent } from './layout/content/competition/link/link.component';
+import {NzTimePickerModule} from "ng-zorro-antd/time-picker";
+import { UnitFormItemComponent } from './layout/content/system/unit/unit-form-item/unit-form-item.component';
+import {NzStatisticModule} from "ng-zorro-antd/statistic";
+import {NzCardModule} from "ng-zorro-antd/card";
+import { JoinRoomComponent } from './layout/content/competition/room/join-room/join-room.component';
+import { QuickAddRoomComponent } from './layout/content/competition/room/quick-add-room/quick-add-room.component';
+import { SettlementRoomComponent } from './layout/content/competition/room/settlement-room/settlement-room.component';
+import { SetMemberVipComponent } from './layout/content/member/members/set-member-vip/set-member-vip.component';
+import { SetMemberRechargeComponent } from './layout/content/member/members/set-member-recharge/set-member-recharge.component';
+import { SetMemberGameAccountComponent } from './layout/content/member/members/set-member-game-account/set-member-game-account.component';
+import { GameFormItemComponent } from './layout/content/competition/game/game-form-item/game-form-item.component';
+import { SetMemberWithdrawalAccountComponent } from './layout/content/member/members/set-member-withdrawal-account/set-member-withdrawal-account.component';
+import { BannerComponent } from './layout/content/system/banner/banner.component';
 
 
 @NgModule({
@@ -98,34 +116,53 @@ import { WechatOfficeAccountComponent } from './layout/content/wechat/wechat-off
         MembersComponent,
         MemberAddressComponent,
         MemberBanLogComponent,
-        MemberGameAccountComponent,
         MemberMessageComponent,
         TitleComponent,
-        MemberQuestComponent,
-        MemberPrizeLogComponent,
-        MemberVipComponent,
         WechatMiniProgramAccountComponent,
         WechatOfficeAccountComponent,
+        RuleComponent,
+        WalletWithdrawalAmountConfigComponent,
+        LinkComponent,
+        UnitFormItemComponent,
+        JoinRoomComponent,
+        QuickAddRoomComponent,
+        SettlementRoomComponent,
+        SetMemberVipComponent,
+        SetMemberRechargeComponent,
+        SetMemberGameAccountComponent,
+        GameFormItemComponent,
+        SetMemberWithdrawalAccountComponent,
+        BannerComponent,
     ],
-    imports: [
-        CommonModule,
-        PlatformRoutingModule,
-        NzLayoutModule,
-        NzMenuModule,
-        NzIconModule,
-        RouterOutlet,
-        RouterLinkActive,
-        NzTableModule,
-        NzDividerModule,
-        NzModalModule,
-        NzFormModule,
-        ReactiveFormsModule,
-        NzTransferModule,
-        NzButtonModule,
-        DragDropModule,
-        NzInputModule,
-        NzSelectModule,
-    ],
+  imports: [
+    CommonModule,
+    PlatformRoutingModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzIconModule,
+    RouterOutlet,
+    RouterLinkActive,
+    NzTableModule,
+    NzDividerModule,
+    NzModalModule,
+    NzFormModule,
+    ReactiveFormsModule,
+    NzTransferModule,
+    NzButtonModule,
+    DragDropModule,
+    NzInputModule,
+    NzSelectModule,
+    NzInputNumberModule,
+    NzSwitchModule,
+    NzRadioModule,
+    NzDatePickerModule,
+    NzTagModule,
+    EditorForAngularModule,
+    FormsModule,
+    NzTimePickerModule,
+    NzStatisticModule,
+    NzCardModule,
+  ],
     providers: [NzModalService, NzMessageService]
 })
 export class PlatformModule {

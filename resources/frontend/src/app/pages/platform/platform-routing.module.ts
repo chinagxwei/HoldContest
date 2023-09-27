@@ -39,11 +39,13 @@ import {TitleComponent} from "./layout/content/member/title/title.component";
 import {MembersComponent} from "./layout/content/member/members/members.component";
 import {MemberAddressComponent} from "./layout/content/member/member-address/member-address.component";
 import {MemberBanLogComponent} from "./layout/content/member/member-ban-log/member-ban-log.component";
-import {MemberGameAccountComponent} from "./layout/content/member/member-game-account/member-game-account.component";
 import {MemberMessageComponent} from "./layout/content/member/member-message/member-message.component";
-import {MemberPrizeLogComponent} from "./layout/content/member/member-prize-log/member-prize-log.component";
-import {MemberQuestComponent} from "./layout/content/member/member-quest/member-quest.component";
-import {MemberVipComponent} from "./layout/content/member/member-vip/member-vip.component";
+import {RuleComponent} from "./layout/content/competition/rule/rule.component";
+import {
+  WalletWithdrawalAmountConfigComponent
+} from "./layout/content/wallet/wallet-withdrawal-amount-config/wallet-withdrawal-amount-config.component";
+import {LinkComponent} from "./layout/content/competition/link/link.component";
+import {BannerComponent} from "./layout/content/system/banner/banner.component";
 
 const platformRoutes: Routes = [
   {
@@ -56,6 +58,7 @@ const platformRoutes: Routes = [
         canActivateChild: [AdminGuard],
         children: [
           {path: '', component: DashboardComponent},
+          {path: 'system/banner', component: BannerComponent},
           {path: 'system/agreement', component: AgreementComponent},
           {path: 'system/complaint', component: ComplaintComponent},
           {path: 'system/images', component: ImageComponent},
@@ -69,7 +72,9 @@ const platformRoutes: Routes = [
           {path: 'system/app-bug-log', component: AppBugLogComponent},
           {path: 'system/app-publish-log', component: AppPublishLogComponent},
           {path: 'system/competition-game', component: GameComponent},
+          {path: 'system/competition-rule', component: RuleComponent},
           {path: 'system/competition-room', component: RoomComponent},
+          {path: 'system/competition-room-link', component: LinkComponent},
           {path: 'system/competition-game-team', component: GameTeamComponent},
           {path: 'system/order', component: OrdersComponent},
           {path: 'system/order-income', component: OrderIncomeComponent},
@@ -83,6 +88,7 @@ const platformRoutes: Routes = [
           {path: 'system/wallet', component: WalletsComponent},
           {path: 'system/wallet-recharge', component: WalletRechargeComponent},
           {path: 'system/wallet-withdrawal', component: WalletWithdrawalComponent},
+          {path: 'system/wallet-withdrawal-amount-config', component: WalletWithdrawalAmountConfigComponent},
           {path: 'system/wallet-withdrawal-account', component: WalletWithdrawalAccountComponent},
           {path: 'system/wallet-consume', component: WalletConsumeComponent},
           {path: 'system/wallet-log', component: WalletLogComponent},
@@ -90,11 +96,7 @@ const platformRoutes: Routes = [
           {path: 'system/member', component: MembersComponent},
           {path: 'system/member-address', component: MemberAddressComponent},
           {path: 'system/member-ban-log', component: MemberBanLogComponent},
-          {path: 'system/member-game-account', component: MemberGameAccountComponent},
           {path: 'system/member-message', component: MemberMessageComponent},
-          {path: 'system/member-prize-log', component: MemberPrizeLogComponent},
-          {path: 'system/member-quest', component: MemberQuestComponent},
-          {path: 'system/member-vip', component: MemberVipComponent},
         ]
       }
     ]

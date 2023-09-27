@@ -29,7 +29,7 @@ export class WalletRechargeService {
     return this.http.httpPost<WalletRecharge>(WALLET_RECHARGE_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: string | undefined) {
     return this.http.httpPost(WALLET_RECHARGE_DELETE, {id})
   }
 }

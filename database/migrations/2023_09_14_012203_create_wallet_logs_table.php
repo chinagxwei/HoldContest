@@ -14,10 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('wallet_logs', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->uuid('id')->primary();
             $table->uuid('wallet_id')->index()->nullable()->comment('钱包ID');
             $table->string('order_sn',64)->index()->nullable()->comment('订单编号');
+            $table->integer('unit_id')->unsigned()->default(0)->comment('单位ID');
             $table->bigInteger('amount')->nullable()->comment('金额（单位：分），正数入账，负数出账');
+            $table->bigInteger('surplus')->unsigned()->nullable()->comment('盈余（单位：分）');
             $table->tinyInteger('type')->unsigned()->nullable()->comment('流水类型 1 出账 2 入账');
             $table->string('sign',64)->nullable()->comment('签名');
             $table->integer('created_at')->unsigned()->nullable();

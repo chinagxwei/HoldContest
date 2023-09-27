@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Wallet\WalletController;
 use App\Http\Controllers\Backend\Wallet\WalletLogController;
 use App\Http\Controllers\Backend\Wallet\WalletRechargeController;
 use App\Http\Controllers\Backend\Wallet\WalletWithdrawalAccountController;
+use App\Http\Controllers\Backend\Wallet\WalletWithdrawalAmountConfigController;
 use App\Http\Controllers\Backend\Wallet\WalletWithdrawalController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,12 @@ Route::group([
     Route::any('wallet-consume/save', [WalletConsumeController::class, 'save']);
     Route::any('wallet-consume/view', [WalletConsumeController::class, 'view']);
     Route::any('wallet-consume/delete', [WalletConsumeController::class, 'delete']);
+
+    // 钱包提款金额配置管理
+    Route::any('wallet-withdrawal-amount-config/index', [WalletWithdrawalAmountConfigController::class, 'index']);
+    Route::any('wallet-withdrawal-amount-config/save', [WalletWithdrawalAmountConfigController::class, 'save']);
+    Route::any('wallet-withdrawal-amount-config/view', [WalletWithdrawalAmountConfigController::class, 'view']);
+    Route::any('wallet-withdrawal-amount-config/delete', [WalletWithdrawalAmountConfigController::class, 'delete']);
 
     // 钱包日志管理
     Route::any('wallet-log/index', [WalletLogController::class, 'index']);

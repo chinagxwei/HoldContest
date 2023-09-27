@@ -47,6 +47,10 @@ class Kernel extends HttpKernel
             'throttle:api',
             'auth.admin'
         ],
+        'client' => [
+            'throttle:api',
+            'auth'
+        ],
     ];
 
     /**

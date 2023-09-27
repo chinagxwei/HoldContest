@@ -1,1 +1,100 @@
-<p>members works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加</span>
+  </button>
+  <div class="inner-content">
+    <nz-table nzBordered nzSize="middle" [nzLoading]="loading"
+              [nzData]="listOfData"
+              [nzTotal]="currentData.total"
+              [nzPageIndex]="currentData.current_page"
+              [nzFrontPagination]="false"
+              [nzPageSize]="currentData.per_page"
+              (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th>索引</th>
+        <th>会员ID</th>
+        <th>会员昵称</th>
+        <th>余额</th>
+        <th>测试会员</th>
+        <th>注册类型</th>
+        <th>手机号</th>
+        <th>关联游戏账户</th>
+        <th>VIP</th>
+        <th>封号</th>
+        <th>创建时间</th>
+        <th rowspan="6" nzRight>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfData; let i = index">
+
+        <td>{{ (currentData.current_page - 1) * currentData.per_page + i + 1}}</td>
+        <td>{{ data.id}}</td>
+        <td>{{ data.nickname}}</td>
+        <td>
+          <span *ngIf="!data.wallet.accounts || data.wallet.accounts.length === 0">无</span>
+          <div *ngFor="let account of data.wallet.accounts">
+            <nz-tag nzColor="default">
+              {{account.title}}：{{account.balance ? account.balance.total_balance / 100 : 0}}
+            </nz-tag>
+          </div>
+
+        </td>
+        <td>
+          <nz-tag *ngIf="data.develop === 1" nzColor="error">是</nz-tag>
+          <nz-tag *ngIf="data.develop === 0" nzColor="success">否</nz-tag>
+        </td>
+        <td>
+          <div [ngSwitch]="data.register_type">
+            <nz-tag *ngSwitchCase="0" nzColor="error">平台</nz-tag>
+            <nz-tag *ngSwitchCase="1" nzColor="processing">APP</nz-tag>
+            <nz-tag *ngSwitchCase="2" nzColor="warning">网页</nz-tag>
+            <nz-tag *ngSwitchCase="3" nzColor="default">小程序</nz-tag>
+          </div>
+        </td>
+        <td>{{ data.mobile}}</td>
+        <td>
+          <div *ngFor="let game of data.games">
+            <nz-tag nzMode="closeable" nzColor="default">
+              <span>{{game.game_name}}</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span *ngIf="game.game_account?.account_type === 1">微信</span>
+              <span *ngIf="game.game_account?.account_type === 2">QQ</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span>{{game.game_account?.nickname}}</span>
+            </nz-tag>
+          </div>
+        </td>
+        <td>
+          <nz-tag nzColor="default" *ngIf="!data.vip_info">无</nz-tag>
+          <nz-tag nzColor="error" *ngIf="data.vip_info">{{ data.vip_info.started_at | date:'yyyy-MM-dd HH:mm'}}
+            | {{ data.vip_info.ended_at | date:'yyyy-MM-dd HH:mm'}}</nz-tag>
+        </td>
+        <td>
+          <nz-tag nzColor="default" *ngIf="!data.ban_info">无</nz-tag>
+          <nz-tag nzColor="error" *ngIf="data.ban_info">{{ data.ban_info.started_at | date:'yyyy-MM-dd HH:mm'}}
+            | {{ data.ban_info.ended_at | date:'yyyy-MM-dd HH:mm'}}</nz-tag>
+        </td>
+        <td>{{ data.created_at }}</td>
+        <td nzRight>
+          <a (click)="giveVIP(data)">VIP充值</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="giveRecharge(data)">钱包充值</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="setGameAccount(data)">绑定游戏账户</a>
+<!--          <nz-divider nzType="vertical"></nz-divider>-->
+<!--          <a (click)="setWithdrawalAccount(data)">绑定银行账户</a>-->
+<!--          <a (click)="update(data)">编辑</a>-->
+<!--          <nz-divider nzType="vertical"></nz-divider>-->
+<!--          <a (click)="onDelete(data)">删除</a>-->
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <app-set-member-vip [(visible)]="isSearchVisible" [currentMember]="currentMember" (onSubmitAfter)="handleRefresh()"></app-set-member-vip>
+  <app-set-member-recharge [(visible)]="isVisible" [currentMember]="currentMember" (onSubmitAfter)="handleRefresh()"></app-set-member-recharge>
+  <app-set-member-game-account [(visible)]="showSetGameAccount" [currentMember]="currentMember" (onSubmitAfter)="handleRefresh()"></app-set-member-game-account>
+<!--  <app-set-member-withdrawal-account [(visible)]="showSetWithdrawalAccount" [currentMember]="currentMember" (onSubmitAfter)="handleRefresh()"></app-set-member-withdrawal-account>-->
+</div>

@@ -1,0 +1,32 @@
+<nz-modal [(nzVisible)]="visible" nzTitle="绑定游戏账号" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <app-game-form-item [formGroup]="validateForm"></app-game-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nickname">游戏账户</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入游戏账户!">
+          <input nz-input formControlName="nickname" id="nickname" placeholder="游戏账户"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="game_code">游戏编号</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入游戏编号!">
+          <input nz-input formControlName="game_code" id="game_code" placeholder="游戏编号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="account_type">账户类型</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-radio-group formControlName="account_type" id="account_type">
+            <label nz-radio nzValue="1">微信</label>
+            <label nz-radio nzValue="2">QQ</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleSave()">保存</button>
+  </div>
+</nz-modal>

@@ -1,0 +1,16 @@
+<nz-modal [(nzVisible)]="visible" nzTitle="测试参赛" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="member_id">会员ID</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输会员ID!">
+          <input nz-input formControlName="member_id" id="member_id" placeholder="会员ID"/>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleJoin()">参赛</button>
+  </div>
+</nz-modal>

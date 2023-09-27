@@ -15,15 +15,12 @@ return new class extends Migration
     {
         Schema::create('competition_games', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->tinyInteger('team_game')->unsigned()->nullable()->comment('是否是团队游戏 1个人对抗 2团队对抗');
+            $table->uuid('parent_id')->index()->nullable()->comment('父ID');
             $table->string('game_name',128)->nullable()->comment('游戏名称');
-            $table->tinyInteger('quick')->unsigned()->default(0)->nullable()->comment('快速游戏 0否 1是');
-            $table->text('participants_price')->nullable()->comment('参与价格（单位：分）');
-            $table->tinyInteger('participants_number')->unsigned()->nullable()->comment('参与人数');
-            $table->tinyInteger('start_number')->unsigned()->nullable()->comment('开始人数');
-            $table->text('rule')->nullable()->comment('比赛规则');
             $table->text('description')->nullable()->comment('描述');
             $table->string('remark',128)->nullable()->comment('备注');
+            $table->tinyInteger('sort_order')->unsigned()->default(0)->nullable()->comment('顺序');
+            $table->tinyInteger('show')->unsigned()->default(0)->nullable()->comment('是否显示 0不显示 1显示');
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');

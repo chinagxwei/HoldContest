@@ -12,7 +12,8 @@
     <thead>
     <tr>
       <th>协议名称</th>
-      <th>协议类型</th>
+<!--      <th>协议类型</th>-->
+      <th>客户端显示</th>
       <th>创建时间</th>
       <th>操作</th>
     </tr>
@@ -20,7 +21,11 @@
     <tbody>
     <tr *ngFor="let data of listOfData">
       <td>{{ data.title}}</td>
-      <td>{{ data.type}}</td>
+<!--      <td>{{ data.type}}</td>-->
+      <td>
+        <nz-tag *ngIf="data.show === 1" nzColor="success">显示</nz-tag>
+        <nz-tag *ngIf="data.show === 0" nzColor="error">隐藏</nz-tag>
+      </td>
       <td>{{ data.created_at }}</td>
       <td>
         <a (click)="update(data)">编辑</a>
@@ -31,7 +36,7 @@
     </tbody>
   </nz-table>
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="添加回复" (nzOnCancel)="handleCancel()">
+<nz-modal [nzWidth]="900" [(nzVisible)]="isVisible" nzTitle="编辑协议" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <form nz-form [formGroup]="validateForm">
       <nz-form-item>
@@ -40,10 +45,45 @@
           <input nz-input formControlName="title" id="title" placeholder="协议名称"/>
         </nz-form-control>
       </nz-form-item>
+<!--      <nz-form-item>-->
+<!--        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="type">协议类型</nz-form-label>-->
+<!--        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入协议类型!">-->
+<!--          <nz-radio-group formControlName="type" id="type">-->
+<!--            <label nz-radio nzValue="1" data-selected="true">用户</label>-->
+<!--          </nz-radio-group>-->
+<!--        </nz-form-control>-->
+<!--      </nz-form-item>-->
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="type">协议类型</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入协议类型!">
-          <input formControlName="type" id="type" nz-input placeholder="协议类型"/>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="content">协议内容</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选快速游戏!">
+          <div [ngStyle]="{'border': '1px solid #ccc'}">
+            <wang-toolbar
+              [ngStyle]="{'border-bottom': '1px solid #ccc'}"
+              [mode]="mode"
+              [editor]="editorRef"
+            >
+            </wang-toolbar>
+            <wang-editor
+              [ngStyle]="{'height': '450px','overflow-y': 'hidden'}"
+              formControlName="content" id="content"
+              [mode]="mode"
+              [defaultConfig]="editorConfig"
+              [defaultHtml]="valueHtml"
+              (onCreated)="handleCreated($event)"
+              (onFocus)="handleFocus($event)"
+              (onBlur)="handleBlur($event)"
+              (onChange)="handleChange($event)"
+              (customPaste)="customPaste($event)"
+              (onDestroyed)="handleDestroyed($event)"
+            >
+            </wang-editor>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="show">显示</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择显示!">
+          <nz-switch formControlName="show" id="show" nzCheckedChildren="显示" nzUnCheckedChildren="隐藏"></nz-switch>
         </nz-form-control>
       </nz-form-item>
     </form>

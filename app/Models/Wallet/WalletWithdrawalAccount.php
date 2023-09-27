@@ -2,12 +2,14 @@
 
 namespace App\Models\Wallet;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
 use App\Models\Trait\SignData;
 use Carbon\Carbon;
 use Emadadly\LaravelUuid\Uuids;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,11 +27,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int updated_by
  * @property Carbon created_at
  */
-class WalletWithdrawalAccount extends Model
+class WalletWithdrawalAccount extends BaseDataModel
 {
     use HasFactory, SoftDeletes, Uuids, MemberRelation, CreatedRelation, SignData, SearchData;
 
     protected $table = 'wallet_withdraw_accounts';
+
+    protected $keyType = 'string';
     /**
      * 指定是否模型应该被戳记时间。
      *
@@ -53,6 +57,28 @@ class WalletWithdrawalAccount extends Model
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
+
+    /**
+     * @param $member_id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null|static
+     */
+    public static function findOneByMember($member_id)
+    {
+        return self::query()->where('member_id', $member_id)->first();
+    }
+
+    /**
+     * @param $id
+     * @param $member_id
+     * @return Builder|Model|object|null|static
+     */
+    public static function findOneByMemberAndID($id, $member_id)
+    {
+        return self::query()
+            ->where('id', $id)
+            ->where('member_id', $member_id)
+            ->first();
+    }
 
     function searchBuild($param = [], $with = [])
     {

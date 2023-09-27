@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('wechat_office_accounts', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->uuid('member_id')->index()->nullable()->comment('会员ID');
+            $table->string('session_key',128)->index()->nullable()->comment('session key');
             $table->string('openid',128)->index()->nullable()->comment('OPENID');
             $table->string('unionid',128)->index()->nullable()->comment('同主体唯一的用户标识');
             $table->string('nickname',128)->nullable()->comment('昵称');

@@ -16,8 +16,8 @@ export class ComplaintService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<SystemComplaint>>(`${COMPLAINT_ITEMS}?page=${page}`)
+  public items(page: number = 1, query?: SystemComplaint) {
+    return this.http.httpPost<Paginate<SystemComplaint>>(`${COMPLAINT_ITEMS}?page=${page}`, query)
   }
 
   public save(postData: SystemComplaint) {
@@ -28,7 +28,7 @@ export class ComplaintService {
     return this.http.httpPost<SystemComplaint>(COMPLAINT_VIEW, {id})
   }
 
-  public delete(id: number) {
+  public delete(id: number | undefined) {
     return this.http.httpPost(COMPLAINT_DELETE, {id})
   }
 }

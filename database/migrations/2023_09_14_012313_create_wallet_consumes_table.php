@@ -20,6 +20,7 @@ return new class extends Migration
             $table->uuid('wallet_recharge_id')->index()->nullable()->comment('充值ID');
             $table->uuid('member_id')->index()->nullable()->comment('会员ID');
             $table->bigInteger('amount')->unsigned()->nullable()->comment('金额（单位：分）');
+            $table->tinyInteger('status')->unsigned()->default(1)->nullable()->comment('状态 0取消 1启用');
             $table->string('sign',64)->nullable();
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();

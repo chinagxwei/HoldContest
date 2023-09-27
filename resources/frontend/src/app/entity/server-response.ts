@@ -1,9 +1,6 @@
 export class ServerResponse<T> {
-  // @ts-ignore
-  code: number;
-  // @ts-ignore
-  message: string;
-
+  code: number = -1;
+  message: string = "";
   // @ts-ignore
   data: T;
 }

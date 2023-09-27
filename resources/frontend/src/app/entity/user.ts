@@ -2,82 +2,82 @@ import {Role} from "./system";
 
 
 export class User {
-    access_token: string = '';
+  access_token: string = "";
 
-    token_type: string = '';
+  token_type: string = "";
 
-    expires_in: number = 0;
+  expires_in: number = 0;
 
-    userinfo?: Userinfo;
+  im_token: string = "";
+
+  userinfo?: Userinfo;
 }
 
 export class Userinfo {
-    // @ts-ignore
-    id: number;
+  id?: number;
 
-    nickname: string = "";
+  nickname: string = "";
 
-    mobile: string = "";
+  mobile: string = "";
 
-    role?: Role;
+  role?: Role;
 }
 
 export class ManagerUserinfo {
-    id?: number;
-    created_at: string = ""
-    email: string = "";
-    updated_at: string = "";
-    user_type: number = 0;
-    username: string = "";
+  id?: number;
+  created_at: string = ""
+  email: string = "";
+  updated_at: string = "";
+  user_type: number = 0;
+  username: string = "";
 }
 
 export class AuthenticationRequest {
-    // @ts-ignore
-    username: string;
-    // @ts-ignore
-    password: string;
-    // @ts-ignore
-    cellphone?: string
+  username: string = "";
+  password: string = "";
+  cellphone?: string = ""
 }
 
 export class ActionLog {
-    // @ts-ignore
-    id: number;
-    // @ts-ignore
-    user_id: number;
-    // @ts-ignore
-    action_name: string;
-    // @ts-ignore
-    action_description: string;
-    // @ts-ignore
-    updated_at: string;
-    // @ts-ignore
-    created_at: string
+
+  id?: number;
+
+  user_id?: number = 0;
+
+  action_name?: string = "";
+
+  action_description?: string = "";
+
+  updated_at?: string;
+
+  created_at?: string
 }
 
 export class ResetPasswordRequest {
-    // @ts-ignore
-    oldPassword: string;
-    // @ts-ignore
-    newPassword: string;
+
+  oldPassword: string = "";
+
+  newPassword: string = "";
+
+  validateNewPassword?: string = ""
 }
 
 export class UpdateUserInfoRequest {
-    role_id?: number;
+  role_id?: number;
 }
 
 export class ServerManager {
-    // @ts-ignore
-    id: number;
-    // @ts-ignore
-    mobile: string
+  // @ts-ignore
+  id: number;
 
-    role_id?: number;
-    role?: Role;
+  mobile: string = ""
 
-    creator?: ManagerUserinfo;
-    // @ts-ignore
-    updated_at: string;
-    // @ts-ignore
-    created_at: string
+  role_id?: number;
+  role?: Role;
+
+  creator?: ManagerUserinfo;
+  // @ts-ignore
+  updated_at: string;
+  // @ts-ignore
+  created_at: string
 }

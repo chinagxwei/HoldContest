@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {SystemImage, Target} from "../../../../../../entity/system";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {TargetService} from "../../../../../../services/system/target.service";
@@ -22,7 +22,6 @@ export class ImageComponent implements OnInit {
 
   listOfData: SystemImage[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -31,22 +30,22 @@ export class ImageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private imageService: ImageService
-  ) { }
+    private componentService: ImageService
+  ) {
+    this.validateForm = this.formBuilder.group({});
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.getItems();
   }
-
-
   onQueryParamsChange($event: NzTableQueryParams) {
     this.getItems($event.pageIndex);
   }
 
   private getItems(page: number = 1) {
     this.loading = true;
-    this.imageService.items(page)
+    this.componentService.items(page)
       .pipe(tap(_ => this.loading = false))
       .subscribe(res => {
         const {data} = res;
@@ -83,8 +82,7 @@ export class ImageComponent implements OnInit {
       nzOkText: '确定',
       nzCancelText: '取消',
       nzOnOk: () => {
-        // @ts-ignore
-        this.agreementService.delete($event.id).subscribe(res => {
+        this.componentService.delete($event.id).subscribe(res => {
           this.getItems(this.currentData.current_page);
         });
       },
@@ -95,7 +93,7 @@ export class ImageComponent implements OnInit {
   }
 
   add() {
-    this.validateForm.reset();
+    this.initForm();
     this.showModal();
   }
 
@@ -113,7 +111,7 @@ export class ImageComponent implements OnInit {
 
   submitForm() {
     if (this.validateForm.valid) {
-      this.imageService.save(this.validateForm.value).subscribe(res => {
+      this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);
