@@ -18,7 +18,7 @@ return new class extends Migration
             $table->tinyInteger('team_game')->unsigned()->nullable()->comment('是否是团队游戏 1个人对抗 2团队对抗');
             $table->string('game_name',128)->nullable()->comment('游戏名称');
             $table->tinyInteger('quick')->unsigned()->default(0)->nullable()->comment('快速游戏 0否 1是');
-            $table->text('participants_price')->nullable()->comment('参与价格（单位：分）');
+            $table->integer('participants_price')->nullable()->comment('参与价格（单位：分）');
             $table->tinyInteger('participants_number')->unsigned()->nullable()->comment('参与人数');
             $table->tinyInteger('start_number')->unsigned()->nullable()->comment('开始人数');
             $table->text('rule')->nullable()->comment('比赛规则');

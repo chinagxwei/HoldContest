@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {FormBuilder, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
@@ -65,6 +65,7 @@ export class LuckyDrawsConfigComponent implements OnInit {
       status: [null],
       started_at: [null],
       ended_at: [null],
+      cycle: [null]
     });
   }
 
@@ -76,6 +77,7 @@ export class LuckyDrawsConfigComponent implements OnInit {
       status: [data.status],
       started_at: [data.started_at],
       ended_at: [data.ended_at],
+      cycle: [null]
     });
     this.showModal()
   }

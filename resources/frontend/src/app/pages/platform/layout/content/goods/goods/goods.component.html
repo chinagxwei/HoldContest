@@ -1,1 +1,85 @@
-<p>goods works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加商品</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>商品ID</th>
+      <th>商品标题</th>
+      <th>商品库存</th>
+      <th>上架周期</th>
+      <th>状态</th>
+      <th>允许关联</th>
+      <th>排序</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.id}}</td>
+      <td>{{ data.title}}</td>
+      <td>{{ data.stock}}</td>
+      <td>{{ data.started_at}}|{{ data.ended_at}}</td>
+      <td>{{ data.sort}}</td>
+      <td>{{ data.status}}</td>
+      <td>{{ data.bind}}</td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑商品" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">单位标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入单位标题!">
+          <input nz-input formControlName="title" id="title" placeholder="单位标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="stock">商品库存</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入商品库存!">
+          <nz-input-number formControlName="stock" id="stock" [nzSize]="'small'" [nzMin]="1"
+                           [nzMax]="999999" [nzStep]="1"
+                           placeholder="商品库存"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cycle">周期</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入周期!">
+          <nz-range-picker formControlName="cycle" id="cycle" placeholder="周期"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">状态</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择状态!">
+          <nz-switch formControlName="status" id="status"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="bind">允许关联</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择允许关联!">
+          <nz-switch formControlName="bind" id="bind"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

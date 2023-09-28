@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {FormBuilder, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
@@ -68,6 +68,7 @@ export class GoodsComponent implements OnInit {
       started_at: [null],
       ended_at: [null],
       remark: [null],
+      cycle: [null],
     });
   }
 
@@ -82,6 +83,7 @@ export class GoodsComponent implements OnInit {
       started_at: [data.started_at],
       ended_at: [data.ended_at],
       remark: [data.remark],
+      cycle: [null],
     });
     this.showModal()
   }

@@ -1,1 +1,46 @@
-<p>orders works!</p>
+<div class="inner-content">
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>订单编号</th>
+      <th>订单类型</th>
+      <th>会员</th>
+      <th>支付方式</th>
+      <th>单位</th>
+      <th>支付时间</th>
+      <th>支付状态</th>
+      <th>总金额</th>
+      <th>减少金额</th>
+      <th>支付金额</th>
+      <th>佣金金额</th>
+      <th>收入金额</th>
+      <th>取消时间</th>
+      <th>创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.sn}}</td>
+      <td>{{ data.order_category}}</td>
+      <td>{{ data.member_id}}</td>
+      <td>{{ data.pay_method}}</td>
+      <td>{{ data.unit_id}}</td>
+      <td>{{ data.pay_at}}</td>
+      <td>{{ data.pay_status}}</td>
+      <td>{{ data.total_amount}}</td>
+      <td>{{ data.reduce_amount}}</td>
+      <td>{{ data.pay_amount}}</td>
+      <td>{{ data.commission_amount}}</td>
+      <td>{{ data.real_income_amount}}</td>
+      <td>{{ data.cancel_at}}</td>
+      <td>{{ data.created_at }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -67,6 +67,7 @@ export class QuestComponent implements OnInit {
       status: [null],
       auto_start: [null],
       participate_count: [null],
+      cycle:[null]
     });
   }
 
@@ -80,6 +81,7 @@ export class QuestComponent implements OnInit {
       status: [data.status],
       auto_start: [data.auto_start],
       participate_count: [data.participate_count],
+      cycle:[null]
     });
     this.showModal()
   }

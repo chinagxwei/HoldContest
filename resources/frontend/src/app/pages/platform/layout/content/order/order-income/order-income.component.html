@@ -1,1 +1,26 @@
-<p>order-income works!</p>
+<div class="inner-content">
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>收益获取订单</th>
+      <th>收益订单</th>
+      <th>收益金额</th>
+      <th>创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.from_order_sn}}</td>
+      <td>{{ data.to_order_sn}}</td>
+      <td>{{ data.amount}}</td>
+      <td>{{ data.created_at }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

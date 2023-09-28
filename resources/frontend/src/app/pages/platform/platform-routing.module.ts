@@ -40,7 +40,6 @@ import {MembersComponent} from "./layout/content/member/members/members.componen
 import {MemberAddressComponent} from "./layout/content/member/member-address/member-address.component";
 import {MemberBanLogComponent} from "./layout/content/member/member-ban-log/member-ban-log.component";
 import {MemberMessageComponent} from "./layout/content/member/member-message/member-message.component";
-import {MemberPrizeLogComponent} from "./layout/content/member/member-prize-log/member-prize-log.component";
 
 const platformRoutes: Routes = [
   {
@@ -88,7 +87,6 @@ const platformRoutes: Routes = [
           {path: 'system/member-address', component: MemberAddressComponent},
           {path: 'system/member-ban-log', component: MemberBanLogComponent},
           {path: 'system/member-message', component: MemberMessageComponent},
-          {path: 'system/member-prize-log', component: MemberPrizeLogComponent},
         ]
       }
     ]

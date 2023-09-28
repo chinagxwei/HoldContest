@@ -53,9 +53,12 @@ import { MemberAddressComponent } from './layout/content/member/member-address/m
 import { MemberBanLogComponent } from './layout/content/member/member-ban-log/member-ban-log.component';
 import { MemberMessageComponent } from './layout/content/member/member-message/member-message.component';
 import { TitleComponent } from './layout/content/member/title/title.component';
-import { MemberPrizeLogComponent } from './layout/content/member/member-prize-log/member-prize-log.component';
 import { WechatMiniProgramAccountComponent } from './layout/content/wechat/wechat-mini-program-account/wechat-mini-program-account.component';
 import { WechatOfficeAccountComponent } from './layout/content/wechat/wechat-office-account/wechat-office-account.component';
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NzSwitchModule} from "ng-zorro-antd/switch";
+import {NzRadioModule} from "ng-zorro-antd/radio";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 
 @NgModule({
@@ -97,29 +100,32 @@ import { WechatOfficeAccountComponent } from './layout/content/wechat/wechat-off
         MemberBanLogComponent,
         MemberMessageComponent,
         TitleComponent,
-        MemberPrizeLogComponent,
         WechatMiniProgramAccountComponent,
         WechatOfficeAccountComponent,
     ],
-    imports: [
-        CommonModule,
-        PlatformRoutingModule,
-        NzLayoutModule,
-        NzMenuModule,
-        NzIconModule,
-        RouterOutlet,
-        RouterLinkActive,
-        NzTableModule,
-        NzDividerModule,
-        NzModalModule,
-        NzFormModule,
-        ReactiveFormsModule,
-        NzTransferModule,
-        NzButtonModule,
-        DragDropModule,
-        NzInputModule,
-        NzSelectModule,
-    ],
+  imports: [
+    CommonModule,
+    PlatformRoutingModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzIconModule,
+    RouterOutlet,
+    RouterLinkActive,
+    NzTableModule,
+    NzDividerModule,
+    NzModalModule,
+    NzFormModule,
+    ReactiveFormsModule,
+    NzTransferModule,
+    NzButtonModule,
+    DragDropModule,
+    NzInputModule,
+    NzSelectModule,
+    NzInputNumberModule,
+    NzSwitchModule,
+    NzRadioModule,
+    NzDatePickerModule,
+  ],
     providers: [NzModalService, NzMessageService]
 })
 export class PlatformModule {

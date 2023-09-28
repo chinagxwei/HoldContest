@@ -1,1 +1,63 @@
-<p>unit works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加单位</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>单位标题</th>
+      <th>单位标签</th>
+      <th>单位符号</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.title}}</td>
+      <td>{{ data.label}}</td>
+      <td>{{ data.symbol}}</td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑单位" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">单位标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入单位标题!">
+          <input nz-input formControlName="title" id="title" placeholder="单位标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="label">单位标签</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入单位标签!">
+          <input nz-input formControlName="label" id="label" placeholder="单位标签"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="symbol">单位符号</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入单位符号!">
+          <input nz-input formControlName="symbol" id="symbol" placeholder="单位符号"/>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

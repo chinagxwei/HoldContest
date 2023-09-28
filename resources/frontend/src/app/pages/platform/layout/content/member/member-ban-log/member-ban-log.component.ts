@@ -61,6 +61,7 @@ export class MemberBanLogComponent implements OnInit {
   initForm() {
     this.validateForm = this.formBuilder.group({
       member_id: [null, [Validators.required]],
+      cycle: [null],
       started_at: [null],
       ended_at: [null],
     });
@@ -72,6 +73,7 @@ export class MemberBanLogComponent implements OnInit {
       member_id: [data.member_id, [Validators.required]],
       started_at: [data.started_at],
       ended_at: [data.ended_at],
+      cycle: [null],
     });
     this.showModal()
   }

@@ -1,1 +1,26 @@
-<p>app-bug-log works!</p>
+<div class="inner-content">
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>设备</th>
+      <th>版本</th>
+      <th>版本号</th>
+      <th>创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.device}}</td>
+      <td>{{ data.app_version}}</td>
+      <td>{{ data.app_version_code}}</td>
+      <td>{{ data.created_at }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

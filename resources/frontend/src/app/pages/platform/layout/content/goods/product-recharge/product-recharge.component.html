@@ -1,1 +1,83 @@
-<p>product-recharge works!</p>
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加充值产品</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>标题</th>
+      <th>面额</th>
+      <th>赠送额度</th>
+      <th>单位</th>
+      <th>是否显示</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.title}}</td>
+      <td>{{ data.denomination}}</td>
+      <td>{{ data.give_amount}}</td>
+      <td>{{ data.unit_id}}</td>
+      <td>{{ data.show}}</td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑充值产品" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入标题!">
+          <input nz-input formControlName="title" id="title" placeholder="标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="denomination">面额</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入面额!">
+          <nz-input-number formControlName="denomination" id="denomination" [nzSize]="'small'" [nzMin]="1"
+                           [nzMax]="999999" [nzStep]="1"
+                           placeholder="面额"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="give_amount">赠送额度</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入赠送额度!">
+          <nz-input-number formControlName="give_amount" id="give_amount" [nzSize]="'small'" [nzMin]="0"
+                           [nzMax]="999999" [nzStep]="1"
+                           placeholder="赠送额度"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="unit_id">单位</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入单位!">
+          <input nz-input formControlName="unit_id" id="unit_id" placeholder="单位"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="show">显示</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择显示!">
+          <nz-switch formControlName="show" id="show"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

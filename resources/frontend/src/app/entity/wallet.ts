@@ -56,4 +56,5 @@ export class WalletWithdrawal {
   third_party_merchant_id: string = "";
   amount: number = 0;
   created_at?: number;
+  created_by: number = 0;
 }
