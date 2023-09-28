@@ -2,9 +2,7 @@
 
 namespace App\Models\Order;
 
-use App\Models\Trait\CreatedBySet;
 use App\Models\Trait\CreatedRelation;
-use App\Models\Trait\FranchiseeRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
 use App\Models\Trait\SignData;

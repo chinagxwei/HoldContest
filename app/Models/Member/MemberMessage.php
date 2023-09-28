@@ -2,7 +2,6 @@
 
 namespace App\Models\Member;
 
-use App\Models\Trait\CreatedBySet;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
