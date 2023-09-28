@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Product;
+namespace App\Http\Controllers\Backend\Goods;
 
 use App\Http\Controllers\PlatformController;
-use App\Models\ActionLog;
-use App\Models\Product\ProductVIP;
+use App\Models\Goods\ProductVIP;
 use Illuminate\Http\Request;
 
 class ProductVIPController extends PlatformController
