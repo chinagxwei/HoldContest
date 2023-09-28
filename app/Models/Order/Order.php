@@ -72,7 +72,7 @@ class Order extends Model
     public function __construct()
     {
         static::creating(function ($model) {
-            if (!empty($model->sn)) {
+            if (empty($model->sn)) {
                 $model->sn = date('YmdHis') . substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
             }
         });
