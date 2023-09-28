@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Product;
+namespace App\Models\Goods;
 
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
