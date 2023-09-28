@@ -314,17 +314,6 @@ class BaseRoutesData
             ],
             [
                 'parent_id' => $menus_id,
-                'navigation_name' => '会员奖励记录管理',
-                'navigation_link' => './system/member-prize-log',
-                'navigation_router' => 'platform/system/member-prize-log',
-                'navigation_sort' => 5,
-                'icon' => 'line-chart',
-                'created_by' => $created_by,
-                'created_at' => $time,
-                'updated_at' => $time
-            ],
-            [
-                'parent_id' => $menus_id,
                 'navigation_name' => '称号管理',
                 'navigation_link' => './system/title',
                 'navigation_router' => 'platform/system/title',
