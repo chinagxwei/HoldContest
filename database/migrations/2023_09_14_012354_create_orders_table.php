@@ -29,7 +29,7 @@ return new class extends Migration
             $table->bigInteger('pay_amount')->unsigned()->nullable()->comment('支付金额（单位：分）');
             $table->bigInteger('commission_amount')->unsigned()->nullable()->comment('佣金金额（单位：分）');
             $table->bigInteger('real_income_amount')->unsigned()->nullable()->comment('实际收入金额（单位：分）');
-            $table->integer('cancel_at')->unsigned()->default(0)->comment('支付时间');
+            $table->integer('cancel_at')->unsigned()->default(0)->comment('取消时间');
             $table->string('remark',128)->nullable()->comment('备注');
             $table->string('sign',64)->nullable()->comment('签名');
             $table->integer('created_at')->unsigned()->nullable();
