@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/v1/system')->group(function () {
     Route::any('/{action?}', function () {
         return view('admin');
     });

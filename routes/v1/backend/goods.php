@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\Goods\GoodsController;
-use App\Http\Controllers\Backend\Product\ProductRechargeController;
-use App\Http\Controllers\Backend\Product\ProductVIPController;
+use App\Http\Controllers\Backend\Goods\ProductRechargeController;
+use App\Http\Controllers\Backend\Goods\ProductVIPController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
