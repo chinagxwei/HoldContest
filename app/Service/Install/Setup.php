@@ -4,9 +4,9 @@ namespace App\Service\Install;
 
 use App\Models\Admin\AdminNavigation;
 use App\Models\Admin\AdminRole;
+use App\Models\Goods\ProductRecharge;
+use App\Models\Goods\ProductVIP;
 use App\Models\Order\OrderIncomeConfig;
-use App\Models\Product\ProductRecharge;
-use App\Models\Product\ProductVIP;
 use App\Models\System\Unit;
 
 class Setup
