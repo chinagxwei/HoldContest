@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('mobile',18)->index()->nullable()->comment('联系电话');
             $table->string('promotion_sn',32)->index()->nullable()->comment('推广序列号');
             $table->tinyInteger('develop')->unsigned()->nullable();
-            $table->tinyInteger('register_type')->unsigned()->default(1)->nullable()->comment('注册状态 1其他 2app');
+            $table->tinyInteger('register_type')->unsigned()->default(1)->nullable()->comment('注册状态 1App 2网页 3小程序');
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');
