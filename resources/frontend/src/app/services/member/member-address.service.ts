@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpReprint} from "../../util/http.reprint";
 import {Paginate} from "../../entity/server-response";
-import {MemberAddress} from "../../entity/member";
+import {Member, MemberAddress} from "../../entity/member";
 import {
   MEMBER_ADDRESS_DELETE,
   MEMBER_ADDRESS_LIST,
@@ -17,8 +17,8 @@ export class MemberAddressService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<MemberAddress>>(`${MEMBER_ADDRESS_LIST}?page=${page}`)
+  public items(page: number = 1, query?: MemberAddress) {
+    return this.http.httpPost<Paginate<MemberAddress>>(`${MEMBER_ADDRESS_LIST}?page=${page}`, query)
   }
 
   public save(postData: MemberAddress) {

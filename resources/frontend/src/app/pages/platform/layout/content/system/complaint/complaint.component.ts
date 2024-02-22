@@ -5,7 +5,7 @@ import {AgreementService} from "../../../../../../services/system/agreement.serv
 import {ComplaintService} from "../../../../../../services/system/complaint.service";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {tap} from "rxjs/operators";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 
@@ -21,7 +21,6 @@ export class ComplaintComponent implements OnInit {
 
   listOfData: SystemComplaint[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -31,6 +30,7 @@ export class ComplaintComponent implements OnInit {
     private message: NzMessageService,
     private modalService: NzModalService,
     private componentService: ComplaintService) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {

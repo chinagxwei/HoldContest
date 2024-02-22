@@ -29,7 +29,7 @@ return new class extends Migration
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');
             $table->integer('updated_by')->index()->unsigned()->nullable()->comment('用户ID');
             $table->integer('deleted_at')->unsigned()->nullable();
-            $table->comment('会员参与比赛表');
+            $table->comment('会员地址表');
         });
     }
 

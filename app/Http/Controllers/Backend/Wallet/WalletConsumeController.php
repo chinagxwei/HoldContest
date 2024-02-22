@@ -12,7 +12,7 @@ class WalletConsumeController extends PlatformController
     protected $controller_event_text = "消费管理";
 
     public function index(Request $request){
-        $res = (new WalletConsume())->searchBuild($request->all())->paginate();
+        $res = (new WalletConsume())->searchBuild($request->all(),['order.unit'])->paginate();
         return self::successJsonResponse($res);
     }
 
@@ -23,7 +23,7 @@ class WalletConsumeController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->input('id');
 
             try {
                  $this->validate($request, [
@@ -57,7 +57,7 @@ class WalletConsumeController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = WalletConsume::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -72,7 +72,7 @@ class WalletConsumeController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = WalletConsume::findOneByID($id)) {
                 $this->deleteEvent($model->order_sn);
                 $model->delete();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {SystemImage, Target} from "../../../../../../entity/system";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {TargetService} from "../../../../../../services/system/target.service";
@@ -22,7 +22,6 @@ export class ImageComponent implements OnInit {
 
   listOfData: SystemImage[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -32,14 +31,14 @@ export class ImageComponent implements OnInit {
     private message: NzMessageService,
     private modalService: NzModalService,
     private componentService: ImageService
-  ) { }
+  ) {
+    this.validateForm = this.formBuilder.group({});
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.getItems();
   }
-
-
   onQueryParamsChange($event: NzTableQueryParams) {
     this.getItems($event.pageIndex);
   }
@@ -94,7 +93,7 @@ export class ImageComponent implements OnInit {
   }
 
   add() {
-    this.validateForm.reset();
+    this.initForm();
     this.showModal();
   }
 

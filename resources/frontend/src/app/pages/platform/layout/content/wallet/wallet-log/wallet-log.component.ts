@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {FormBuilder} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
@@ -50,6 +50,7 @@ export class WalletLogComponent implements OnInit {
         const {data} = res;
         if (data) {
           this.currentData = data;
+          data.data.map(v => v.created_at = v.created_at * 1000)
           this.listOfData = data.data;
         }
       })

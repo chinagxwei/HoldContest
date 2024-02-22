@@ -23,6 +23,8 @@ class SystemConfig extends Model
     use HasFactory, SoftDeletes, Uuids, CreatedRelation, SystemConfigBuild, SearchData;
 
     protected $table = 'system_configs';
+
+    protected $keyType = 'string';
     /**
      * 指定是否模型应该被戳记时间。
      *

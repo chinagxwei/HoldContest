@@ -13,7 +13,7 @@ class WalletRechargeController extends PlatformController
 
     public function index(Request $request)
     {
-        $res = (new WalletRecharge())->searchBuild($request->all())->paginate();
+        $res = (new WalletRecharge())->searchBuild($request->all(),['unit'])->paginate();
         return self::successJsonResponse($res);
     }
 
@@ -24,7 +24,7 @@ class WalletRechargeController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->input('id');
 
             try {
                 $this->validate($request, [
@@ -69,7 +69,7 @@ class WalletRechargeController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = WalletRecharge::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -84,7 +84,7 @@ class WalletRechargeController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = WalletRecharge::findOneByID($id)) {
                 $text = [
                     $model->id,

@@ -2,6 +2,8 @@
 
 namespace App\Models\Wallet;
 
+use App\Models\BaseDataModel;
+use App\Models\Order\Order;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\OrderRelation;
 use App\Models\Trait\SearchData;
@@ -9,8 +11,8 @@ use App\Models\Trait\SignData;
 use App\Models\Trait\UnitRelation;
 use App\Models\Trait\WalletRelation;
 use Carbon\Carbon;
+use Emadadly\LaravelUuid\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -28,11 +30,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int updated_by
  * @property Carbon created_at
  */
-class WalletRecharge extends Model
+class WalletRecharge extends BaseDataModel
 {
-    use HasFactory, SoftDeletes, CreatedRelation, UnitRelation, OrderRelation, WalletRelation, SignData, SearchData;
+    use HasFactory, SoftDeletes, Uuids, CreatedRelation, UnitRelation, OrderRelation, WalletRelation, SignData, SearchData;
 
     protected $table = 'wallet_recharges';
+
+    protected $keyType = 'string';
     /**
      * 指定是否模型应该被戳记时间。
      *
@@ -57,6 +61,78 @@ class WalletRecharge extends Model
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
+
+    const CHANNEL_MEMBER = 1;
+
+    const CHANNEL_PLATFORM = 2;
+
+    /**
+     * @param $wallet_id
+     * @param $order_sn
+     * @param $denomination
+     * @param $unit_id
+     * @param int $gift
+     * @param int $channel
+     * @return static|null
+     */
+    public static function generate($wallet_id, $order_sn, $denomination, $unit_id, $gift = self::DISABLE, $channel = self::CHANNEL_MEMBER)
+    {
+        $model = new static();
+        $model->wallet_id = $wallet_id;
+        $model->order_sn = $order_sn;
+        $model->denomination = $denomination;
+        $model->balance = $denomination;
+        $model->unit_id = $unit_id;
+        $model->channel = $channel;
+        $model->gift = $gift;
+        $model->frozen = 0;
+        $model->setSign();
+        return $model->save() ? $model : null;
+    }
+
+    /**
+     * @param $wallet_id
+     * @param $unit_id
+     * @param bool $hasFrozen
+     * @param bool $hasGift
+     * @return int|mixed
+     */
+    public static function getTotalBalance($wallet_id, $unit_id, $hasFrozen = false, $hasGift = true)
+    {
+        $query = self::query()
+            ->where('wallet_id', $wallet_id)
+            ->where('unit_id', $unit_id)
+            ->where('balance', '>', 0);
+
+        if (!$hasGift) {
+            $query = $query->where('gift', 0);
+        }
+
+        if (!$hasFrozen) {
+            $query = $query->where(function ($q) {
+                $q->orWhere('frozen', 0)->orWhereNull('frozen');
+            });
+        }
+
+        return $query->sum('balance');
+    }
+
+    /**
+     * @param $wallet_id
+     * @param $unit_id
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function findAllByWallet($wallet_id, $unit_id)
+    {
+        return self::query()
+            ->where('wallet_id', $wallet_id)
+            ->where('unit_id', $unit_id)
+            ->where('balance', '>', 0)
+            ->where(function ($q) {
+                $q->orWhere('frozen', 0)->orWhereNull('frozen');
+            })->orderBy('gift')
+            ->get();
+    }
 
     function setSign()
     {

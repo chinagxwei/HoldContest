@@ -2,6 +2,7 @@
 
 namespace App\Models\Goods;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use App\Models\Trait\UnitRelation;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int created_by
  * @property Carbon created_at
  */
-class ProductRecharge extends Model
+class ProductRecharge extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, UnitRelation, SearchData;
 
@@ -56,7 +57,9 @@ class ProductRecharge extends Model
         if (!empty($this->title)) {
             $build = $build->where('title', 'like', "%{$this->title}%");
         }
-
+        if (isset($this->show)) {
+            $build = $build->where('show', $this->show);
+        }
         return $build->with($with)->orderBy('id', 'desc');
     }
 }

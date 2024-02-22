@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {tap} from "rxjs/operators";
 import {LuckyDrawsItem} from "../../../../../../entity/activity";
 import {LuckyDrawsItemService} from "../../../../../../services/activity/lucky-draws-item.service";
+import {BehaviorSubject, debounceTime} from "rxjs";
+import {Unit} from "../../../../../../entity/system";
+import {GoodsService} from "../../../../../../services/goods/goods.service";
+import {Goods} from "../../../../../../entity/goods";
 
 @Component({
   selector: 'app-lucky-draws-item',
@@ -22,22 +26,30 @@ export class LuckyDrawsItemComponent implements OnInit {
 
   listOfData: LuckyDrawsItem[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
+
+  searchChange$ = new BehaviorSubject('');
+
+  searchDataList: Goods[] = [];
+
+  isSearchLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private componentService: LuckyDrawsItemService
+    private componentService: LuckyDrawsItemService,
+    private goodsService: GoodsService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
     this.initForm();
     this.getItems();
+    this.initSearch();
   }
 
 
@@ -135,5 +147,26 @@ export class LuckyDrawsItemComponent implements OnInit {
         }
       });
     }
+  }
+
+  onSearch(value: string): void {
+    this.isSearchLoading = true;
+    this.searchChange$.next(value);
+  }
+
+  initSearch() {
+    this.searchChange$
+      .asObservable()
+      .pipe(debounceTime(300))
+      .subscribe((v) => {
+        const goods = new Goods;
+        goods.title = v;
+        this.goodsService
+          .items(1, goods)
+          .subscribe((res) => {
+            this.searchDataList = res.data.data;
+            this.isSearchLoading = false;
+          })
+      });
   }
 }

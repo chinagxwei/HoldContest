@@ -2,6 +2,8 @@
 
 namespace App\Models\Member;
 
+use App\Models\BaseDataModel;
+use App\Models\Trait\BelongToSearchMemberData;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
@@ -25,9 +27,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int updated_by
  * @property Carbon created_at
  */
-class MemberAddress extends Model
+class MemberAddress extends BaseDataModel
 {
-    use HasFactory, SoftDeletes, CreatedRelation, MemberRelation, SearchData;
+    use HasFactory, SoftDeletes, CreatedRelation, MemberRelation, SearchData, BelongToSearchMemberData;
 
     /**
      * 与模型关联的数据表。
@@ -60,6 +62,20 @@ class MemberAddress extends Model
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
+
+    /**
+     * @return bool
+     */
+    public function setDefault()
+    {
+        self::query()
+            ->where('member_id', $this->member_id)
+            ->update([
+            'default' => self::DISABLE
+        ]);
+        $this->default = self::ENABLE;
+        return $this->save();
+    }
 
     function searchBuild($param = [], $with = [])
     {

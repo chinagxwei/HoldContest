@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -21,7 +21,6 @@ export class OrderIncomeConfigComponent implements OnInit {
 
   listOfData: OrderIncomeConfig[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -32,6 +31,7 @@ export class OrderIncomeConfigComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: OrderIncomeConfigService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class OrderIncomeConfigComponent implements OnInit {
   update(data: OrderIncomeConfig) {
     this.validateForm = this.formBuilder.group({
       id: [data.id, [Validators.required]],
-      title: [data, [Validators.required]],
+      title: [data.title, [Validators.required]],
       vip_commission: [data.vip_commission],
       recharge_commission: [data.recharge_commission],
       consume_commission: [data.consume_commission],
@@ -123,6 +123,7 @@ export class OrderIncomeConfigComponent implements OnInit {
   }
 
   submitForm() {
+
     if (this.validateForm.valid) {
       this.componentService.save(this.validateForm.value).subscribe(res => {
         console.log(res);

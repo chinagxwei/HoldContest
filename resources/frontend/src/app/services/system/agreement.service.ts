@@ -16,8 +16,8 @@ export class AgreementService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<SystemAgreement>>(`${AGREEMENT_ITEMS}?page=${page}`)
+  public items(page: number = 1, query?: SystemAgreement) {
+    return this.http.httpPost<Paginate<SystemAgreement>>(`${AGREEMENT_ITEMS}?page=${page}`, query)
   }
 
   public save(postData: SystemAgreement) {

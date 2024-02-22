@@ -17,6 +17,15 @@ trait OrderRelation
     }
 
     /**
+     * @param $order_sn
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function findByOrderSNBuild($order_sn)
+    {
+        return self::query()->where('order_sn', $order_sn);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function order()

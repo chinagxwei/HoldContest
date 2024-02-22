@@ -2,6 +2,7 @@
 
 namespace App\Models\Member;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int updated_by
  * @property Carbon created_at
  */
-class MemberBan extends Model
+class MemberBan extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, MemberRelation, SearchData;
 

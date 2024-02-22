@@ -2,6 +2,7 @@
 
 namespace App\Models\LuckyDraws;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property int updated_by
  * @property Carbon created_at
  */
-class LuckyDrawsConfig extends Model
+class LuckyDrawsConfig extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, SearchData;
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Member;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Carbon\Carbon;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int created_by
  * @property Carbon created_at
  */
-class Title extends Model
+class Title extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, SearchData;
 

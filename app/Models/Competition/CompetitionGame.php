@@ -2,29 +2,31 @@
 
 namespace App\Models\Competition;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int id
- * @property string team_game
+ * @property int parent_id
  * @property string game_name
- * @property int quick
- * @property int participants_price
- * @property int participants_number
- * @property int start_number
- * @property string rule
  * @property string description
  * @property string remark
+ * @property int sort_order
+ * @property int show
  * @property int created_by
  * @property int updated_by
  * @property Carbon created_at
+ * @property CompetitionRule[]|Collection rules
+ * @property CompetitionGame parent
+ * @property CompetitionGame[]|Collection children
  */
-class CompetitionGame extends Model
+class CompetitionGame extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, SearchData;
 
@@ -50,40 +52,58 @@ class CompetitionGame extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'team_game', 'game_name', 'quick',
-        'participants_price', 'participants_number', 'start_number',
-        'rule', 'description', 'remark', 'created_by', 'updated_by'
+        'game_name', 'description', 'remark', 'created_by', 'updated_by', 'sort_order', 'show'
     ];
 
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rules()
+    {
+        return $this->hasMany(CompetitionRule::class, 'game_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
+    {
+        return $this->hasMany(CompetitionGame::class, 'parent_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function parent()
+    {
+        return $this->hasOne(CompetitionGame::class, 'id', 'parent_id');
+    }
+
     function searchBuild($param = [], $with = [])
     {
         // TODO: Implement searchBuild() method.
         $this->fill($param);
         $build = $this;
-        if (isset($this->team_game)) {
-            $build = $build->where('team_game', $this->team_game);
-        }
 
         if (!empty($this->game_name)) {
             $build = $build->where('game_name', 'like', "%{$this->game_name}%");
         }
 
-        if (isset($this->quick)) {
-            $build = $build->where('quick', $this->quick);
-        }
-
-        if (!empty($this->rule)) {
-            $build = $build->where('rule', 'like', "%{$this->rule}%");
+        if (!empty($this->remark)) {
+            $build = $build->where('remark', 'like', "%{$this->remark}%");
         }
 
         if (!empty($this->description)) {
             $build = $build->where('description', 'like', "%{$this->description}%");
         }
+        if (isset($this->show)){
+            $build = $build->where('show', $this->show);
+        }
 
-        return $build->with($with)->orderBy('id', 'desc');
+        return $build->with($with);
     }
 }

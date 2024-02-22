@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\BaseDataModel;
 use App\Models\Build\SystemBuild\SystemAgreementBuild;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
@@ -12,18 +13,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @property string id
+ * @property int id
  * @property string title
  * @property string content
  * @property int type
+ * @property int show
  * @property int created_by
  * @property Carbon created_at
  */
-class SystemAgreement extends Model
+class SystemAgreement extends BaseDataModel
 {
     use HasFactory, SoftDeletes, Uuids, CreatedRelation, SystemAgreementBuild, SearchData;
 
     protected $table = 'system_agreements';
+
     /**
      * 指定是否模型应该被戳记时间。
      *
@@ -39,7 +42,7 @@ class SystemAgreement extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'title', 'content', 'type', 'created_by'
+        'title', 'content', 'type', 'show', 'created_by'
     ];
 
     protected $hidden = [
@@ -56,6 +59,12 @@ class SystemAgreement extends Model
         }
         if (!empty($this->content)) {
             $build = $build->where('content', 'like', "%{$this->content}%");
+        }
+        if (!empty($this->type)) {
+            $build = $build->where('type', $this->type);
+        }
+        if (isset($this->show)) {
+            $build = $build->where('show', $this->show);
         }
         return $build->with($with)->orderBy('id', 'desc');
     }

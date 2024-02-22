@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -31,6 +31,10 @@ export class OrdersComponent implements OnInit {
   ) {
   }
 
+  trackByIndex(_: number, data: Order) {
+    return data.created_at;
+  }
+
   ngOnInit(): void {
     this.getItems();
   }
@@ -48,10 +52,20 @@ export class OrdersComponent implements OnInit {
         const {data} = res;
         if (data) {
           this.currentData = data;
+          data.data.map(v => {
+            if (v.pay_at) {
+              v.pay_at = v.pay_at * 1000;
+            }
+            if (v.cancel_at) {
+              v.cancel_at = v.cancel_at * 1000;
+            }
+            return v
+          })
           this.listOfData = data.data;
         }
       })
   }
+
   onDelete($event: Order) {
 
     this.modalService.confirm({

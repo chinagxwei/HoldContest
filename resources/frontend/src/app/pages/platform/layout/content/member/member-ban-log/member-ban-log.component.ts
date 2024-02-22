@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -22,7 +22,6 @@ export class MemberBanLogComponent implements OnInit {
 
   listOfData: MemberBan[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -33,6 +32,7 @@ export class MemberBanLogComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: MemberBanService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -53,6 +53,11 @@ export class MemberBanLogComponent implements OnInit {
         const {data} = res;
         if (data) {
           this.currentData = data;
+          data.data.map(v => {
+            v.started_at = v.started_at * 1000;
+            v.ended_at = v.ended_at * 1000;
+            return v
+          })
           this.listOfData = data.data;
         }
       })
@@ -61,7 +66,7 @@ export class MemberBanLogComponent implements OnInit {
   initForm() {
     this.validateForm = this.formBuilder.group({
       member_id: [null, [Validators.required]],
-      cycle: [null],
+      cycle: [null, [Validators.required]],
       started_at: [null],
       ended_at: [null],
     });
@@ -73,7 +78,7 @@ export class MemberBanLogComponent implements OnInit {
       member_id: [data.member_id, [Validators.required]],
       started_at: [data.started_at],
       ended_at: [data.ended_at],
-      cycle: [null],
+      cycle: [[new Date(data.started_at), new Date(data.ended_at)], [Validators.required]],
     });
     this.showModal()
   }
@@ -114,8 +119,17 @@ export class MemberBanLogComponent implements OnInit {
   }
 
   submitForm() {
+    for (const i in this.validateForm.controls) {
+      this.validateForm.controls[i].markAsDirty();
+      this.validateForm.controls[i].updateValueAndValidity();
+    }
     if (this.validateForm.valid) {
-      this.componentService.save(this.validateForm.value).subscribe(res => {
+      let postData = Object.assign({}, this.validateForm.value);
+
+      postData.started_at = Date.parse(postData.cycle[0]) / 1000
+      postData.ended_at = Date.parse(postData.cycle[1]) / 1000
+
+      this.componentService.save(postData).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);
@@ -125,7 +139,7 @@ export class MemberBanLogComponent implements OnInit {
         }
       });
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
+      Object.values(this.validateForm.value).forEach(control => {
         // @ts-ignore
         if (control.invalid) {
           // @ts-ignore

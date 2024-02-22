@@ -8,7 +8,7 @@ import {
   ServerManager,
   UpdateUserInfoRequest
 } from "../../entity/user";
-import {Paginate} from "../../entity/server-response";
+import {Paginate, ServerResponse} from "../../entity/server-response";
 import {
   ADMIN_ACTION_LOG,
   MANAGER_DELETE,
@@ -43,7 +43,7 @@ export class ManagerService {
   }
 
   public resetPassword(reset: ResetPasswordRequest) {
-    return this.http.httpPost<Paginate<ActionLog>>(`${USER_RESET_PASSWORD}`, reset)
+    return this.http.httpPost(`${USER_RESET_PASSWORD}`, reset)
   }
 
   public actionLog(page: number = 1) {

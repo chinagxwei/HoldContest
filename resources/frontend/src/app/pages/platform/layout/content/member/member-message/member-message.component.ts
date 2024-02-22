@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -22,7 +22,6 @@ export class MemberMessageComponent implements OnInit {
 
   listOfData: MemberMessage[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -33,6 +32,7 @@ export class MemberMessageComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: MemberMessageService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {

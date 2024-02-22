@@ -58,7 +58,7 @@ class AdminNavigationController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = AdminNavigation::findOneByID($id)) {
                 $this->deleteEvent($model->navigation_name);
                 $model->delete();

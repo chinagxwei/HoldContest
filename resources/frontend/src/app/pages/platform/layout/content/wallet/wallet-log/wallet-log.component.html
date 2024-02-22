@@ -11,15 +11,22 @@
       <th>订单</th>
       <th>类型</th>
       <th>金额</th>
+      <th>单位</th>
       <th>创建时间</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of listOfData">
       <td>{{ data.order_sn}}</td>
-      <td>{{ data.type}}</td>
-      <td>{{ data.amount}}</td>
-      <td>{{ data.created_at }}</td>
+      <td>
+        <div [ngSwitch]="data.type">
+          <nz-tag *ngSwitchCase="1" nzColor="error">出账</nz-tag>
+          <nz-tag *ngSwitchCase="2" nzColor="success">入账</nz-tag>
+        </div>
+      </td>
+      <td>{{ data.amount / 100}}</td>
+      <td>{{ data.unit?.label}}</td>
+      <td>{{ data.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
     </tr>
     </tbody>
   </nz-table>

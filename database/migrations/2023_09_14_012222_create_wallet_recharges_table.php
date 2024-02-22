@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('denomination')->unsigned()->nullable()->comment('面额（单位：分）');
             $table->bigInteger('balance')->unsigned()->nullable()->comment('余额（单位：分）');
             $table->integer('unit_id')->unsigned()->default(0)->comment('单位ID');
-            $table->bigInteger('frozen')->unsigned()->nullable()->comment('充值冻结 0不是 1是');
+            $table->tinyInteger('frozen')->unsigned()->default(0)->nullable()->comment('充值冻结 0不是 1是');
             $table->tinyInteger('channel')->unsigned()->nullable()->comment('充值渠道 1用户 2平台');
             $table->tinyInteger('gift')->unsigned()->default(0)->nullable()->comment('赠送充值 0不是 1是');
             $table->string('sign',64)->nullable()->comment('签名');

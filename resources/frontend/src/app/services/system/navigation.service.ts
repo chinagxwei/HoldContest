@@ -18,8 +18,8 @@ export class NavigationService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<Navigation>>(`${NAVIGATION_ITEMS}?page=${page}`);
+  public items(page: number = 1, query?: Navigation) {
+    return this.http.httpPost<Paginate<Navigation>>(`${NAVIGATION_ITEMS}?page=${page}`, query);
   }
 
   public save(navigation: Navigation) {

@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Admin\AdminNavigationController;
 use App\Http\Controllers\Backend\Admin\AdminRoleController;
 use App\Http\Controllers\Backend\System\ActionLogController;
 use App\Http\Controllers\Backend\System\SystemAgreementController;
+use App\Http\Controllers\Backend\System\SystemBannerController;
 use App\Http\Controllers\Backend\System\SystemComplaintController;
 use App\Http\Controllers\Backend\System\SystemConfigController;
 use App\Http\Controllers\Backend\System\SystemImageController;
@@ -60,8 +61,12 @@ Route::group([
     // 平台图片
     Route::any('image/index', [SystemImageController::class, 'index']);
     Route::any('image/save', [SystemImageController::class, 'save']);
-    Route::any('image/view', [SystemImageController::class, 'view']);
     Route::any('image/delete', [SystemImageController::class, 'delete']);
+
+    // 平台banner
+    Route::any('image/index', [SystemBannerController::class, 'index']);
+    Route::any('image/save', [SystemBannerController::class, 'save']);
+    Route::any('image/delete', [SystemBannerController::class, 'delete']);
 
     // 平台标签
     Route::any('target/index', [TargetController::class, 'index']);

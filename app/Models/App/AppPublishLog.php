@@ -2,6 +2,7 @@
 
 namespace App\Models\App;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property string download_url
  * @property Carbon created_at
  */
-class AppPublishLog extends Model
+class AppPublishLog extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, SearchData;
 
@@ -29,7 +30,7 @@ class AppPublishLog extends Model
      *
      * @var string
      */
-    protected $table = 'app_update_logs';
+    protected $table = 'app_publish_logs';
 
     /**
      * 指定是否模型应该被戳记时间。
@@ -54,6 +55,10 @@ class AppPublishLog extends Model
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
+
+    const DEVICE_ANDROID = 1;
+
+    const DEVICE_IOS = 2;
 
     function searchBuild($param = [], $with = [])
     {
@@ -80,5 +85,19 @@ class AppPublishLog extends Model
         }
 
         return $build->with($with)->orderBy('id', 'desc');
+    }
+
+    /**
+     * @param $device
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null|static
+     */
+    public static function findLast($device = null)
+    {
+        $query = self::query();
+        if (!empty($device)) {
+            $query = $query->where('device', $device);
+        }
+
+        return $query->orderBy('app_version_code', 'desc')->first();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Member;
 
+use App\Models\Competition\CompetitionGame;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property int id
  * @property string member_id
  * @property int game_id
  * @property int account_type
@@ -55,6 +57,33 @@ class MemberGameAccount extends Pivot
     protected $hidden = [
         'deleted_at', 'updated_at'
     ];
+
+    /**
+     * @param $member_id
+     * @param $game_id
+     * @param $account_type
+     * @param $nickname
+     * @param $game_code
+     * @return $this|null
+     */
+    public static function generate($member_id, $game_id, $account_type, $nickname, $game_code)
+    {
+        $model = new static();
+        $model->member_id = $member_id;
+        $model->game_id = $game_id;
+        $model->account_type = $account_type;
+        $model->nickname = $nickname;
+        $model->game_code = $game_code;
+        return $model->save() ? $model : null;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function game()
+    {
+        return $this->hasOne(CompetitionGame::class, "id", "game_id");
+    }
 
     function searchBuild($param = [], $with = [])
     {

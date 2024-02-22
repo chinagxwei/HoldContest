@@ -20,7 +20,7 @@
     <tbody>
     <tr *ngFor="let data of listOfData">
       <td>{{ data.member_id}}</td>
-      <td>{{ data.started_at}}|{{ data.ended_at}}</td>
+      <td>{{ data.started_at | date:'yyyy-MM-dd HH:mm'}} | {{ data.ended_at | date:'yyyy-MM-dd HH:mm'}}</td>
       <td>{{ data.created_at }}</td>
       <td>
         <a (click)="update(data)">编辑</a>
@@ -43,7 +43,7 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cycle">周期</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入周期!">
-          <nz-range-picker formControlName="cycle" id="cycle" placeholder="周期"></nz-range-picker>
+          <nz-range-picker style="width: 100%" formControlName="cycle" id="cycle" placeholder="周期"></nz-range-picker>
         </nz-form-control>
       </nz-form-item>
     </form>

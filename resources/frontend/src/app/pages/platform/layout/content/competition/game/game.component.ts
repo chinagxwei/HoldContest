@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {tap} from "rxjs/operators";
 import {CompetitionGame} from "../../../../../../entity/competition";
 import {CompetitionGameService} from "../../../../../../services/competition/competition-game.service";
+import {IDomEditor} from "@wangeditor/editor";
+import {AlertType, Mode} from "wangeditor-for-angular";
 
 @Component({
   selector: 'app-game',
@@ -21,10 +23,11 @@ export class GameComponent implements OnInit {
 
   listOfData: CompetitionGame[] = [];
 
-  // @ts-ignore
-  validateForm: FormGroup;
 
-  isVisible: boolean = false;
+  // @ts-ignore
+  gameValidateForm: FormGroup;
+
+  isGameVisible: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,29 +61,17 @@ export class GameComponent implements OnInit {
   }
 
   initForm() {
-    this.validateForm = this.formBuilder.group({
-      team_game: [null, [Validators.required]],
+    this.gameValidateForm = this.formBuilder.group({
       game_name: [null, [Validators.required]],
-      quick: [0],
-      participants_price: [0],
-      participants_number: [1],
-      start_number: [null],
-      rule: [null],
       description: [null],
       remark: [null],
     });
   }
 
   update(data: CompetitionGame) {
-    this.validateForm = this.formBuilder.group({
+    this.gameValidateForm = this.formBuilder.group({
       id: [data.id, [Validators.required]],
-      team_game: [data.team_game, [Validators.required]],
       game_name: [data.game_name, [Validators.required]],
-      quick: [data.quick],
-      participants_price: [data.participants_price],
-      participants_number: [data.participants_number],
-      start_number: [data.start_number],
-      rule: [data.rule],
       description: [data.description],
       remark: [data.remark],
     });
@@ -106,16 +97,16 @@ export class GameComponent implements OnInit {
   }
 
   add() {
-    this.validateForm.reset();
+    this.gameValidateForm?.reset();
     this.showModal();
   }
 
   showModal(): void {
-    this.isVisible = true;
+    this.isGameVisible = true;
   }
 
   handleCancel() {
-    this.isVisible = false;
+    this.isGameVisible = false;
   }
 
   handleOk() {
@@ -123,26 +114,33 @@ export class GameComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.validateForm.valid) {
-      this.componentService.save(this.validateForm.value).subscribe(res => {
+    if (this.gameValidateForm?.valid) {
+      const postData = Object.assign({}, this.gameValidateForm.value);
+      postData.quick = postData.quick ? 1 : 0;
+      postData.team_game = postData.team_game ? 1 : 0;
+      console.log(postData)
+      this.componentService.save(postData).subscribe(res => {
         console.log(res);
         if (res.code === 200) {
           this.message.success(res.message);
           this.handleCancel();
-          this.validateForm.reset();
+          this.gameValidateForm.reset();
           this.getItems(this.currentData.current_page);
         }
       });
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        // @ts-ignore
-        if (control.invalid) {
+      if (this.gameValidateForm?.controls) {
+        Object.values(this.gameValidateForm.controls).forEach(control => {
           // @ts-ignore
-          control.markAsDirty();
-          // @ts-ignore
-          control.updateValueAndValidity({onlySelf: true});
-        }
-      });
+          if (control.invalid) {
+            // @ts-ignore
+            control.markAsDirty();
+            // @ts-ignore
+            control.updateValueAndValidity({onlySelf: true});
+          }
+        });
+      }
     }
   }
+
 }

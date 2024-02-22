@@ -1,5 +1,7 @@
 <div class="inner-content">
   <nz-table [nzLoading]="loading"
+
+            [nzScroll]="{ x: 'auto', y: '900px' }"
             [nzData]="listOfData"
             [nzTotal]="currentData.total"
             [nzPageIndex]="currentData.current_page"
@@ -27,18 +29,43 @@
     <tbody>
     <tr *ngFor="let data of listOfData">
       <td>{{ data.sn}}</td>
-      <td>{{ data.order_category}}</td>
+      <td>
+        <div [ngSwitch]="data.order_category">
+          <span *ngSwitchCase="1">充值订单</span>
+          <span *ngSwitchCase="2">VIP订单</span>
+          <span *ngSwitchCase="3">提款订单</span>
+          <span *ngSwitchCase="4">消费订单</span>
+        </div>
+      </td>
       <td>{{ data.member_id}}</td>
-      <td>{{ data.pay_method}}</td>
-      <td>{{ data.unit_id}}</td>
-      <td>{{ data.pay_at}}</td>
-      <td>{{ data.pay_status}}</td>
-      <td>{{ data.total_amount}}</td>
-      <td>{{ data.reduce_amount}}</td>
-      <td>{{ data.pay_amount}}</td>
-      <td>{{ data.commission_amount}}</td>
-      <td>{{ data.real_income_amount}}</td>
-      <td>{{ data.cancel_at}}</td>
+      <td>
+        <div [ngSwitch]="data.pay_method">
+          <nz-tag *ngSwitchCase="1" nzColor="error">平台支付</nz-tag>
+          <span *ngSwitchCase="2">第三方支付</span>
+          <span *ngSwitchCase="3">第三方支付</span>
+          <span *ngSwitchCase="4">虚拟账户</span>
+        </div>
+      </td>
+      <td>{{ data.unit?.label}}</td>
+      <td>{{ data.pay_at | date:'yyyy-MM-dd HH:mm'}}</td>
+      <td>
+        <div [ngSwitch]="data.pay_status">
+          <span *ngSwitchCase="-1">取消</span>
+          <span *ngSwitchCase="0">未支付</span>
+          <span *ngSwitchCase="1">支付中</span>
+          <nz-tag *ngSwitchCase="2" nzColor="error">已支付</nz-tag>
+        </div>
+      </td>
+      <td>{{ data.total_amount / 100}}</td>
+      <td>{{ data.reduce_amount / 100}}</td>
+      <td>{{ data.pay_amount / 100}}</td>
+      <td>{{ data.commission_amount / 100}}</td>
+      <td>{{ data.real_income_amount / 100}}</td>
+      <td>
+        <span *ngIf="data.cancel_at">
+          {{ data.cancel_at | date:'yyyy-MM-dd HH:mm'}}
+        </span>
+      </td>
       <td>{{ data.created_at }}</td>
     </tr>
     </tbody>

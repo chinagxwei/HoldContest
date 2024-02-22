@@ -12,7 +12,7 @@ class OrderController extends PlatformController
     protected $controller_event_text = "订单管理";
 
     public function index(Request $request){
-        $res = (new Order())->searchBuild($request->all())->paginate();
+        $res = (new Order())->searchBuild($request->all(),['unit'])->paginate();
         return self::successJsonResponse($res);
     }
 
@@ -22,7 +22,7 @@ class OrderController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = Order::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -37,7 +37,7 @@ class OrderController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = Order::findOneByID($id)) {
                 $this->deleteEvent($model->sn);
                 $model->delete();

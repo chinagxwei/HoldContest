@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int description
  * @property int label
  * @property int symbol
+ * @property int finance
  * @property int created_by
  * @property Carbon created_at
  */
@@ -39,7 +40,7 @@ class Unit extends Model
 
 
     protected $fillable = [
-        'title', 'description', 'label', 'symbol','created_by'
+        'title', 'description', 'label', 'symbol', 'created_by', 'finance'
     ];
 
     protected $hidden = [
@@ -54,6 +55,10 @@ class Unit extends Model
 
         if (!empty($this->title)) {
             $build = $build->where('title', 'like', "%{$this->title}%");
+        }
+
+        if (isset($this->finance)) {
+            $build = $build->where('finance', $this->finance);
         }
 
         return $build->with($with)->orderBy('id', 'desc');

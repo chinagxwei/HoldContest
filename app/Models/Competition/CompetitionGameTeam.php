@@ -2,6 +2,7 @@
 
 namespace App\Models\Competition;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\MemberRelation;
 use App\Models\Trait\SearchData;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property int updated_by
  * @property Carbon created_at
  */
-class CompetitionGameTeam extends Model
+class CompetitionGameTeam extends BaseDataModel
 {
     use HasFactory, SoftDeletes, MemberRelation, CreatedRelation, SearchData;
 

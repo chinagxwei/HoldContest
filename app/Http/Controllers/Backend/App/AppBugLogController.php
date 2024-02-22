@@ -23,7 +23,7 @@ class AppBugLogController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->input('id');
 
             try {
                 $this->validate($request, [
@@ -56,7 +56,7 @@ class AppBugLogController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = AppBugLog::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -71,7 +71,7 @@ class AppBugLogController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = AppBugLog::findOneByID($id)) {
                 $this->deleteEvent($model->app_version);
                 $model->delete();

@@ -1,7 +1,7 @@
 <div class="inner-content">
-  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
-    <span>添加钱包</span>
-  </button>
+<!--  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">-->
+<!--    <span>添加钱包</span>-->
+<!--  </button>-->
   <nz-table [nzLoading]="loading"
             [nzData]="listOfData"
             [nzTotal]="currentData.total"
@@ -11,16 +11,28 @@
             (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
     <tr>
-      <th>钱包序列号</th>
+      <th>会员ID</th>
+      <th>钱包ID</th>
       <th>钱包等级</th>
+      <th>钱包余额</th>
       <th>创建时间</th>
       <th>操作</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of listOfData">
-      <td>{{ data.sn}}</td>
+      <td>{{ data.own?.id}}</td>
+      <td>{{ data.id}}</td>
       <td>{{ data.level}}</td>
+      <td>
+        <span *ngIf="!data.accounts || data.accounts.length === 0">无</span>
+        <div *ngFor="let account of data.accounts">
+          <nz-tag nzColor="default">
+            {{account.title}}：{{account.balance ? account.balance.total_balance / 100 : 0}}
+          </nz-tag>
+        </div>
+      </td>
+
       <td>{{ data.created_at }}</td>
       <td>
         <a (click)="update(data)">编辑</a>
@@ -34,16 +46,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="编辑钱包" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <form nz-form [formGroup]="validateForm">
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="level">钱包等级</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选钱包等级!">
-          <nz-radio-group formControlName="level" id="level">
-            <label nz-radio nzValue="1">1级</label>
-            <label nz-radio nzValue="2">2级</label>
-            <label nz-radio nzValue="3">3级</label>
-          </nz-radio-group>
-        </nz-form-control>
-      </nz-form-item>
+
     </form>
   </div>
   <div *nzModalFooter>

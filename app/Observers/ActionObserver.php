@@ -38,7 +38,7 @@ class ActionObserver
      */
     public function updated($model)
     {
-        $model->setUpdatedBy();
+//        $model->setUpdatedBy();
     }
 
     /**

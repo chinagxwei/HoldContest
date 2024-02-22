@@ -13,7 +13,9 @@
     <tr>
       <th>标题</th>
       <th>天数</th>
-      <th>是否显示</th>
+      <th>价格</th>
+      <th>单位</th>
+      <th>客户端显示</th>
       <th>创建时间</th>
       <th>操作</th>
     </tr>
@@ -22,7 +24,12 @@
     <tr *ngFor="let data of listOfData">
       <td>{{ data.title}}</td>
       <td>{{ data.day}}</td>
-      <td>{{ data.show}}</td>
+      <td>{{ data.price/100}}</td>
+      <td>{{ data.unit?.label}}</td>
+      <td>
+        <nz-tag *ngIf="data.show === 1" nzColor="success">显示</nz-tag>
+        <nz-tag *ngIf="data.show === 0" nzColor="error">隐藏</nz-tag>
+      </td>
       <td>{{ data.created_at }}</td>
       <td>
         <a (click)="update(data)">编辑</a>
@@ -45,15 +52,24 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="day">天数</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入天数!">
-          <nz-input-number formControlName="day" id="day" [nzSize]="'small'" [nzMin]="1"
+          <nz-input-number style="width: 100%;" formControlName="day" id="day" [nzMin]="1"
                            [nzMax]="365*3" [nzStep]="1"
                            placeholder="天数"></nz-input-number>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="price">价格</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入价格!">
+          <nz-input-number style="width: 100%;" formControlName="price" id="price" [nzMin]="1"
+                           [nzMax]="999999" [nzStep]="1"
+                           placeholder="价格"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <app-unit-form-item [formGroup]="validateForm"></app-unit-form-item>
+      <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="show">显示</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择显示!">
-          <nz-switch formControlName="show" id="show"></nz-switch>
+          <nz-switch formControlName="show" id="show" nzCheckedChildren="显示" nzUnCheckedChildren="隐藏"></nz-switch>
         </nz-form-control>
       </nz-form-item>
     </form>

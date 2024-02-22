@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\GoodsRelation;
 use App\Models\Trait\MemberRelation;
@@ -22,7 +23,7 @@ use Illuminate\Support\Carbon;
  * @property int updated_by
  * @property Carbon created_at
  */
-class OrderCart extends Model
+class OrderCart extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, MemberRelation, OrderRelation, GoodsRelation;
 

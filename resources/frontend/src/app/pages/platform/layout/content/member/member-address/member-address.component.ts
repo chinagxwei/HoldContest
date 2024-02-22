@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -21,7 +21,6 @@ export class MemberAddressComponent implements OnInit {
 
   listOfData: MemberAddress[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -32,6 +31,7 @@ export class MemberAddressComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: MemberAddressService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -63,10 +63,10 @@ export class MemberAddressComponent implements OnInit {
       default: [0],
       contact: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
-      province_name: [null, [Validators.required]],
-      city_name: [null, [Validators.required]],
-      county_name: [null, [Validators.required]],
-      street_name: [null, [Validators.required]],
+      province_name: [null],
+      city_name: [null],
+      county_name: [null],
+      street_name: [null],
       detail_info: [null, [Validators.required]],
     });
   }
@@ -74,15 +74,15 @@ export class MemberAddressComponent implements OnInit {
   update(data: MemberAddress) {
     this.validateForm = this.formBuilder.group({
       id: [data.id, [Validators.required]],
-      member_id: [null, [Validators.required]],
-      default: [0],
-      contact: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
-      province_name: [null, [Validators.required]],
-      city_name: [null, [Validators.required]],
-      county_name: [null, [Validators.required]],
-      street_name: [null, [Validators.required]],
-      detail_info: [null, [Validators.required]],
+      member_id: [data.member_id, [Validators.required]],
+      default: [data.default],
+      contact: [data.contact, [Validators.required]],
+      mobile: [data.mobile, [Validators.required]],
+      province_name: [data.province_name],
+      city_name: [data.city_name],
+      county_name: [data.county_name],
+      street_name: [data.street_name],
+      detail_info: [data.detail_info, [Validators.required]],
     });
     this.showModal()
   }

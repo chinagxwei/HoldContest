@@ -23,17 +23,11 @@ class CompetitionGameController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->input('id');
 
             try {
                 $this->validate($request, [
                     'game_name' => 'required',
-                    'team_game' => 'numeric',
-                    'quick' => 'numeric',
-                    'participants_price' => 'numeric',
-                    'participants_number' => 'numeric',
-                    'start_number' => 'numeric',
-                    'rule' => 'required',
                 ]);
 
                 if ($id > 0) {
@@ -59,7 +53,7 @@ class CompetitionGameController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = CompetitionGame::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -74,7 +68,7 @@ class CompetitionGameController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = CompetitionGame::findOneByID($id)) {
                 $this->deleteEvent($model->game_name);
                 $model->delete();

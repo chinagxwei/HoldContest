@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {Unit} from "../../../../../../entity/system";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {UnitService} from "../../../../../../services/system/unit.service";
@@ -21,7 +21,6 @@ export class UnitComponent implements OnInit {
 
   listOfData: Unit[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -32,6 +31,7 @@ export class UnitComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: UnitService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {

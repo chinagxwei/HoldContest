@@ -1,0 +1,17 @@
+[nz-radio] {
+  display: block;
+  height: 32px;
+  line-height: 32px;
+}
+nz-select {
+  width: 120px;
+  margin-left: 10px;
+}
+
+nz-radio-group label{
+  display: flex;
+}
+
+nz-radio-group label span{
+  display: flex;
+}

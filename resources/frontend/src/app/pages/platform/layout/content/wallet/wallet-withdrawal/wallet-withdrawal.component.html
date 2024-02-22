@@ -1,7 +1,7 @@
 <div class="inner-content">
-  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
-    <span>添加提款单据</span>
-  </button>
+  <!--  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">-->
+  <!--    <span>添加提款单据</span>-->
+  <!--  </button>-->
   <nz-table [nzLoading]="loading"
             [nzData]="listOfData"
             [nzTotal]="currentData.total"
@@ -12,48 +12,66 @@
     <thead>
     <tr>
       <th>会员</th>
-      <th>钱包</th>
+      <!--      <th>钱包</th>-->
+      <th>提款账户</th>
       <th>订单编号</th>
       <th>金额</th>
+      <th>状态</th>
       <th>创建时间</th>
       <th>操作</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of listOfData">
-      <td>{{ data.created_by}}</td>
-      <td>{{ data.wallet_id}}</td>
+      <td>{{ data.order?.member_id}}</td>
+      <td>
+        <nz-tag>
+          <span *ngIf="data.withdraw_account.account_type===1">支付宝</span>
+          <span *ngIf="data.withdraw_account.account_type===2">银行卡（{{ data.withdraw_account.bank_name}}）</span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>{{ data.withdraw_account.account}}</span>
+        </nz-tag>
       <td>{{ data.order_sn}}</td>
-      <td>{{ data.amount}}</td>
+      <td>{{ data.amount / 100}}</td>
+      <td>
+        <div [ngSwitch]="data.status">
+          <nz-tag *ngSwitchCase="0">审核失败</nz-tag>
+          <nz-tag *ngSwitchCase="2" nzColor="error">待审核</nz-tag>
+          <nz-tag *ngSwitchCase="1" nzColor="success">审核成功</nz-tag>
+        </div>
+
+      </td>
       <td>{{ data.created_at }}</td>
       <td>
-        <a (click)="update(data)">编辑</a>
-        <nz-divider nzType="vertical"></nz-divider>
+        <span *ngIf="data.status === 2">
+             <a (click)="update(data)">审核</a>
+              <nz-divider nzType="vertical"></nz-divider>
+        </span>
+
         <a (click)="onDelete(data)">删除</a>
       </td>
     </tr>
     </tbody>
   </nz-table>
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑提款单" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="审核提款单" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <form nz-form [formGroup]="validateForm">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">会员用户ID</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入会员用户ID!">
-          <input nz-input formControlName="created_by" id="created_by" placeholder="会员用户ID"/>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status">备注</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-radio-group formControlName="status" id="status" nzButtonStyle="solid">
+            <label nz-radio-button nzValue="1">审核成功</label>
+            <label nz-radio-button nzValue="2">待审核</label>
+            <label nz-radio-button nzValue="0">审核失败</label>
+          </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="wallet_id">钱包ID</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入钱包ID!">
-          <input nz-input formControlName="wallet_id" id="wallet_id" placeholder="钱包ID"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="amount">金额</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入金额!">
-          <input nz-input formControlName="amount" id="amount" placeholder="金额"/>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark">备注</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+            <textarea style="width: 100%;" formControlName="remark" nz-input rows="6" id="remark"
+                      placeholder="备注"></textarea>
         </nz-form-control>
       </nz-form-item>
     </form>

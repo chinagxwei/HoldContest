@@ -35,7 +35,7 @@
     </tbody>
   </nz-table>
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑单位" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑抽奖项" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <form nz-form [formGroup]="validateForm">
       <nz-form-item>
@@ -52,14 +52,30 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="goods_id">商品</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入商品!">
-          <input nz-input formControlName="goods_id" id="goods_id" placeholder="商品"/>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-select
+            formControlName="goods_id"
+            id="goods_id"
+            nzPlaceHolder="选择商品"
+            nzAllowClear
+            nzShowSearch
+            nzServerSearch
+            (nzOnSearch)="onSearch($event)"
+          >
+            <ng-container *ngFor="let o of searchDataList">
+              <nz-option *ngIf="!isSearchLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isSearchLoading" nzDisabled nzCustomContent>
+              <span nz-icon nzType="loading" class="loading-icon"></span>
+              Loading Data...
+            </nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">状态</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择状态!">
-          <nz-switch formControlName="status" id="status"></nz-switch>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="status" id="status" nzCheckedChildren="启用" nzUnCheckedChildren="停用"></nz-switch>
         </nz-form-control>
       </nz-form-item>
     </form>

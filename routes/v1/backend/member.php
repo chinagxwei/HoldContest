@@ -18,9 +18,15 @@ Route::group([
 ], function ($router) {
 
     // 会员管理
+
+    Route::any('member/generate', [MemberController::class, 'generate']);
     Route::any('member/index', [MemberController::class, 'index']);
     Route::any('member/view', [MemberController::class, 'view']);
     Route::any('member/delete', [MemberController::class, 'delete']);
+    Route::any('member/setRecharge', [MemberController::class, 'setRecharge']);
+    Route::any('member/setVIP', [MemberController::class, 'setVIP']);
+    Route::any('member/setGameAccount', [MemberController::class, 'setGameAccount']);
+    Route::any('member/setWithdrawAccount', [MemberController::class, 'setWithdrawAccount']);
 
     // 会员地址管理
     Route::any('member-address/index', [MemberAddressController::class, 'index']);

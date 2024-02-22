@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +25,7 @@ use Illuminate\Support\Carbon;
  * @property int updated_by
  * @property Carbon created_at
  */
-class OrderIncomeConfig extends Model
+class OrderIncomeConfig extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, SearchData;
 

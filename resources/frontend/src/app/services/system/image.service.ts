@@ -6,7 +6,6 @@ import {
   IMAGE_DELETE,
   IMAGE_LISTS,
   IMAGE_SAVE,
-  IMAGE_VIEW,
 } from "../../config/system.url";
 
 @Injectable({
@@ -23,10 +22,6 @@ export class ImageService {
 
   public save(postData: SystemImage) {
     return this.http.httpPost(IMAGE_SAVE, postData)
-  }
-
-  public view(id: number) {
-    return this.http.httpPost<SystemImage>(IMAGE_VIEW, {id})
   }
 
   public delete(id: number | undefined) {

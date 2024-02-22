@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TransferItem} from "ng-zorro-antd/transfer";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NavigationService} from "../../../../../../services/system/navigation.service";
@@ -27,7 +27,6 @@ export class RoleComponent implements OnInit {
 
   isConfigVisible = false;
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   list: TransferItem[] = [];
@@ -43,6 +42,7 @@ export class RoleComponent implements OnInit {
     private roleService: RoleService,
     private navigationService: NavigationService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {

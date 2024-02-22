@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
  * @property string navigation_link
  * @property string navigation_router
  * @property int navigation_sort
+ * @property int menu_show
  * @property string icon
  * @property int created_by
  * @property Carbon created_at
@@ -47,7 +48,7 @@ class AdminNavigation extends Model
 
     protected $fillable = [
         'parent_id', 'navigation_name', 'navigation_link', 'navigation_router',
-        'navigation_sort', 'icon', 'created_by'
+        'navigation_sort','menu_show', 'icon', 'created_by'
     ];
 
     /**

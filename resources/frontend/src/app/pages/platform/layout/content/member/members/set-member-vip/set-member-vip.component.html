@@ -1,0 +1,32 @@
+<nz-modal [(nzVisible)]="visible" nzTitle="赠送VIP" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="vip_id">VIP</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-select
+            formControlName="vip_id"
+            id="vip_id"
+            nzPlaceHolder="选择VIP挡位"
+            nzAllowClear
+            nzShowSearch
+            nzServerSearch
+            (nzOnSearch)="onSearch($event)"
+          >
+            <ng-container *ngFor="let o of searchVipDataList">
+              <nz-option *ngIf="!isSearchLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isSearchLoading" nzDisabled nzCustomContent>
+              <span nz-icon nzType="loading" class="loading-icon"></span>
+              Loading Data...
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleSave()">保存</button>
+  </div>
+</nz-modal>

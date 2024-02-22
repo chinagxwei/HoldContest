@@ -16,7 +16,7 @@ import {PlatformRoutingModule} from "./platform-routing.module";
 import {NzTableModule} from "ng-zorro-antd/table";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzFormModule} from "ng-zorro-antd/form";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzTransferModule} from "ng-zorro-antd/transfer";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {DragDropModule} from "@angular/cdk/drag-drop";
@@ -59,6 +59,24 @@ import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzTagModule} from "ng-zorro-antd/tag";
+import {EditorForAngularModule} from "wangeditor-for-angular";
+import { RuleComponent } from './layout/content/competition/rule/rule.component';
+import { WalletWithdrawalAmountConfigComponent } from './layout/content/wallet/wallet-withdrawal-amount-config/wallet-withdrawal-amount-config.component';
+import { LinkComponent } from './layout/content/competition/link/link.component';
+import {NzTimePickerModule} from "ng-zorro-antd/time-picker";
+import { UnitFormItemComponent } from './layout/content/system/unit/unit-form-item/unit-form-item.component';
+import {NzStatisticModule} from "ng-zorro-antd/statistic";
+import {NzCardModule} from "ng-zorro-antd/card";
+import { JoinRoomComponent } from './layout/content/competition/room/join-room/join-room.component';
+import { QuickAddRoomComponent } from './layout/content/competition/room/quick-add-room/quick-add-room.component';
+import { SettlementRoomComponent } from './layout/content/competition/room/settlement-room/settlement-room.component';
+import { SetMemberVipComponent } from './layout/content/member/members/set-member-vip/set-member-vip.component';
+import { SetMemberRechargeComponent } from './layout/content/member/members/set-member-recharge/set-member-recharge.component';
+import { SetMemberGameAccountComponent } from './layout/content/member/members/set-member-game-account/set-member-game-account.component';
+import { GameFormItemComponent } from './layout/content/competition/game/game-form-item/game-form-item.component';
+import { SetMemberWithdrawalAccountComponent } from './layout/content/member/members/set-member-withdrawal-account/set-member-withdrawal-account.component';
+import { BannerComponent } from './layout/content/system/banner/banner.component';
 
 
 @NgModule({
@@ -102,6 +120,19 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
         TitleComponent,
         WechatMiniProgramAccountComponent,
         WechatOfficeAccountComponent,
+        RuleComponent,
+        WalletWithdrawalAmountConfigComponent,
+        LinkComponent,
+        UnitFormItemComponent,
+        JoinRoomComponent,
+        QuickAddRoomComponent,
+        SettlementRoomComponent,
+        SetMemberVipComponent,
+        SetMemberRechargeComponent,
+        SetMemberGameAccountComponent,
+        GameFormItemComponent,
+        SetMemberWithdrawalAccountComponent,
+        BannerComponent,
     ],
   imports: [
     CommonModule,
@@ -125,6 +156,12 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
     NzSwitchModule,
     NzRadioModule,
     NzDatePickerModule,
+    NzTagModule,
+    EditorForAngularModule,
+    FormsModule,
+    NzTimePickerModule,
+    NzStatisticModule,
+    NzCardModule,
   ],
     providers: [NzModalService, NzMessageService]
 })

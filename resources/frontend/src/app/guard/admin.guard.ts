@@ -45,10 +45,11 @@ export class AdminGuard implements CanActivate, CanActivateChild, CanLoad {
 
   serverCheckLogin(url: string): Observable<boolean> {
     const nav = this.authService.navigations;
-    console.log(nav);
+    // console.log(nav);
     if (nav){
       // @ts-ignore
       const res = nav.find(v => {
+        // console.log(url)
         if (v.children && v.children.length > 0) {
           return v.children.find(v2 => {
             return `/${v2.navigation_router}` === url || this.authService.defaultUrl === url

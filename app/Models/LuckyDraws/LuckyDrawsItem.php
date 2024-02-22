@@ -2,6 +2,7 @@
 
 namespace App\Models\LuckyDraws;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\GoodsRelation;
 use App\Models\Trait\SearchData;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property int updated_by
  * @property Carbon created_at
  */
-class LuckyDrawsItem extends Model
+class LuckyDrawsItem extends BaseDataModel
 {
     use HasFactory, SoftDeletes, CreatedRelation, GoodsRelation, SearchData;
 

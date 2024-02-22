@@ -22,7 +22,7 @@ class OrderIncomeController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = OrderIncome::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -37,7 +37,7 @@ class OrderIncomeController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = OrderIncome::findOneByID($id)) {
                 $this->deleteEvent($model->from_order_sn);
                 $model->delete();

@@ -16,15 +16,15 @@ class BaseUnitData
                 'created_at' => $time,
                 'updated_at' => $time
             ],
-//            [
-//                'title' => '金币',
-//                'description' => '金币',
-//                'label' => '金币',
-//                'symbol' => '',
-//                'created_by' => $created_by,
-//                'created_at' => $time,
-//                'updated_at' => $time
-//            ],
+            [
+                'title' => '金币',
+                'description' => '金币',
+                'label' => '金币',
+                'symbol' => '',
+                'created_by' => $created_by,
+                'created_at' => $time,
+                'updated_at' => $time
+            ],
 //            [
 //                'title' => '积分',
 //                'description' => '积分',

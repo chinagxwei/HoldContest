@@ -37,7 +37,7 @@
     </tbody>
   </nz-table>
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑单位" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑任务" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <form nz-form [formGroup]="validateForm">
       <nz-form-item>
@@ -55,15 +55,15 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="participate_count">参与次数</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入参与次数!">
-          <nz-input-number formControlName="participate_count" id="participate_count" [nzSize]="'small'" [nzMin]="1"
+          <nz-input-number style="width: 100%;" formControlName="participate_count" id="participate_count" [nzMin]="1"
                            [nzMax]="999999" [nzStep]="1"
                            placeholder="参与次数"></nz-input-number>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">状态</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择状态!">
-          <nz-switch formControlName="status" id="status"></nz-switch>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-switch formControlName="status" id="status" nzCheckedChildren="启用" nzUnCheckedChildren="停用"></nz-switch>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>

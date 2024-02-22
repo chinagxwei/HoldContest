@@ -17,8 +17,8 @@ export class TargetService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<Target>>(`${TARGET_LIST}?page=${page}`)
+  public items(page: number = 1, query?: Target) {
+    return this.http.httpPost<Paginate<Target>>(`${TARGET_LIST}?page=${page}`, query)
   }
 
   public save(postData: Target) {

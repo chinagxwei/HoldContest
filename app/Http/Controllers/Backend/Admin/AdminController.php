@@ -29,7 +29,7 @@ class AdminController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id', 0));
+            $id = $request->input('id');
             $param = $request->all();
             if ($id <= 0) {
                 $this->validate($request, [
@@ -69,7 +69,7 @@ class AdminController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
 
             if ($admin = Admin::findOneByID($id)) {
 

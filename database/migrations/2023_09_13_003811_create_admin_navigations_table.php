@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('navigation_name', 64)->comment('导航名称');
             $table->string('navigation_link', 64)->nullable()->comment('导航链接');
             $table->string('navigation_router', 64)->nullable()->comment('导航路由');
-            $table->integer('navigation_sort')->nullable()->comment('导航排序');
+            $table->tinyInteger('menu_show')->unsigned()->default(1)->nullable()->comment('菜单显示');
+            $table->integer('navigation_sort')->unsigned()->nullable()->comment('导航排序');
             $table->string('icon', 64)->nullable()->comment('导航图标');
             $table->integer('created_at')->unsigned()->nullable();
             $table->integer('updated_at')->unsigned()->nullable();

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpReprint} from "../../util/http.reprint";
 import {Paginate} from "../../entity/server-response";
-import {ProductRecharge} from "../../entity/goods";
+import {ProductRecharge, ProductVIP} from "../../entity/goods";
 import {
   PRODUCT_RECHARGE_DELETE,
   PRODUCT_RECHARGE_LIST,
@@ -17,8 +17,8 @@ export class ProductRechargeService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<ProductRecharge>>(`${PRODUCT_RECHARGE_LIST}?page=${page}`)
+  public items(page: number = 1, query?: { title: string }) {
+    return this.http.httpPost<Paginate<ProductRecharge>>(`${PRODUCT_RECHARGE_LIST}?page=${page}`, query)
   }
 
   public save(postData: ProductRecharge) {

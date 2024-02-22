@@ -2,11 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {tap} from "rxjs/operators";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {SystemAgreement} from "../../../../../../entity/system";
 import {AgreementService} from "../../../../../../services/system/agreement.service";
+import {AlertType, Mode} from "wangeditor-for-angular";
+import {IDomEditor} from "@wangeditor/editor";
 
 @Component({
   selector: 'app-agreement',
@@ -21,16 +23,26 @@ export class AgreementComponent implements OnInit {
 
   listOfData: SystemAgreement[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
+
+  valueHtml = "<p>hello</p>";
+
+  mode: Mode = "default";
+
+  editorConfig = {
+    placeholder: "请输入内容...",
+  };
+
+  editorRef!: IDomEditor;
 
   constructor(
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
     private componentService: AgreementService) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -59,7 +71,7 @@ export class AgreementComponent implements OnInit {
     this.validateForm = this.formBuilder.group({
       title: [null, [Validators.required]],
       content: [null, [Validators.required]],
-      type: [null, [Validators.required]],
+      show: [null],
     });
   }
 
@@ -68,7 +80,7 @@ export class AgreementComponent implements OnInit {
       id: [data.id, [Validators.required]],
       title: [data.title, [Validators.required]],
       content: [data.content, [Validators.required]],
-      type: [data.type, [Validators.required]],
+      show: [data.show],
     });
     this.showModal()
   }
@@ -130,5 +142,51 @@ export class AgreementComponent implements OnInit {
         }
       });
     }
+  }
+
+
+  handleCreated(editor: IDomEditor) {
+    console.log("created", editor);
+    this.editorRef = editor;
+  }
+
+  handleChange(editor: IDomEditor) {
+    console.log("change:", editor);
+  }
+
+  handleValueChange(value: string) {
+    console.log("value change:", value);
+  }
+
+  handleFocus(editor: IDomEditor) {
+    console.log("focus", editor);
+  }
+  handleBlur(editor: IDomEditor) {
+    console.log("blur", editor);
+  }
+
+  customAlert({ info, type }: { info: string; type: AlertType }) {
+    alert(`【customAlert】${type} - ${info}`);
+  }
+
+  handleDestroyed(editor: IDomEditor) {
+    console.log("destroyed", editor);
+  }
+
+  insertText() {
+    if (this.editorRef == null) return;
+    this.editorRef.insertText("hello world");
+  }
+
+  printHtml() {
+    if (this.editorRef == null) return;
+    console.log(this.editorRef.getHtml());
+  }
+
+  customPaste({ editor, event, callback }: any) {
+    // 自定义插入内容
+    // editor.insertText("xxx");
+    // callback(false); // 返回 false ，阻止默认粘贴行为
+    callback(true) // 返回 true ，继续默认的粘贴行为
   }
 }

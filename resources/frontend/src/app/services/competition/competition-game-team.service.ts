@@ -17,8 +17,8 @@ export class CompetitionGameTeamService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<CompetitionGameTeam>>(`${COMPETITION_GAME_TEAM_LIST}?page=${page}`)
+  public items(page: number = 1, query?: CompetitionGameTeam) {
+    return this.http.httpPost<Paginate<CompetitionGameTeam>>(`${COMPETITION_GAME_TEAM_LIST}?page=${page}`, query)
   }
 
   public save(postData: CompetitionGameTeam) {

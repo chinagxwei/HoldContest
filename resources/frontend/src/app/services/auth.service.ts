@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {NavigationExtras, Router} from "@angular/router";
 import {AuthenticationRequest, User} from "../entity/user";
 import {ServerResponse} from "../entity/server-response";
-import {map} from "rxjs";
+import {map, tap} from "rxjs";
 import * as moment from "moment";
 import {USER_LOGIN, USER_LOGOUT} from "../config/system.url";
 import {Injectable} from "@angular/core";
@@ -36,9 +36,9 @@ export class AuthService {
           if (res.code === 200) {
             this.user = res.data;
             this.localLogin();
-            return {type:true,msg:res.message};
+            return {type: true, msg: res.message};
           } else {
-            return {type:false,msg:res.message};
+            return {type: false, msg: res.message};
           }
         })
       );
@@ -61,21 +61,25 @@ export class AuthService {
   }
 
   get isExpiresIn(): boolean {
-    // @ts-ignore
-    return this.user?.expires_in > moment().unix();
+    if (this.user) {
+      // return this.user.expires_in > moment().unix();
+      return this.user.expires_in > (Date.parse(new Date().toString()) / 1000);
+    } else {
+      return false
+    }
   }
 
   get isLogin(): boolean {
     return !!this.user;
   }
 
-    get username() {
-        return this.user?.userinfo?.nickname;
-    }
+  get username() {
+    return this.user?.userinfo?.nickname;
+  }
 
-    get navigations() {
-        return this.user?.userinfo?.role?.navigations
-    }
+  get navigations() {
+    return this.user?.userinfo?.role?.navigations
+  }
 
   public logout() {
     return this.http
@@ -88,7 +92,6 @@ export class AuthService {
     };
     if (this.isExpiresIn) {
       this.logout().subscribe(() => {
-        this.user = undefined;
         window.localStorage.removeItem('backend_authorized');
         this.router.navigate(['/login'], navigationExtras);
       })
@@ -96,6 +99,7 @@ export class AuthService {
       window.localStorage.removeItem('backend_authorized');
       this.router.navigate(['/login'], navigationExtras);
     }
+    this.user = undefined;
   }
 
   private getHttpHeaders() {

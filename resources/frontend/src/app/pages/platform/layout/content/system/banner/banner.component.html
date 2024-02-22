@@ -1,0 +1,82 @@
+<div class="inner-content">
+  <button style="margin-bottom: 10px;" nz-button nzType="primary" (click)="add()">
+    <span>添加banner</span>
+  </button>
+  <nz-table [nzLoading]="loading"
+            [nzData]="listOfData"
+            [nzTotal]="currentData.total"
+            [nzPageIndex]="currentData.current_page"
+            [nzFrontPagination]="false"
+            [nzPageSize]="currentData.per_page"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th>标题</th>
+      <th>图片</th>
+      <th>关联类型</th>
+      <th>位置</th>
+      <th>是否显示</th>
+      <th>排序</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfData">
+      <td>{{ data.title}}</td>
+      <td>{{ data.url}}</td>
+      <td>{{ data.relation_type}}</td>
+      <td>{{ data.position}}</td>
+      <td>{{ data.show}}</td>
+      <td>{{ data.sort_order}}</td>
+      <td>{{ data.created_at }}</td>
+      <td>
+        <a (click)="update(data)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="onDelete(data)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑图片" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入标题!">
+          <input nz-input formControlName="title" id="title" placeholder="标题"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="url">地址</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入地址!">
+          <input nz-input formControlName="url" id="url" placeholder="地址"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="position">展现位置</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-radio-group formControlName="position" id="position">
+            <label nz-radio nzValue="0">未定</label>
+            <label nz-radio nzValue="1">首页</label>
+            <label nz-radio nzValue="2">比赛列表</label>
+            <label nz-radio nzValue="3">比赛房间</label>
+            <label nz-radio nzValue="4">个人信息</label>
+            <label nz-radio nzValue="5">广场</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="show">显示</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择显示!">
+          <nz-switch formControlName="show" id="show" nzCheckedChildren="显示" nzUnCheckedChildren="隐藏"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+    <button nz-button nzType="primary" (click)="handleOk()">保存</button>
+  </div>
+</nz-modal>

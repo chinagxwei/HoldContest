@@ -28,6 +28,12 @@ trait AdminNavigationBuild
         return $this;
     }
 
+    public function setMenuShow($menu_show)
+    {
+        $this->menu_show = $menu_show;
+        return $this;
+    }
+
     public function setIcon($icon)
     {
         $this->icon = $icon;

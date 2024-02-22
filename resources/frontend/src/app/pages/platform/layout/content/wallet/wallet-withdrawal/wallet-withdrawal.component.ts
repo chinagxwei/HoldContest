@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -22,7 +22,6 @@ export class WalletWithdrawalComponent implements OnInit {
 
   listOfData: WalletWithdrawal[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -33,6 +32,7 @@ export class WalletWithdrawalComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: WalletWithdrawalService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -60,14 +60,16 @@ export class WalletWithdrawalComponent implements OnInit {
 
   initForm() {
     this.validateForm = this.formBuilder.group({
-      amount: [null, [Validators.required]],
+      status: [null],
+      remark: [null],
     });
   }
 
   update(data: WalletWithdrawal) {
     this.validateForm = this.formBuilder.group({
       id: [data.id, [Validators.required]],
-      amount: [data.amount, [Validators.required]],
+      status: [`${data.status}`, [Validators.required]],
+      remark: [data.remark],
     });
     this.showModal()
   }

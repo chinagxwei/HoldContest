@@ -27,12 +27,23 @@
     <tr *ngFor="let data of listOfData">
       <td>{{ data.order_sn}}</td>
       <td>{{ data.wallet_id}}</td>
-      <td>{{ data.denomination}}</td>
-      <td>{{ data.balance}}</td>
-      <td>{{ data.unit_id}}</td>
-      <td>{{ data.frozen}}</td>
-      <td>{{ data.channel}}</td>
-      <td>{{ data.gift}}</td>
+      <td>{{ data.denomination / 100}}</td>
+      <td>{{ data.balance / 100}}</td>
+      <td>{{ data.unit?.label}}</td>
+      <td>
+        <nz-tag *ngIf="!!data.frozen" nzColor="success">是</nz-tag>
+        <nz-tag *ngIf="!data.frozen" nzColor="error">否</nz-tag>
+      </td>
+      <td>
+        <div [ngSwitch]="data.channel">
+          <nz-tag *ngSwitchCase="1" nzColor="success">用户</nz-tag>
+          <nz-tag *ngSwitchCase="2" nzColor="error">平台</nz-tag>
+        </div>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.gift === 1" nzColor="success">是</nz-tag>
+        <nz-tag *ngIf="data.gift === 0" nzColor="error">否</nz-tag>
+      </td>
       <td>{{ data.created_at }}</td>
       <td>
         <a (click)="update(data)">编辑</a>
@@ -55,16 +66,11 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="denomination">面额</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入面额!">
-          <nz-input-number formControlName="denomination" [nzSize]="'small'" [nzMin]="0" [nzMax]="10" [nzStep]="1" id="denomination"
+          <nz-input-number style="width: 100%;" formControlName="denomination" [nzMin]="0" [nzMax]="10" [nzStep]="1" id="denomination"
                            placeholder="面额"></nz-input-number>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="unit_id">单位ID</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请输入单位ID!">
-          <input nz-input formControlName="unit_id" id="unit_id" placeholder="单位ID"/>
-        </nz-form-control>
-      </nz-form-item>
+      <app-unit-form-item [formGroup]="validateForm"></app-unit-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="channel">充值渠道</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选充值渠道!">

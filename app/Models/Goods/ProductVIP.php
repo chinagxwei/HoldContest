@@ -2,8 +2,10 @@
 
 namespace App\Models\Goods;
 
+use App\Models\BaseDataModel;
 use App\Models\Trait\CreatedRelation;
 use App\Models\Trait\SearchData;
+use App\Models\Trait\UnitRelation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,13 +15,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int id
  * @property string title
  * @property int day
+ * @property int price
+ * @property int unit_id
  * @property int show
  * @property int created_by
  * @property Carbon created_at
  */
-class ProductVIP extends Model
+class ProductVIP extends BaseDataModel
 {
-    use HasFactory, SoftDeletes, CreatedRelation,SearchData;
+    use HasFactory, SoftDeletes, CreatedRelation, SearchData, UnitRelation;
 
     protected $table = 'product_vips';
     /**
@@ -38,7 +42,7 @@ class ProductVIP extends Model
 
 
     protected $fillable = [
-        'title', 'day', 'show', 'created_by'
+        'title', 'day', 'show', 'created_by', 'price', 'unit_id'
     ];
 
     protected $hidden = [
@@ -53,7 +57,9 @@ class ProductVIP extends Model
         if (!empty($this->title)) {
             $build = $build->where('title', 'like', "%{$this->title}%");
         }
-
+        if (isset($this->show)) {
+            $build = $build->where('show', $this->show);
+        }
         return $build->with($with)->orderBy('id', 'desc');
     }
 }

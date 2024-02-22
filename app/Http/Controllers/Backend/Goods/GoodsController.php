@@ -11,8 +11,12 @@ class GoodsController extends PlatformController
 {
     protected $controller_event_text = "商品管理";
 
-    public function index(Request $request){
-        $res = (new Goods())->searchBuild($request->all())->paginate();
+    public function index(Request $request)
+    {
+        $param = $request->all();
+        $res = (new Goods())->searchBuild($param, ['vip', 'recharge'])
+            ->orderBy('relation_category')
+            ->paginate($param['pageSize'] ?? 15);
         return self::successJsonResponse($res);
     }
 
@@ -23,7 +27,7 @@ class GoodsController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->get('id');
 
             try {
                 $this->validate($request, [
@@ -54,7 +58,7 @@ class GoodsController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->get('id')) {
             if ($model = Goods::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -69,7 +73,7 @@ class GoodsController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->get('id')) {
             if ($model = Goods::findOneByID($id)) {
                 $this->deleteEvent($model->title);
                 $model->delete();
@@ -79,4 +83,5 @@ class GoodsController extends PlatformController
 
         return self::failJsonResponse();
     }
+
 }

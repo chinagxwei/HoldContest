@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('wallet_withdraw_accounts', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->uuid('id')->unique()->primary();
             $table->uuid('member_id')->index();
             $table->tinyInteger('account_type')->unsigned()->default(1)->nullable()->comment('账户类型 1支付宝 2银行卡');
             $table->string('contact',64)->nullable()->comment('联系人');

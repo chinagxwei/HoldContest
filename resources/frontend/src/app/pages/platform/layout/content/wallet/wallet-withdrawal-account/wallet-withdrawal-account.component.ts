@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -22,7 +22,6 @@ export class WalletWithdrawalAccountComponent implements OnInit {
 
   listOfData: WalletWithdrawAccount[] = [];
 
-  // @ts-ignore
   validateForm: FormGroup;
 
   isVisible: boolean = false;
@@ -33,10 +32,10 @@ export class WalletWithdrawalAccountComponent implements OnInit {
     private modalService: NzModalService,
     private componentService: WalletWithdrawalAccountService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
-    this.initForm();
     this.getItems();
   }
 
@@ -60,7 +59,8 @@ export class WalletWithdrawalAccountComponent implements OnInit {
 
   initForm() {
     this.validateForm = this.formBuilder.group({
-      account_type: [null, [Validators.required]],
+      member_id: [null, [Validators.required]],
+      account_type: ['1', [Validators.required]],
       contact: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
       account: [null],
@@ -71,6 +71,7 @@ export class WalletWithdrawalAccountComponent implements OnInit {
   update(data: WalletWithdrawAccount) {
     this.validateForm = this.formBuilder.group({
       id: [data.id, [Validators.required]],
+      account_type: [data.account_type, [Validators.required]],
       contact: [data.contact, [Validators.required]],
       mobile: [data.mobile, [Validators.required]],
       account: [data.account],
@@ -98,7 +99,7 @@ export class WalletWithdrawalAccountComponent implements OnInit {
   }
 
   add() {
-    this.validateForm.reset();
+    this.initForm();
     this.showModal();
   }
 

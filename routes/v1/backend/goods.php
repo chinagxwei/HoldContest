@@ -16,6 +16,7 @@ Route::group([
     Route::any('goods/save', [GoodsController::class, 'save']);
     Route::any('goods/view', [GoodsController::class, 'view']);
     Route::any('goods/delete', [GoodsController::class, 'delete']);
+    Route::any('goods/searchBind', [GoodsController::class, 'searchBind']);
 
     // 充值产品
     Route::any('product-recharge/index', [ProductRechargeController::class, 'index']);

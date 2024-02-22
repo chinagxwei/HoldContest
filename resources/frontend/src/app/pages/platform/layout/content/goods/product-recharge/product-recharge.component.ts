@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginate} from "../../../../../../entity/server-response";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {tap} from "rxjs/operators";
 import {ProductRecharge} from "../../../../../../entity/goods";
 import {ProductRechargeService} from "../../../../../../services/goods/product-recharge.service";
+import {BehaviorSubject, debounceTime} from "rxjs";
+import {Unit} from "../../../../../../entity/system";
+import {UnitService} from "../../../../../../services/system/unit.service";
 
 @Component({
   selector: 'app-product-recharge',
@@ -22,22 +25,31 @@ export class ProductRechargeComponent implements OnInit {
 
   listOfData: ProductRecharge[] = [];
 
-  // @ts-ignore
+
   validateForm: FormGroup;
 
   isVisible: boolean = false;
+
+  searchChange$ = new BehaviorSubject('');
+
+  searchDataList: Unit[] = [];
+
+  isSearchLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private message: NzMessageService,
     private modalService: NzModalService,
-    private componentService: ProductRechargeService
+    private componentService: ProductRechargeService,
+    private unitService: UnitService
   ) {
+    this.validateForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
     this.initForm();
     this.getItems();
+    this.initSearch()
   }
 
 
@@ -137,5 +149,24 @@ export class ProductRechargeComponent implements OnInit {
         }
       });
     }
+  }
+
+  onSearch(value: string): void {
+    this.isSearchLoading = true;
+    this.searchChange$.next(value);
+  }
+
+  initSearch() {
+    this.searchChange$
+      .asObservable()
+      .pipe(debounceTime(300))
+      .subscribe((v) => {
+        this.unitService
+          .items(1, {title: v})
+          .subscribe((res) => {
+            this.searchDataList = res.data.data;
+            this.isSearchLoading = false;
+          })
+      });
   }
 }

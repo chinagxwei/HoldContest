@@ -24,7 +24,6 @@ export class ManagerComponent implements OnInit {
 
     listOfData: ServerManager[] = [];
 
-    // @ts-ignore
     validateForm: FormGroup;
 
     isVisible = false;
@@ -40,6 +39,7 @@ export class ManagerComponent implements OnInit {
         private message: NzMessageService,
         private modalService: NzModalService
     ) {
+      this.validateForm = this.formBuilder.group({});
     }
 
     ngOnInit(): void {

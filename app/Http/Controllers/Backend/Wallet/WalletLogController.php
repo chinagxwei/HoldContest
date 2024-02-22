@@ -13,7 +13,7 @@ class WalletLogController extends PlatformController
 
     public function index(Request $request)
     {
-        $res = (new WalletLog())->searchBuild($request->all())->paginate();
+        $res = (new WalletLog())->searchBuild($request->all(), ['unit'])->paginate();
         return self::successJsonResponse($res);
     }
 
@@ -24,7 +24,7 @@ class WalletLogController extends PlatformController
     public function save(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $id = intval($request->get('id'));
+            $id = $request->input('id');
 
             try {
                 $this->validate($request, [
@@ -57,7 +57,7 @@ class WalletLogController extends PlatformController
      */
     public function view(Request $request)
     {
-        if ($request->isMethod('POST') && $id = intval($request->get('id'))) {
+        if ($request->isMethod('POST') && $id = $request->input('id')) {
             if ($model = WalletLog::findOneByID($id)) {
                 return self::successJsonResponse($model);
             }
@@ -72,7 +72,7 @@ class WalletLogController extends PlatformController
      */
     public function delete(Request $request)
     {
-        if ($id = intval($request->get('id'))) {
+        if ($id = $request->input('id')) {
             if ($model = WalletLog::findOneByID($id)) {
                 $this->deleteEvent($model->wallet_id);
                 $model->delete();

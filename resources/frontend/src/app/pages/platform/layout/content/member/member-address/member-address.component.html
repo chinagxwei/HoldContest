@@ -27,7 +27,10 @@
     <tbody>
     <tr *ngFor="let data of listOfData">
       <td>{{ data.member_id}}</td>
-      <td>{{ data.default}}</td>
+      <td>
+        <nz-tag *ngIf="data.default" nzColor="error">默认</nz-tag>
+        <nz-tag *ngIf="!data.default" nzColor="success">非默认</nz-tag>
+      </td>
       <td>{{ data.contact}}</td>
       <td>{{ data.mobile}}</td>
       <td>{{ data.province_name}}</td>
@@ -75,7 +78,7 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="default">默认地址</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="请选择默认地址!">
-          <nz-switch formControlName="default" id="default"></nz-switch>
+          <nz-switch formControlName="default" id="default" nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
         </nz-form-control>
       </nz-form-item>
     </form>

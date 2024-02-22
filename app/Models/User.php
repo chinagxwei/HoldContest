@@ -94,6 +94,13 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function member(){
+        return $this->hasOne(Member::class,'created_by','id');
+    }
+
+    /**
      * @return bool
      */
     public function isMember()
@@ -127,13 +134,23 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * @return string|null
+     */
+    public function getMemberID(){
+        if (!empty($this->member)){
+            return $this->member->id;
+        }
+        return null;
+    }
+
+    /**
      * @param $param
      * @param $role_type
      * @return bool
      */
     public function register($param, $role_type)
     {
-        $param['email'] = "{$param['username']}@ddplatform.com";
+        $param['email'] = "{$param['username']}@hcplatform.com";
         $param['password'] = bcrypt($param['password']);
         $param['user_type'] = $role_type;
         return $this->fill($param)->save();

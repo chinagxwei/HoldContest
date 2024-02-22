@@ -16,8 +16,8 @@ export class ComplaintService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<SystemComplaint>>(`${COMPLAINT_ITEMS}?page=${page}`)
+  public items(page: number = 1, query?: SystemComplaint) {
+    return this.http.httpPost<Paginate<SystemComplaint>>(`${COMPLAINT_ITEMS}?page=${page}`, query)
   }
 
   public save(postData: SystemComplaint) {

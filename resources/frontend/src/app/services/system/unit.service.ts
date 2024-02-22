@@ -8,6 +8,7 @@ import {
   UNIT_SAVE,
   UNIT_VIEW
 } from "../../config/system.url";
+import {ProductVIP} from "../../entity/goods";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class UnitService {
   constructor(private http: HttpReprint) {
   }
 
-  public items(page: number = 1) {
-    return this.http.httpPost<Paginate<Unit>>(`${UNIT_LIST}?page=${page}`)
+  public items(page: number = 1, query?: Unit | { title: string }) {
+    return this.http.httpPost<Paginate<Unit>>(`${UNIT_LIST}?page=${page}`, query)
   }
 
   public save(postData: Unit) {

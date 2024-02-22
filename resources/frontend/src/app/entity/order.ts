@@ -1,8 +1,11 @@
+import {Unit} from "./system";
+import {Member} from "./member";
+
 export class Order {
   id?: string;
   sn: string = "";
-  third_party_payment_sn: string = "";
-  third_party_merchant_id: string = "";
+  third_party_payment_sn?: string = "";
+  third_party_merchant_id?: string = "";
   order_category: number = 1;
   member_id: string = "";
   pay_method: number = 1;
@@ -15,27 +18,34 @@ export class Order {
   commission_amount: number = 0;
   real_income_amount: number = 0;
   cancel_at: number = 0;
-  remark: string = "";
+  remark?: string = "";
   created_at?: number;
+  unit?: Unit;
+  member?:Member;
 }
 
 export class OrderCart {
   id?: number;
-  member_id: string = "";
+  member_id?: string = "";
   order_sn: string = "";
-  goods_id: number = 0;
-  purchase_volume: number = 0;
-  remark: string = "";
+  goods_id?: number = 0;
+  purchase_volume?: number = 0;
+  remark?: string = "";
   created_at?: number;
+  order?: Order;
+  member?:Member;
 }
 
 export class OrderIncome {
   id?: number;
-  member_id: string = "";
-  from_order_sn: string = "";
-  to_order_sn: string = "";
-  amount: number = 0;
+  member_id?: string = "";
+  from_order_sn?: string = "";
+  to_order_sn?: string = "";
+  amount?: number = 0;
   created_at?: number;
+  formOrder?: Order;
+  toOrder?: Order;
+  member?:Member;
 }
 
 export class OrderIncomeConfig {

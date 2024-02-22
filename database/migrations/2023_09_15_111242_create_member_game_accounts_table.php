@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('member_game_accounts', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
             $table->uuid('member_id')->index();
             $table->integer('game_id')->unsigned()->nullable()->index()->comment('游戏ID');
             $table->tinyInteger('account_type')->unsigned()->nullable()->comment('账户类型 1微信 2QQ');
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->integer('created_by')->index()->unsigned()->nullable()->comment('用户ID');
             $table->integer('updated_by')->index()->unsigned()->nullable()->comment('用户ID');
             $table->integer('deleted_at')->unsigned()->nullable();
-            $table->primary(['member_id', 'game_id', 'account_type']);
+            $table->unique(['member_id', 'game_id', 'account_type']);
             $table->comment('游戏账户表');
         });
     }
